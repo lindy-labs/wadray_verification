@@ -1,0 +1,1232 @@
+type u128 = u128 [storable: true, drop: true, dup: true, zero_sized: false];
+type Unit = Struct<ut@Tuple> [storable: true, drop: true, dup: true, zero_sized: true];
+type core::bool = Enum<ut@core::bool, Unit, Unit> [storable: true, drop: true, dup: true, zero_sized: false];
+type Tuple<u128, core::bool> = Struct<ut@Tuple, u128, core::bool> [storable: true, drop: true, dup: true, zero_sized: false];
+type Tuple<u128, u128> = Struct<ut@Tuple, u128, u128> [storable: true, drop: true, dup: true, zero_sized: false];
+type core::integer::u256 = Struct<ut@core::integer::u256, u128, u128> [storable: true, drop: true, dup: true, zero_sized: false];
+type NonZero<core::integer::u256> = NonZero<core::integer::u256> [storable: true, drop: true, dup: true, zero_sized: false];
+type Tuple<NonZero<core::integer::u256>> = Struct<ut@Tuple, NonZero<core::integer::u256>> [storable: true, drop: true, dup: true, zero_sized: false];
+type core::panics::Panic = Struct<ut@core::panics::Panic> [storable: true, drop: true, dup: true, zero_sized: true];
+type Array<felt252> = Array<felt252> [storable: true, drop: true, dup: false, zero_sized: false];
+type Tuple<core::panics::Panic, Array<felt252>> = Struct<ut@Tuple, core::panics::Panic, Array<felt252>> [storable: true, drop: true, dup: false, zero_sized: false];
+type core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)> = Enum<ut@core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>, Tuple<NonZero<core::integer::u256>>, Tuple<core::panics::Panic, Array<felt252>>> [storable: true, drop: true, dup: false, zero_sized: false];
+type Tuple<core::integer::u256, core::bool> = Struct<ut@Tuple, core::integer::u256, core::bool> [storable: true, drop: true, dup: true, zero_sized: false];
+type U128MulGuarantee = U128MulGuarantee [storable: true, drop: false, dup: false, zero_sized: false];
+type core::option::Option::<core::zeroable::NonZero::<core::integer::u256>> = Enum<ut@core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>, NonZero<core::integer::u256>, Unit> [storable: true, drop: true, dup: true, zero_sized: false];
+type Tuple<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>> = Struct<ut@Tuple, core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>> [storable: true, drop: true, dup: true, zero_sized: false];
+type core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)> = Enum<ut@core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>, Tuple<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>, Tuple<core::panics::Panic, Array<felt252>>> [storable: true, drop: true, dup: false, zero_sized: false];
+type core::option::Option::<core::integer::u256> = Enum<ut@core::option::Option::<core::integer::u256>, core::integer::u256, Unit> [storable: true, drop: true, dup: true, zero_sized: false];
+type wadray::wadray_signed::SignedRay = Struct<ut@wadray::wadray_signed::SignedRay, u128, core::bool> [storable: true, drop: true, dup: true, zero_sized: false];
+type Tuple<wadray::wadray_signed::SignedRay> = Struct<ut@Tuple, wadray::wadray_signed::SignedRay> [storable: true, drop: true, dup: true, zero_sized: false];
+type core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)> = Enum<ut@core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>, Tuple<wadray::wadray_signed::SignedRay>, Tuple<core::panics::Panic, Array<felt252>>> [storable: true, drop: true, dup: false, zero_sized: false];
+type wadray::wadray_signed::SignedWad = Struct<ut@wadray::wadray_signed::SignedWad, u128, core::bool> [storable: true, drop: true, dup: true, zero_sized: false];
+type Tuple<wadray::wadray_signed::SignedWad> = Struct<ut@Tuple, wadray::wadray_signed::SignedWad> [storable: true, drop: true, dup: true, zero_sized: false];
+type core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)> = Enum<ut@core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>, Tuple<wadray::wadray_signed::SignedWad>, Tuple<core::panics::Panic, Array<felt252>>> [storable: true, drop: true, dup: false, zero_sized: false];
+type felt252 = felt252 [storable: true, drop: true, dup: true, zero_sized: false];
+type core::option::Option::<core::integer::u128> = Enum<ut@core::option::Option::<core::integer::u128>, u128, Unit> [storable: true, drop: true, dup: true, zero_sized: false];
+type Tuple<core::integer::u256> = Struct<ut@Tuple, core::integer::u256> [storable: true, drop: true, dup: true, zero_sized: false];
+type core::panics::PanicResult::<(core::integer::u256,)> = Enum<ut@core::panics::PanicResult::<(core::integer::u256,)>, Tuple<core::integer::u256>, Tuple<core::panics::Panic, Array<felt252>>> [storable: true, drop: true, dup: false, zero_sized: false];
+type wadray::wadray::Ray = Struct<ut@wadray::wadray::Ray, u128> [storable: true, drop: true, dup: true, zero_sized: false];
+type Tuple<wadray::wadray::Ray> = Struct<ut@Tuple, wadray::wadray::Ray> [storable: true, drop: true, dup: true, zero_sized: false];
+type core::panics::PanicResult::<(wadray::wadray::Ray,)> = Enum<ut@core::panics::PanicResult::<(wadray::wadray::Ray,)>, Tuple<wadray::wadray::Ray>, Tuple<core::panics::Panic, Array<felt252>>> [storable: true, drop: true, dup: false, zero_sized: false];
+type wadray::wadray::Wad = Struct<ut@wadray::wadray::Wad, u128> [storable: true, drop: true, dup: true, zero_sized: false];
+type Tuple<wadray::wadray::Wad> = Struct<ut@Tuple, wadray::wadray::Wad> [storable: true, drop: true, dup: true, zero_sized: false];
+type core::panics::PanicResult::<(wadray::wadray::Wad,)> = Enum<ut@core::panics::PanicResult::<(wadray::wadray::Wad,)>, Tuple<wadray::wadray::Wad>, Tuple<core::panics::Panic, Array<felt252>>> [storable: true, drop: true, dup: false, zero_sized: false];
+type Tuple<u128> = Struct<ut@Tuple, u128> [storable: true, drop: true, dup: true, zero_sized: false];
+type core::panics::PanicResult::<(core::integer::u128,)> = Enum<ut@core::panics::PanicResult::<(core::integer::u128,)>, Tuple<u128>, Tuple<core::panics::Panic, Array<felt252>>> [storable: true, drop: true, dup: false, zero_sized: false];
+type RangeCheck = RangeCheck [storable: true, drop: false, dup: false, zero_sized: false];
+type Tuple<core::integer::u256, core::integer::u256> = Struct<ut@Tuple, core::integer::u256, core::integer::u256> [storable: true, drop: true, dup: true, zero_sized: false];
+
+libfunc store_temp<u128> = store_temp<u128>;
+libfunc function_call<user@core::integer::U128IntoU256::into> = function_call<user@core::integer::U128IntoU256::into>;
+libfunc struct_construct<Tuple<core::integer::u256, core::integer::u256>> = struct_construct<Tuple<core::integer::u256, core::integer::u256>>;
+libfunc store_temp<Tuple<core::integer::u256, core::integer::u256>> = store_temp<Tuple<core::integer::u256, core::integer::u256>>;
+libfunc struct_deconstruct<wadray::wadray::Wad> = struct_deconstruct<wadray::wadray::Wad>;
+libfunc store_temp<RangeCheck> = store_temp<RangeCheck>;
+libfunc function_call<user@wadray::wadray::u128_wmul> = function_call<user@wadray::wadray::u128_wmul>;
+libfunc enum_match<core::panics::PanicResult::<(core::integer::u128,)>> = enum_match<core::panics::PanicResult::<(core::integer::u128,)>>;
+libfunc branch_align = branch_align;
+libfunc struct_deconstruct<Tuple<u128>> = struct_deconstruct<Tuple<u128>>;
+libfunc struct_construct<wadray::wadray::Wad> = struct_construct<wadray::wadray::Wad>;
+libfunc struct_construct<Tuple<wadray::wadray::Wad>> = struct_construct<Tuple<wadray::wadray::Wad>>;
+libfunc enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 0> = enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 0>;
+libfunc store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>> = store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>;
+libfunc enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 1> = enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 1>;
+libfunc struct_deconstruct<wadray::wadray::Ray> = struct_deconstruct<wadray::wadray::Ray>;
+libfunc struct_construct<wadray::wadray::Ray> = struct_construct<wadray::wadray::Ray>;
+libfunc struct_construct<Tuple<wadray::wadray::Ray>> = struct_construct<Tuple<wadray::wadray::Ray>>;
+libfunc enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 0> = enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 0>;
+libfunc store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>> = store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>;
+libfunc enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 1> = enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 1>;
+libfunc store_temp<wadray::wadray::Wad> = store_temp<wadray::wadray::Wad>;
+libfunc store_temp<wadray::wadray::Ray> = store_temp<wadray::wadray::Ray>;
+libfunc function_call<user@wadray::wadray::wmul_wr> = function_call<user@wadray::wadray::wmul_wr>;
+libfunc enum_match<core::panics::PanicResult::<(wadray::wadray::Ray,)>> = enum_match<core::panics::PanicResult::<(wadray::wadray::Ray,)>>;
+libfunc struct_deconstruct<Tuple<wadray::wadray::Ray>> = struct_deconstruct<Tuple<wadray::wadray::Ray>>;
+libfunc function_call<user@wadray::wadray::u128_rmul> = function_call<user@wadray::wadray::u128_rmul>;
+libfunc function_call<user@wadray::wadray::rmul_rw> = function_call<user@wadray::wadray::rmul_rw>;
+libfunc enum_match<core::panics::PanicResult::<(wadray::wadray::Wad,)>> = enum_match<core::panics::PanicResult::<(wadray::wadray::Wad,)>>;
+libfunc struct_deconstruct<Tuple<wadray::wadray::Wad>> = struct_deconstruct<Tuple<wadray::wadray::Wad>>;
+libfunc function_call<user@wadray::wadray::u128_wdiv> = function_call<user@wadray::wadray::u128_wdiv>;
+libfunc function_call<user@wadray::wadray::u128_rdiv> = function_call<user@wadray::wadray::u128_rdiv>;
+libfunc struct_construct<Tuple<u128>> = struct_construct<Tuple<u128>>;
+libfunc enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 0> = enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 0>;
+libfunc store_temp<core::panics::PanicResult::<(core::integer::u128,)>> = store_temp<core::panics::PanicResult::<(core::integer::u128,)>>;
+libfunc enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1> = enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>;
+libfunc function_call<user@wadray::wadray::cast_to_u256> = function_call<user@wadray::wadray::cast_to_u256>;
+libfunc struct_deconstruct<Tuple<core::integer::u256, core::integer::u256>> = struct_deconstruct<Tuple<core::integer::u256, core::integer::u256>>;
+libfunc store_temp<core::integer::u256> = store_temp<core::integer::u256>;
+libfunc function_call<user@core::integer::U256Mul::mul> = function_call<user@core::integer::U256Mul::mul>;
+libfunc enum_match<core::panics::PanicResult::<(core::integer::u256,)>> = enum_match<core::panics::PanicResult::<(core::integer::u256,)>>;
+libfunc u128_const<1000000000000000000> = u128_const<1000000000000000000>;
+libfunc struct_deconstruct<Tuple<core::integer::u256>> = struct_deconstruct<Tuple<core::integer::u256>>;
+libfunc function_call<user@core::integer::U256Div::div> = function_call<user@core::integer::U256Div::div>;
+libfunc function_call<user@core::integer::U256TryIntoU128::try_into> = function_call<user@core::integer::U256TryIntoU128::try_into>;
+libfunc enum_match<core::option::Option::<core::integer::u128>> = enum_match<core::option::Option::<core::integer::u128>>;
+libfunc drop<Unit> = drop<Unit>;
+libfunc array_new<felt252> = array_new<felt252>;
+libfunc felt252_const<2161814014463388251500> = felt252_const<2161814014463388251500>;
+libfunc store_temp<felt252> = store_temp<felt252>;
+libfunc array_append<felt252> = array_append<felt252>;
+libfunc struct_construct<core::panics::Panic> = struct_construct<core::panics::Panic>;
+libfunc struct_construct<Tuple<core::panics::Panic, Array<felt252>>> = struct_construct<Tuple<core::panics::Panic, Array<felt252>>>;
+libfunc u128_const<1000000000000000000000000000> = u128_const<1000000000000000000000000000>;
+libfunc felt252_const<2161814014463304365420> = felt252_const<2161814014463304365420>;
+libfunc felt252_const<2161814014463387658614> = felt252_const<2161814014463387658614>;
+libfunc drop<core::integer::u256> = drop<core::integer::u256>;
+libfunc felt252_const<2161814014463303772534> = felt252_const<2161814014463303772534>;
+libfunc dup<felt252> = dup<felt252>;
+libfunc function_call<user@wadray::wadray_signed::_felt_abs> = function_call<user@wadray::wadray_signed::_felt_abs>;
+libfunc rename<RangeCheck> = rename<RangeCheck>;
+libfunc rename<felt252> = rename<felt252>;
+libfunc function_call<user@core::integer::u128_try_from_felt252> = function_call<user@core::integer::u128_try_from_felt252>;
+libfunc function_call<user@wadray::wadray_signed::_felt_sign> = function_call<user@wadray::wadray_signed::_felt_sign>;
+libfunc struct_construct<wadray::wadray_signed::SignedWad> = struct_construct<wadray::wadray_signed::SignedWad>;
+libfunc struct_construct<Tuple<wadray::wadray_signed::SignedWad>> = struct_construct<Tuple<wadray::wadray_signed::SignedWad>>;
+libfunc enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>, 0> = enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>, 0>;
+libfunc store_temp<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>> = store_temp<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>>;
+libfunc drop<felt252> = drop<felt252>;
+libfunc felt252_const<29721761890975875353235833581453094220424382983267374> = felt252_const<29721761890975875353235833581453094220424382983267374>;
+libfunc enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>, 1> = enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>, 1>;
+libfunc struct_construct<wadray::wadray_signed::SignedRay> = struct_construct<wadray::wadray_signed::SignedRay>;
+libfunc struct_construct<Tuple<wadray::wadray_signed::SignedRay>> = struct_construct<Tuple<wadray::wadray_signed::SignedRay>>;
+libfunc enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>, 0> = enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>, 0>;
+libfunc store_temp<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>> = store_temp<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>>;
+libfunc enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>, 1> = enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>, 1>;
+libfunc function_call<user@core::integer::u256_from_felt252> = function_call<user@core::integer::u256_from_felt252>;
+libfunc felt252_const<1809251394333065606848661391547535052811553607665798349986546028067936010240> = felt252_const<1809251394333065606848661391547535052811553607665798349986546028067936010240>;
+libfunc rename<core::integer::u256> = rename<core::integer::u256>;
+libfunc function_call<user@core::integer::U256PartialOrd::lt> = function_call<user@core::integer::U256PartialOrd::lt>;
+libfunc rename<core::bool> = rename<core::bool>;
+libfunc enum_match<core::bool> = enum_match<core::bool>;
+libfunc jump = jump;
+libfunc felt252_const<-1> = felt252_const<-1>;
+libfunc felt252_mul = felt252_mul;
+libfunc dup<core::bool> = dup<core::bool>;
+libfunc drop<core::bool> = drop<core::bool>;
+libfunc struct_construct<Unit> = struct_construct<Unit>;
+libfunc enum_init<core::bool, 1> = enum_init<core::bool, 1>;
+libfunc store_temp<core::bool> = store_temp<core::bool>;
+libfunc enum_init<core::bool, 0> = enum_init<core::bool, 0>;
+libfunc bool_not_impl = bool_not_impl;
+libfunc u128_const<0> = u128_const<0>;
+libfunc struct_construct<core::integer::u256> = struct_construct<core::integer::u256>;
+libfunc function_call<user@core::integer::u256_checked_mul> = function_call<user@core::integer::u256_checked_mul>;
+libfunc enum_match<core::option::Option::<core::integer::u256>> = enum_match<core::option::Option::<core::integer::u256>>;
+libfunc struct_construct<Tuple<core::integer::u256>> = struct_construct<Tuple<core::integer::u256>>;
+libfunc enum_init<core::panics::PanicResult::<(core::integer::u256,)>, 0> = enum_init<core::panics::PanicResult::<(core::integer::u256,)>, 0>;
+libfunc store_temp<core::panics::PanicResult::<(core::integer::u256,)>> = store_temp<core::panics::PanicResult::<(core::integer::u256,)>>;
+libfunc felt252_const<39879774624083218221772669863277689073527> = felt252_const<39879774624083218221772669863277689073527>;
+libfunc enum_init<core::panics::PanicResult::<(core::integer::u256,)>, 1> = enum_init<core::panics::PanicResult::<(core::integer::u256,)>, 1>;
+libfunc function_call<user@core::integer::U256TryIntoNonZero::try_into> = function_call<user@core::integer::U256TryIntoNonZero::try_into>;
+libfunc enum_match<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>> = enum_match<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>>;
+libfunc struct_deconstruct<Tuple<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>> = struct_deconstruct<Tuple<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>>;
+libfunc enum_match<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>> = enum_match<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>;
+libfunc u256_safe_divmod = u256_safe_divmod;
+libfunc store_temp<U128MulGuarantee> = store_temp<U128MulGuarantee>;
+libfunc function_call<user@core::integer::U128MulGuaranteeDestruct::destruct> = function_call<user@core::integer::U128MulGuaranteeDestruct::destruct>;
+libfunc felt252_const<5420154128225384396790819266608> = felt252_const<5420154128225384396790819266608>;
+libfunc struct_deconstruct<core::integer::u256> = struct_deconstruct<core::integer::u256>;
+libfunc snapshot_take<u128> = snapshot_take<u128>;
+libfunc drop<u128> = drop<u128>;
+libfunc rename<u128> = rename<u128>;
+libfunc u128_eq = u128_eq;
+libfunc enum_init<core::option::Option::<core::integer::u128>, 1> = enum_init<core::option::Option::<core::integer::u128>, 1>;
+libfunc store_temp<core::option::Option::<core::integer::u128>> = store_temp<core::option::Option::<core::integer::u128>>;
+libfunc enum_init<core::option::Option::<core::integer::u128>, 0> = enum_init<core::option::Option::<core::integer::u128>, 0>;
+libfunc u128s_from_felt252 = u128s_from_felt252;
+libfunc rename<core::option::Option::<core::integer::u128>> = rename<core::option::Option::<core::integer::u128>>;
+libfunc dup<u128> = dup<u128>;
+libfunc u128_overflowing_sub = u128_overflowing_sub;
+libfunc function_call<user@core::integer::u256_overflow_mul> = function_call<user@core::integer::u256_overflow_mul>;
+libfunc struct_deconstruct<Tuple<core::integer::u256, core::bool>> = struct_deconstruct<Tuple<core::integer::u256, core::bool>>;
+libfunc enum_init<core::option::Option::<core::integer::u256>, 0> = enum_init<core::option::Option::<core::integer::u256>, 0>;
+libfunc store_temp<core::option::Option::<core::integer::u256>> = store_temp<core::option::Option::<core::integer::u256>>;
+libfunc enum_init<core::option::Option::<core::integer::u256>, 1> = enum_init<core::option::Option::<core::integer::u256>, 1>;
+libfunc function_call<user@core::integer::u256_as_non_zero> = function_call<user@core::integer::u256_as_non_zero>;
+libfunc enum_match<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>> = enum_match<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>>;
+libfunc struct_deconstruct<Tuple<NonZero<core::integer::u256>>> = struct_deconstruct<Tuple<NonZero<core::integer::u256>>>;
+libfunc enum_init<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>, 0> = enum_init<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>, 0>;
+libfunc struct_construct<Tuple<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>> = struct_construct<Tuple<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>>;
+libfunc enum_init<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>, 0> = enum_init<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>, 0>;
+libfunc store_temp<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>> = store_temp<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>>;
+libfunc enum_init<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>, 1> = enum_init<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>, 1>;
+libfunc u128_mul_guarantee_verify = u128_mul_guarantee_verify;
+libfunc store_temp<Unit> = store_temp<Unit>;
+libfunc u128_guarantee_mul = u128_guarantee_mul;
+libfunc struct_construct<Tuple<u128, u128>> = struct_construct<Tuple<u128, u128>>;
+libfunc struct_deconstruct<Tuple<u128, u128>> = struct_deconstruct<Tuple<u128, u128>>;
+libfunc u128_overflowing_add = u128_overflowing_add;
+libfunc struct_construct<Tuple<u128, core::bool>> = struct_construct<Tuple<u128, core::bool>>;
+libfunc store_temp<Tuple<u128, core::bool>> = store_temp<Tuple<u128, core::bool>>;
+libfunc struct_deconstruct<Tuple<u128, core::bool>> = struct_deconstruct<Tuple<u128, core::bool>>;
+libfunc struct_construct<Tuple<core::integer::u256, core::bool>> = struct_construct<Tuple<core::integer::u256, core::bool>>;
+libfunc store_temp<Tuple<core::integer::u256, core::bool>> = store_temp<Tuple<core::integer::u256, core::bool>>;
+libfunc function_call<user@core::integer::u256_try_as_non_zero> = function_call<user@core::integer::u256_try_as_non_zero>;
+libfunc struct_construct<Tuple<NonZero<core::integer::u256>>> = struct_construct<Tuple<NonZero<core::integer::u256>>>;
+libfunc enum_init<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>, 0> = enum_init<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>, 0>;
+libfunc store_temp<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>> = store_temp<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>>;
+libfunc felt252_const<2161886914012515606576> = felt252_const<2161886914012515606576>;
+libfunc enum_init<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>, 1> = enum_init<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>, 1>;
+libfunc u256_is_zero = u256_is_zero;
+libfunc enum_init<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>, 1> = enum_init<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>, 1>;
+libfunc store_temp<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>> = store_temp<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>;
+libfunc rename<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>> = rename<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>;
+
+store_temp<u128>([0]) -> ([3]); // 0
+function_call<user@core::integer::U128IntoU256::into>([3]) -> ([2]); // 1
+store_temp<u128>([1]) -> ([5]); // 2
+function_call<user@core::integer::U128IntoU256::into>([5]) -> ([4]); // 3
+struct_construct<Tuple<core::integer::u256, core::integer::u256>>([2], [4]) -> ([6]); // 4
+store_temp<Tuple<core::integer::u256, core::integer::u256>>([6]) -> ([7]); // 5
+return([7]); // 6
+struct_deconstruct<wadray::wadray::Wad>([1]) -> ([3]); // 7
+struct_deconstruct<wadray::wadray::Wad>([2]) -> ([4]); // 8
+store_temp<RangeCheck>([0]) -> ([7]); // 9
+store_temp<u128>([3]) -> ([8]); // 10
+store_temp<u128>([4]) -> ([9]); // 11
+function_call<user@wadray::wadray::u128_wmul>([7], [8], [9]) -> ([5], [6]); // 12
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([6]) { fallthrough([10]) 22([11]) }; // 13
+branch_align() -> (); // 14
+struct_deconstruct<Tuple<u128>>([10]) -> ([12]); // 15
+struct_construct<wadray::wadray::Wad>([12]) -> ([13]); // 16
+struct_construct<Tuple<wadray::wadray::Wad>>([13]) -> ([14]); // 17
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 0>([14]) -> ([15]); // 18
+store_temp<RangeCheck>([5]) -> ([16]); // 19
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([15]) -> ([17]); // 20
+return([16], [17]); // 21
+branch_align() -> (); // 22
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 1>([11]) -> ([18]); // 23
+store_temp<RangeCheck>([5]) -> ([19]); // 24
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([18]) -> ([20]); // 25
+return([19], [20]); // 26
+struct_deconstruct<wadray::wadray::Wad>([1]) -> ([3]); // 27
+struct_deconstruct<wadray::wadray::Ray>([2]) -> ([4]); // 28
+store_temp<RangeCheck>([0]) -> ([7]); // 29
+store_temp<u128>([3]) -> ([8]); // 30
+store_temp<u128>([4]) -> ([9]); // 31
+function_call<user@wadray::wadray::u128_wmul>([7], [8], [9]) -> ([5], [6]); // 32
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([6]) { fallthrough([10]) 42([11]) }; // 33
+branch_align() -> (); // 34
+struct_deconstruct<Tuple<u128>>([10]) -> ([12]); // 35
+struct_construct<wadray::wadray::Ray>([12]) -> ([13]); // 36
+struct_construct<Tuple<wadray::wadray::Ray>>([13]) -> ([14]); // 37
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 0>([14]) -> ([15]); // 38
+store_temp<RangeCheck>([5]) -> ([16]); // 39
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([15]) -> ([17]); // 40
+return([16], [17]); // 41
+branch_align() -> (); // 42
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 1>([11]) -> ([18]); // 43
+store_temp<RangeCheck>([5]) -> ([19]); // 44
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([18]) -> ([20]); // 45
+return([19], [20]); // 46
+store_temp<RangeCheck>([0]) -> ([5]); // 47
+store_temp<wadray::wadray::Wad>([2]) -> ([6]); // 48
+store_temp<wadray::wadray::Ray>([1]) -> ([7]); // 49
+function_call<user@wadray::wadray::wmul_wr>([5], [6], [7]) -> ([3], [4]); // 50
+enum_match<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([4]) { fallthrough([8]) 59([9]) }; // 51
+branch_align() -> (); // 52
+struct_deconstruct<Tuple<wadray::wadray::Ray>>([8]) -> ([10]); // 53
+struct_construct<Tuple<wadray::wadray::Ray>>([10]) -> ([11]); // 54
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 0>([11]) -> ([12]); // 55
+store_temp<RangeCheck>([3]) -> ([13]); // 56
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([12]) -> ([14]); // 57
+return([13], [14]); // 58
+branch_align() -> (); // 59
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 1>([9]) -> ([15]); // 60
+store_temp<RangeCheck>([3]) -> ([16]); // 61
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([15]) -> ([17]); // 62
+return([16], [17]); // 63
+struct_deconstruct<wadray::wadray::Ray>([1]) -> ([3]); // 64
+struct_deconstruct<wadray::wadray::Ray>([2]) -> ([4]); // 65
+store_temp<RangeCheck>([0]) -> ([7]); // 66
+store_temp<u128>([3]) -> ([8]); // 67
+store_temp<u128>([4]) -> ([9]); // 68
+function_call<user@wadray::wadray::u128_rmul>([7], [8], [9]) -> ([5], [6]); // 69
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([6]) { fallthrough([10]) 79([11]) }; // 70
+branch_align() -> (); // 71
+struct_deconstruct<Tuple<u128>>([10]) -> ([12]); // 72
+struct_construct<wadray::wadray::Ray>([12]) -> ([13]); // 73
+struct_construct<Tuple<wadray::wadray::Ray>>([13]) -> ([14]); // 74
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 0>([14]) -> ([15]); // 75
+store_temp<RangeCheck>([5]) -> ([16]); // 76
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([15]) -> ([17]); // 77
+return([16], [17]); // 78
+branch_align() -> (); // 79
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 1>([11]) -> ([18]); // 80
+store_temp<RangeCheck>([5]) -> ([19]); // 81
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([18]) -> ([20]); // 82
+return([19], [20]); // 83
+struct_deconstruct<wadray::wadray::Ray>([1]) -> ([3]); // 84
+struct_deconstruct<wadray::wadray::Wad>([2]) -> ([4]); // 85
+store_temp<RangeCheck>([0]) -> ([7]); // 86
+store_temp<u128>([3]) -> ([8]); // 87
+store_temp<u128>([4]) -> ([9]); // 88
+function_call<user@wadray::wadray::u128_rmul>([7], [8], [9]) -> ([5], [6]); // 89
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([6]) { fallthrough([10]) 99([11]) }; // 90
+branch_align() -> (); // 91
+struct_deconstruct<Tuple<u128>>([10]) -> ([12]); // 92
+struct_construct<wadray::wadray::Wad>([12]) -> ([13]); // 93
+struct_construct<Tuple<wadray::wadray::Wad>>([13]) -> ([14]); // 94
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 0>([14]) -> ([15]); // 95
+store_temp<RangeCheck>([5]) -> ([16]); // 96
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([15]) -> ([17]); // 97
+return([16], [17]); // 98
+branch_align() -> (); // 99
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 1>([11]) -> ([18]); // 100
+store_temp<RangeCheck>([5]) -> ([19]); // 101
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([18]) -> ([20]); // 102
+return([19], [20]); // 103
+store_temp<RangeCheck>([0]) -> ([5]); // 104
+store_temp<wadray::wadray::Ray>([2]) -> ([6]); // 105
+store_temp<wadray::wadray::Wad>([1]) -> ([7]); // 106
+function_call<user@wadray::wadray::rmul_rw>([5], [6], [7]) -> ([3], [4]); // 107
+enum_match<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([4]) { fallthrough([8]) 116([9]) }; // 108
+branch_align() -> (); // 109
+struct_deconstruct<Tuple<wadray::wadray::Wad>>([8]) -> ([10]); // 110
+struct_construct<Tuple<wadray::wadray::Wad>>([10]) -> ([11]); // 111
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 0>([11]) -> ([12]); // 112
+store_temp<RangeCheck>([3]) -> ([13]); // 113
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([12]) -> ([14]); // 114
+return([13], [14]); // 115
+branch_align() -> (); // 116
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 1>([9]) -> ([15]); // 117
+store_temp<RangeCheck>([3]) -> ([16]); // 118
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([15]) -> ([17]); // 119
+return([16], [17]); // 120
+struct_deconstruct<wadray::wadray::Wad>([1]) -> ([3]); // 121
+struct_deconstruct<wadray::wadray::Wad>([2]) -> ([4]); // 122
+store_temp<RangeCheck>([0]) -> ([7]); // 123
+store_temp<u128>([3]) -> ([8]); // 124
+store_temp<u128>([4]) -> ([9]); // 125
+function_call<user@wadray::wadray::u128_wdiv>([7], [8], [9]) -> ([5], [6]); // 126
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([6]) { fallthrough([10]) 136([11]) }; // 127
+branch_align() -> (); // 128
+struct_deconstruct<Tuple<u128>>([10]) -> ([12]); // 129
+struct_construct<wadray::wadray::Wad>([12]) -> ([13]); // 130
+struct_construct<Tuple<wadray::wadray::Wad>>([13]) -> ([14]); // 131
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 0>([14]) -> ([15]); // 132
+store_temp<RangeCheck>([5]) -> ([16]); // 133
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([15]) -> ([17]); // 134
+return([16], [17]); // 135
+branch_align() -> (); // 136
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 1>([11]) -> ([18]); // 137
+store_temp<RangeCheck>([5]) -> ([19]); // 138
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([18]) -> ([20]); // 139
+return([19], [20]); // 140
+struct_deconstruct<wadray::wadray::Ray>([1]) -> ([3]); // 141
+struct_deconstruct<wadray::wadray::Wad>([2]) -> ([4]); // 142
+store_temp<RangeCheck>([0]) -> ([7]); // 143
+store_temp<u128>([3]) -> ([8]); // 144
+store_temp<u128>([4]) -> ([9]); // 145
+function_call<user@wadray::wadray::u128_wdiv>([7], [8], [9]) -> ([5], [6]); // 146
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([6]) { fallthrough([10]) 156([11]) }; // 147
+branch_align() -> (); // 148
+struct_deconstruct<Tuple<u128>>([10]) -> ([12]); // 149
+struct_construct<wadray::wadray::Ray>([12]) -> ([13]); // 150
+struct_construct<Tuple<wadray::wadray::Ray>>([13]) -> ([14]); // 151
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 0>([14]) -> ([15]); // 152
+store_temp<RangeCheck>([5]) -> ([16]); // 153
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([15]) -> ([17]); // 154
+return([16], [17]); // 155
+branch_align() -> (); // 156
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 1>([11]) -> ([18]); // 157
+store_temp<RangeCheck>([5]) -> ([19]); // 158
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([18]) -> ([20]); // 159
+return([19], [20]); // 160
+struct_deconstruct<wadray::wadray::Ray>([1]) -> ([3]); // 161
+struct_deconstruct<wadray::wadray::Ray>([2]) -> ([4]); // 162
+store_temp<RangeCheck>([0]) -> ([7]); // 163
+store_temp<u128>([3]) -> ([8]); // 164
+store_temp<u128>([4]) -> ([9]); // 165
+function_call<user@wadray::wadray::u128_rdiv>([7], [8], [9]) -> ([5], [6]); // 166
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([6]) { fallthrough([10]) 176([11]) }; // 167
+branch_align() -> (); // 168
+struct_deconstruct<Tuple<u128>>([10]) -> ([12]); // 169
+struct_construct<wadray::wadray::Ray>([12]) -> ([13]); // 170
+struct_construct<Tuple<wadray::wadray::Ray>>([13]) -> ([14]); // 171
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 0>([14]) -> ([15]); // 172
+store_temp<RangeCheck>([5]) -> ([16]); // 173
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([15]) -> ([17]); // 174
+return([16], [17]); // 175
+branch_align() -> (); // 176
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 1>([11]) -> ([18]); // 177
+store_temp<RangeCheck>([5]) -> ([19]); // 178
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([18]) -> ([20]); // 179
+return([19], [20]); // 180
+struct_deconstruct<wadray::wadray::Wad>([1]) -> ([3]); // 181
+struct_deconstruct<wadray::wadray::Ray>([2]) -> ([4]); // 182
+store_temp<RangeCheck>([0]) -> ([7]); // 183
+store_temp<u128>([3]) -> ([8]); // 184
+store_temp<u128>([4]) -> ([9]); // 185
+function_call<user@wadray::wadray::u128_rdiv>([7], [8], [9]) -> ([5], [6]); // 186
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([6]) { fallthrough([10]) 196([11]) }; // 187
+branch_align() -> (); // 188
+struct_deconstruct<Tuple<u128>>([10]) -> ([12]); // 189
+struct_construct<wadray::wadray::Wad>([12]) -> ([13]); // 190
+struct_construct<Tuple<wadray::wadray::Wad>>([13]) -> ([14]); // 191
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 0>([14]) -> ([15]); // 192
+store_temp<RangeCheck>([5]) -> ([16]); // 193
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([15]) -> ([17]); // 194
+return([16], [17]); // 195
+branch_align() -> (); // 196
+enum_init<core::panics::PanicResult::<(wadray::wadray::Wad,)>, 1>([11]) -> ([18]); // 197
+store_temp<RangeCheck>([5]) -> ([19]); // 198
+store_temp<core::panics::PanicResult::<(wadray::wadray::Wad,)>>([18]) -> ([20]); // 199
+return([19], [20]); // 200
+struct_deconstruct<wadray::wadray::Wad>([1]) -> ([3]); // 201
+struct_deconstruct<wadray::wadray::Wad>([2]) -> ([4]); // 202
+store_temp<RangeCheck>([0]) -> ([7]); // 203
+store_temp<u128>([3]) -> ([8]); // 204
+store_temp<u128>([4]) -> ([9]); // 205
+function_call<user@wadray::wadray::u128_rdiv>([7], [8], [9]) -> ([5], [6]); // 206
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([6]) { fallthrough([10]) 216([11]) }; // 207
+branch_align() -> (); // 208
+struct_deconstruct<Tuple<u128>>([10]) -> ([12]); // 209
+struct_construct<wadray::wadray::Ray>([12]) -> ([13]); // 210
+struct_construct<Tuple<wadray::wadray::Ray>>([13]) -> ([14]); // 211
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 0>([14]) -> ([15]); // 212
+store_temp<RangeCheck>([5]) -> ([16]); // 213
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([15]) -> ([17]); // 214
+return([16], [17]); // 215
+branch_align() -> (); // 216
+enum_init<core::panics::PanicResult::<(wadray::wadray::Ray,)>, 1>([11]) -> ([18]); // 217
+store_temp<RangeCheck>([5]) -> ([19]); // 218
+store_temp<core::panics::PanicResult::<(wadray::wadray::Ray,)>>([18]) -> ([20]); // 219
+return([19], [20]); // 220
+struct_deconstruct<wadray::wadray::Ray>([2]) -> ([3]); // 221
+store_temp<RangeCheck>([0]) -> ([6]); // 222
+store_temp<u128>([1]) -> ([7]); // 223
+store_temp<u128>([3]) -> ([8]); // 224
+function_call<user@wadray::wadray::u128_rmul>([6], [7], [8]) -> ([4], [5]); // 225
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([5]) { fallthrough([9]) 234([10]) }; // 226
+branch_align() -> (); // 227
+struct_deconstruct<Tuple<u128>>([9]) -> ([11]); // 228
+struct_construct<Tuple<u128>>([11]) -> ([12]); // 229
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 0>([12]) -> ([13]); // 230
+store_temp<RangeCheck>([4]) -> ([14]); // 231
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([13]) -> ([15]); // 232
+return([14], [15]); // 233
+branch_align() -> (); // 234
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([10]) -> ([16]); // 235
+store_temp<RangeCheck>([4]) -> ([17]); // 236
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([16]) -> ([18]); // 237
+return([17], [18]); // 238
+struct_deconstruct<wadray::wadray::Ray>([2]) -> ([3]); // 239
+store_temp<RangeCheck>([0]) -> ([6]); // 240
+store_temp<u128>([1]) -> ([7]); // 241
+store_temp<u128>([3]) -> ([8]); // 242
+function_call<user@wadray::wadray::u128_rdiv>([6], [7], [8]) -> ([4], [5]); // 243
+enum_match<core::panics::PanicResult::<(core::integer::u128,)>>([5]) { fallthrough([9]) 252([10]) }; // 244
+branch_align() -> (); // 245
+struct_deconstruct<Tuple<u128>>([9]) -> ([11]); // 246
+struct_construct<Tuple<u128>>([11]) -> ([12]); // 247
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 0>([12]) -> ([13]); // 248
+store_temp<RangeCheck>([4]) -> ([14]); // 249
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([13]) -> ([15]); // 250
+return([14], [15]); // 251
+branch_align() -> (); // 252
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([10]) -> ([16]); // 253
+store_temp<RangeCheck>([4]) -> ([17]); // 254
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([16]) -> ([18]); // 255
+return([17], [18]); // 256
+store_temp<u128>([1]) -> ([4]); // 257
+store_temp<u128>([2]) -> ([5]); // 258
+function_call<user@wadray::wadray::cast_to_u256>([4], [5]) -> ([3]); // 259
+struct_deconstruct<Tuple<core::integer::u256, core::integer::u256>>([3]) -> ([6], [7]); // 260
+store_temp<RangeCheck>([0]) -> ([10]); // 261
+store_temp<core::integer::u256>([6]) -> ([11]); // 262
+store_temp<core::integer::u256>([7]) -> ([12]); // 263
+function_call<user@core::integer::U256Mul::mul>([10], [11], [12]) -> ([8], [9]); // 264
+enum_match<core::panics::PanicResult::<(core::integer::u256,)>>([9]) { fallthrough([13]) 304([14]) }; // 265
+branch_align() -> (); // 266
+u128_const<1000000000000000000>() -> ([15]); // 267
+store_temp<u128>([15]) -> ([17]); // 268
+function_call<user@core::integer::U128IntoU256::into>([17]) -> ([16]); // 269
+struct_deconstruct<Tuple<core::integer::u256>>([13]) -> ([18]); // 270
+store_temp<RangeCheck>([8]) -> ([21]); // 271
+store_temp<core::integer::u256>([18]) -> ([22]); // 272
+store_temp<core::integer::u256>([16]) -> ([23]); // 273
+function_call<user@core::integer::U256Div::div>([21], [22], [23]) -> ([19], [20]); // 274
+enum_match<core::panics::PanicResult::<(core::integer::u256,)>>([20]) { fallthrough([24]) 299([25]) }; // 275
+branch_align() -> (); // 276
+struct_deconstruct<Tuple<core::integer::u256>>([24]) -> ([26]); // 277
+store_temp<core::integer::u256>([26]) -> ([28]); // 278
+function_call<user@core::integer::U256TryIntoU128::try_into>([28]) -> ([27]); // 279
+enum_match<core::option::Option::<core::integer::u128>>([27]) { fallthrough([29]) 287([30]) }; // 280
+branch_align() -> (); // 281
+struct_construct<Tuple<u128>>([29]) -> ([31]); // 282
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 0>([31]) -> ([32]); // 283
+store_temp<RangeCheck>([19]) -> ([33]); // 284
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([32]) -> ([34]); // 285
+return([33], [34]); // 286
+branch_align() -> (); // 287
+drop<Unit>([30]) -> (); // 288
+array_new<felt252>() -> ([35]); // 289
+felt252_const<2161814014463388251500>() -> ([36]); // 290
+store_temp<felt252>([36]) -> ([36]); // 291
+array_append<felt252>([35], [36]) -> ([37]); // 292
+struct_construct<core::panics::Panic>() -> ([38]); // 293
+struct_construct<Tuple<core::panics::Panic, Array<felt252>>>([38], [37]) -> ([39]); // 294
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([39]) -> ([40]); // 295
+store_temp<RangeCheck>([19]) -> ([41]); // 296
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([40]) -> ([42]); // 297
+return([41], [42]); // 298
+branch_align() -> (); // 299
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([25]) -> ([43]); // 300
+store_temp<RangeCheck>([19]) -> ([44]); // 301
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([43]) -> ([45]); // 302
+return([44], [45]); // 303
+branch_align() -> (); // 304
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([14]) -> ([46]); // 305
+store_temp<RangeCheck>([8]) -> ([47]); // 306
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([46]) -> ([48]); // 307
+return([47], [48]); // 308
+store_temp<u128>([1]) -> ([4]); // 309
+store_temp<u128>([2]) -> ([5]); // 310
+function_call<user@wadray::wadray::cast_to_u256>([4], [5]) -> ([3]); // 311
+struct_deconstruct<Tuple<core::integer::u256, core::integer::u256>>([3]) -> ([6], [7]); // 312
+store_temp<RangeCheck>([0]) -> ([10]); // 313
+store_temp<core::integer::u256>([6]) -> ([11]); // 314
+store_temp<core::integer::u256>([7]) -> ([12]); // 315
+function_call<user@core::integer::U256Mul::mul>([10], [11], [12]) -> ([8], [9]); // 316
+enum_match<core::panics::PanicResult::<(core::integer::u256,)>>([9]) { fallthrough([13]) 356([14]) }; // 317
+branch_align() -> (); // 318
+u128_const<1000000000000000000000000000>() -> ([15]); // 319
+store_temp<u128>([15]) -> ([17]); // 320
+function_call<user@core::integer::U128IntoU256::into>([17]) -> ([16]); // 321
+struct_deconstruct<Tuple<core::integer::u256>>([13]) -> ([18]); // 322
+store_temp<RangeCheck>([8]) -> ([21]); // 323
+store_temp<core::integer::u256>([18]) -> ([22]); // 324
+store_temp<core::integer::u256>([16]) -> ([23]); // 325
+function_call<user@core::integer::U256Div::div>([21], [22], [23]) -> ([19], [20]); // 326
+enum_match<core::panics::PanicResult::<(core::integer::u256,)>>([20]) { fallthrough([24]) 351([25]) }; // 327
+branch_align() -> (); // 328
+struct_deconstruct<Tuple<core::integer::u256>>([24]) -> ([26]); // 329
+store_temp<core::integer::u256>([26]) -> ([28]); // 330
+function_call<user@core::integer::U256TryIntoU128::try_into>([28]) -> ([27]); // 331
+enum_match<core::option::Option::<core::integer::u128>>([27]) { fallthrough([29]) 339([30]) }; // 332
+branch_align() -> (); // 333
+struct_construct<Tuple<u128>>([29]) -> ([31]); // 334
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 0>([31]) -> ([32]); // 335
+store_temp<RangeCheck>([19]) -> ([33]); // 336
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([32]) -> ([34]); // 337
+return([33], [34]); // 338
+branch_align() -> (); // 339
+drop<Unit>([30]) -> (); // 340
+array_new<felt252>() -> ([35]); // 341
+felt252_const<2161814014463304365420>() -> ([36]); // 342
+store_temp<felt252>([36]) -> ([36]); // 343
+array_append<felt252>([35], [36]) -> ([37]); // 344
+struct_construct<core::panics::Panic>() -> ([38]); // 345
+struct_construct<Tuple<core::panics::Panic, Array<felt252>>>([38], [37]) -> ([39]); // 346
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([39]) -> ([40]); // 347
+store_temp<RangeCheck>([19]) -> ([41]); // 348
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([40]) -> ([42]); // 349
+return([41], [42]); // 350
+branch_align() -> (); // 351
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([25]) -> ([43]); // 352
+store_temp<RangeCheck>([19]) -> ([44]); // 353
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([43]) -> ([45]); // 354
+return([44], [45]); // 355
+branch_align() -> (); // 356
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([14]) -> ([46]); // 357
+store_temp<RangeCheck>([8]) -> ([47]); // 358
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([46]) -> ([48]); // 359
+return([47], [48]); // 360
+store_temp<u128>([1]) -> ([4]); // 361
+store_temp<u128>([2]) -> ([5]); // 362
+function_call<user@wadray::wadray::cast_to_u256>([4], [5]) -> ([3]); // 363
+struct_deconstruct<Tuple<core::integer::u256, core::integer::u256>>([3]) -> ([6], [7]); // 364
+u128_const<1000000000000000000>() -> ([8]); // 365
+store_temp<u128>([8]) -> ([10]); // 366
+function_call<user@core::integer::U128IntoU256::into>([10]) -> ([9]); // 367
+store_temp<RangeCheck>([0]) -> ([13]); // 368
+store_temp<core::integer::u256>([6]) -> ([14]); // 369
+store_temp<core::integer::u256>([9]) -> ([15]); // 370
+function_call<user@core::integer::U256Mul::mul>([13], [14], [15]) -> ([11], [12]); // 371
+enum_match<core::panics::PanicResult::<(core::integer::u256,)>>([12]) { fallthrough([16]) 408([17]) }; // 372
+branch_align() -> (); // 373
+struct_deconstruct<Tuple<core::integer::u256>>([16]) -> ([18]); // 374
+store_temp<RangeCheck>([11]) -> ([21]); // 375
+store_temp<core::integer::u256>([18]) -> ([22]); // 376
+store_temp<core::integer::u256>([7]) -> ([23]); // 377
+function_call<user@core::integer::U256Div::div>([21], [22], [23]) -> ([19], [20]); // 378
+enum_match<core::panics::PanicResult::<(core::integer::u256,)>>([20]) { fallthrough([24]) 403([25]) }; // 379
+branch_align() -> (); // 380
+struct_deconstruct<Tuple<core::integer::u256>>([24]) -> ([26]); // 381
+store_temp<core::integer::u256>([26]) -> ([28]); // 382
+function_call<user@core::integer::U256TryIntoU128::try_into>([28]) -> ([27]); // 383
+enum_match<core::option::Option::<core::integer::u128>>([27]) { fallthrough([29]) 391([30]) }; // 384
+branch_align() -> (); // 385
+struct_construct<Tuple<u128>>([29]) -> ([31]); // 386
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 0>([31]) -> ([32]); // 387
+store_temp<RangeCheck>([19]) -> ([33]); // 388
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([32]) -> ([34]); // 389
+return([33], [34]); // 390
+branch_align() -> (); // 391
+drop<Unit>([30]) -> (); // 392
+array_new<felt252>() -> ([35]); // 393
+felt252_const<2161814014463387658614>() -> ([36]); // 394
+store_temp<felt252>([36]) -> ([36]); // 395
+array_append<felt252>([35], [36]) -> ([37]); // 396
+struct_construct<core::panics::Panic>() -> ([38]); // 397
+struct_construct<Tuple<core::panics::Panic, Array<felt252>>>([38], [37]) -> ([39]); // 398
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([39]) -> ([40]); // 399
+store_temp<RangeCheck>([19]) -> ([41]); // 400
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([40]) -> ([42]); // 401
+return([41], [42]); // 402
+branch_align() -> (); // 403
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([25]) -> ([43]); // 404
+store_temp<RangeCheck>([19]) -> ([44]); // 405
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([43]) -> ([45]); // 406
+return([44], [45]); // 407
+branch_align() -> (); // 408
+drop<core::integer::u256>([7]) -> (); // 409
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([17]) -> ([46]); // 410
+store_temp<RangeCheck>([11]) -> ([47]); // 411
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([46]) -> ([48]); // 412
+return([47], [48]); // 413
+store_temp<u128>([1]) -> ([4]); // 414
+store_temp<u128>([2]) -> ([5]); // 415
+function_call<user@wadray::wadray::cast_to_u256>([4], [5]) -> ([3]); // 416
+struct_deconstruct<Tuple<core::integer::u256, core::integer::u256>>([3]) -> ([6], [7]); // 417
+u128_const<1000000000000000000000000000>() -> ([8]); // 418
+store_temp<u128>([8]) -> ([10]); // 419
+function_call<user@core::integer::U128IntoU256::into>([10]) -> ([9]); // 420
+store_temp<RangeCheck>([0]) -> ([13]); // 421
+store_temp<core::integer::u256>([6]) -> ([14]); // 422
+store_temp<core::integer::u256>([9]) -> ([15]); // 423
+function_call<user@core::integer::U256Mul::mul>([13], [14], [15]) -> ([11], [12]); // 424
+enum_match<core::panics::PanicResult::<(core::integer::u256,)>>([12]) { fallthrough([16]) 461([17]) }; // 425
+branch_align() -> (); // 426
+struct_deconstruct<Tuple<core::integer::u256>>([16]) -> ([18]); // 427
+store_temp<RangeCheck>([11]) -> ([21]); // 428
+store_temp<core::integer::u256>([18]) -> ([22]); // 429
+store_temp<core::integer::u256>([7]) -> ([23]); // 430
+function_call<user@core::integer::U256Div::div>([21], [22], [23]) -> ([19], [20]); // 431
+enum_match<core::panics::PanicResult::<(core::integer::u256,)>>([20]) { fallthrough([24]) 456([25]) }; // 432
+branch_align() -> (); // 433
+struct_deconstruct<Tuple<core::integer::u256>>([24]) -> ([26]); // 434
+store_temp<core::integer::u256>([26]) -> ([28]); // 435
+function_call<user@core::integer::U256TryIntoU128::try_into>([28]) -> ([27]); // 436
+enum_match<core::option::Option::<core::integer::u128>>([27]) { fallthrough([29]) 444([30]) }; // 437
+branch_align() -> (); // 438
+struct_construct<Tuple<u128>>([29]) -> ([31]); // 439
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 0>([31]) -> ([32]); // 440
+store_temp<RangeCheck>([19]) -> ([33]); // 441
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([32]) -> ([34]); // 442
+return([33], [34]); // 443
+branch_align() -> (); // 444
+drop<Unit>([30]) -> (); // 445
+array_new<felt252>() -> ([35]); // 446
+felt252_const<2161814014463303772534>() -> ([36]); // 447
+store_temp<felt252>([36]) -> ([36]); // 448
+array_append<felt252>([35], [36]) -> ([37]); // 449
+struct_construct<core::panics::Panic>() -> ([38]); // 450
+struct_construct<Tuple<core::panics::Panic, Array<felt252>>>([38], [37]) -> ([39]); // 451
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([39]) -> ([40]); // 452
+store_temp<RangeCheck>([19]) -> ([41]); // 453
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([40]) -> ([42]); // 454
+return([41], [42]); // 455
+branch_align() -> (); // 456
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([25]) -> ([43]); // 457
+store_temp<RangeCheck>([19]) -> ([44]); // 458
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([43]) -> ([45]); // 459
+return([44], [45]); // 460
+branch_align() -> (); // 461
+drop<core::integer::u256>([7]) -> (); // 462
+enum_init<core::panics::PanicResult::<(core::integer::u128,)>, 1>([17]) -> ([46]); // 463
+store_temp<RangeCheck>([11]) -> ([47]); // 464
+store_temp<core::panics::PanicResult::<(core::integer::u128,)>>([46]) -> ([48]); // 465
+return([47], [48]); // 466
+store_temp<RangeCheck>([0]) -> ([4]); // 467
+dup<felt252>([1]) -> ([1], [5]); // 468
+store_temp<felt252>([5]) -> ([5]); // 469
+function_call<user@wadray::wadray_signed::_felt_abs>([4], [5]) -> ([2], [3]); // 470
+rename<RangeCheck>([2]) -> ([8]); // 471
+rename<felt252>([3]) -> ([9]); // 472
+function_call<user@core::integer::u128_try_from_felt252>([8], [9]) -> ([6], [7]); // 473
+enum_match<core::option::Option::<core::integer::u128>>([7]) { fallthrough([10]) 485([11]) }; // 474
+branch_align() -> (); // 475
+store_temp<RangeCheck>([6]) -> ([14]); // 476
+store_temp<felt252>([1]) -> ([15]); // 477
+function_call<user@wadray::wadray_signed::_felt_sign>([14], [15]) -> ([12], [13]); // 478
+struct_construct<wadray::wadray_signed::SignedWad>([10], [13]) -> ([16]); // 479
+struct_construct<Tuple<wadray::wadray_signed::SignedWad>>([16]) -> ([17]); // 480
+enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>, 0>([17]) -> ([18]); // 481
+store_temp<RangeCheck>([12]) -> ([19]); // 482
+store_temp<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>>([18]) -> ([20]); // 483
+return([19], [20]); // 484
+branch_align() -> (); // 485
+drop<Unit>([11]) -> (); // 486
+drop<felt252>([1]) -> (); // 487
+array_new<felt252>() -> ([21]); // 488
+felt252_const<29721761890975875353235833581453094220424382983267374>() -> ([22]); // 489
+store_temp<felt252>([22]) -> ([22]); // 490
+array_append<felt252>([21], [22]) -> ([23]); // 491
+struct_construct<core::panics::Panic>() -> ([24]); // 492
+struct_construct<Tuple<core::panics::Panic, Array<felt252>>>([24], [23]) -> ([25]); // 493
+enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>, 1>([25]) -> ([26]); // 494
+store_temp<RangeCheck>([6]) -> ([27]); // 495
+store_temp<core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>>([26]) -> ([28]); // 496
+return([27], [28]); // 497
+store_temp<RangeCheck>([0]) -> ([4]); // 498
+dup<felt252>([1]) -> ([1], [5]); // 499
+store_temp<felt252>([5]) -> ([5]); // 500
+function_call<user@wadray::wadray_signed::_felt_abs>([4], [5]) -> ([2], [3]); // 501
+rename<RangeCheck>([2]) -> ([8]); // 502
+rename<felt252>([3]) -> ([9]); // 503
+function_call<user@core::integer::u128_try_from_felt252>([8], [9]) -> ([6], [7]); // 504
+enum_match<core::option::Option::<core::integer::u128>>([7]) { fallthrough([10]) 516([11]) }; // 505
+branch_align() -> (); // 506
+store_temp<RangeCheck>([6]) -> ([14]); // 507
+store_temp<felt252>([1]) -> ([15]); // 508
+function_call<user@wadray::wadray_signed::_felt_sign>([14], [15]) -> ([12], [13]); // 509
+struct_construct<wadray::wadray_signed::SignedRay>([10], [13]) -> ([16]); // 510
+struct_construct<Tuple<wadray::wadray_signed::SignedRay>>([16]) -> ([17]); // 511
+enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>, 0>([17]) -> ([18]); // 512
+store_temp<RangeCheck>([12]) -> ([19]); // 513
+store_temp<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>>([18]) -> ([20]); // 514
+return([19], [20]); // 515
+branch_align() -> (); // 516
+drop<Unit>([11]) -> (); // 517
+drop<felt252>([1]) -> (); // 518
+array_new<felt252>() -> ([21]); // 519
+felt252_const<29721761890975875353235833581453094220424382983267374>() -> ([22]); // 520
+store_temp<felt252>([22]) -> ([22]); // 521
+array_append<felt252>([21], [22]) -> ([23]); // 522
+struct_construct<core::panics::Panic>() -> ([24]); // 523
+struct_construct<Tuple<core::panics::Panic, Array<felt252>>>([24], [23]) -> ([25]); // 524
+enum_init<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>, 1>([25]) -> ([26]); // 525
+store_temp<RangeCheck>([6]) -> ([27]); // 526
+store_temp<core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>>([26]) -> ([28]); // 527
+return([27], [28]); // 528
+store_temp<RangeCheck>([0]) -> ([4]); // 529
+store_temp<felt252>([1]) -> ([5]); // 530
+function_call<user@core::integer::u256_from_felt252>([4], [5]) -> ([2], [3]); // 531
+felt252_const<1809251394333065606848661391547535052811553607665798349986546028067936010240>() -> ([6]); // 532
+store_temp<RangeCheck>([2]) -> ([9]); // 533
+store_temp<felt252>([6]) -> ([10]); // 534
+function_call<user@core::integer::u256_from_felt252>([9], [10]) -> ([7], [8]); // 535
+rename<RangeCheck>([7]) -> ([13]); // 536
+rename<core::integer::u256>([8]) -> ([14]); // 537
+store_temp<core::integer::u256>([3]) -> ([15]); // 538
+function_call<user@core::integer::U256PartialOrd::lt>([13], [14], [15]) -> ([11], [12]); // 539
+rename<RangeCheck>([11]) -> ([16]); // 540
+rename<core::bool>([12]) -> ([17]); // 541
+return([16], [17]); // 542
+store_temp<RangeCheck>([0]) -> ([4]); // 543
+dup<felt252>([1]) -> ([1], [5]); // 544
+store_temp<felt252>([5]) -> ([5]); // 545
+function_call<user@wadray::wadray_signed::_felt_sign>([4], [5]) -> ([2], [3]); // 546
+enum_match<core::bool>([3]) { fallthrough([6]) 552([7]) }; // 547
+branch_align() -> (); // 548
+drop<Unit>([6]) -> (); // 549
+store_temp<felt252>([1]) -> ([8]); // 550
+jump() { 557() }; // 551
+branch_align() -> (); // 552
+drop<Unit>([7]) -> (); // 553
+felt252_const<-1>() -> ([9]); // 554
+felt252_mul([1], [9]) -> ([10]); // 555
+store_temp<felt252>([10]) -> ([8]); // 556
+store_temp<RangeCheck>([2]) -> ([11]); // 557
+store_temp<felt252>([8]) -> ([12]); // 558
+return([11], [12]); // 559
+dup<core::bool>([0]) -> ([0], [2]); // 560
+enum_match<core::bool>([2]) { fallthrough([3]) 577([4]) }; // 561
+branch_align() -> (); // 562
+drop<Unit>([3]) -> (); // 563
+dup<core::bool>([1]) -> ([1], [5]); // 564
+enum_match<core::bool>([5]) { fallthrough([6]) 569([7]) }; // 565
+branch_align() -> (); // 566
+drop<Unit>([6]) -> (); // 567
+jump() { 579() }; // 568
+branch_align() -> (); // 569
+drop<Unit>([7]) -> (); // 570
+drop<core::bool>([1]) -> (); // 571
+drop<core::bool>([0]) -> (); // 572
+struct_construct<Unit>() -> ([8]); // 573
+enum_init<core::bool, 1>([8]) -> ([9]); // 574
+store_temp<core::bool>([9]) -> ([10]); // 575
+jump() { 592() }; // 576
+branch_align() -> (); // 577
+drop<Unit>([4]) -> (); // 578
+enum_match<core::bool>([0]) { fallthrough([11]) 587([12]) }; // 579
+branch_align() -> (); // 580
+drop<Unit>([11]) -> (); // 581
+drop<core::bool>([1]) -> (); // 582
+struct_construct<Unit>() -> ([13]); // 583
+enum_init<core::bool, 0>([13]) -> ([14]); // 584
+store_temp<core::bool>([14]) -> ([15]); // 585
+jump() { 591() }; // 586
+branch_align() -> (); // 587
+drop<Unit>([12]) -> (); // 588
+bool_not_impl([1]) -> ([16]); // 589
+store_temp<core::bool>([16]) -> ([15]); // 590
+rename<core::bool>([15]) -> ([10]); // 591
+rename<core::bool>([10]) -> ([17]); // 592
+return([17]); // 593
+u128_const<0>() -> ([1]); // 594
+struct_construct<core::integer::u256>([0], [1]) -> ([2]); // 595
+store_temp<core::integer::u256>([2]) -> ([3]); // 596
+return([3]); // 597
+store_temp<RangeCheck>([0]) -> ([5]); // 598
+store_temp<core::integer::u256>([1]) -> ([6]); // 599
+store_temp<core::integer::u256>([2]) -> ([7]); // 600
+function_call<user@core::integer::u256_checked_mul>([5], [6], [7]) -> ([3], [4]); // 601
+enum_match<core::option::Option::<core::integer::u256>>([4]) { fallthrough([8]) 609([9]) }; // 602
+branch_align() -> (); // 603
+struct_construct<Tuple<core::integer::u256>>([8]) -> ([10]); // 604
+enum_init<core::panics::PanicResult::<(core::integer::u256,)>, 0>([10]) -> ([11]); // 605
+store_temp<RangeCheck>([3]) -> ([12]); // 606
+store_temp<core::panics::PanicResult::<(core::integer::u256,)>>([11]) -> ([13]); // 607
+return([12], [13]); // 608
+branch_align() -> (); // 609
+drop<Unit>([9]) -> (); // 610
+array_new<felt252>() -> ([14]); // 611
+felt252_const<39879774624083218221772669863277689073527>() -> ([15]); // 612
+store_temp<felt252>([15]) -> ([15]); // 613
+array_append<felt252>([14], [15]) -> ([16]); // 614
+struct_construct<core::panics::Panic>() -> ([17]); // 615
+struct_construct<Tuple<core::panics::Panic, Array<felt252>>>([17], [16]) -> ([18]); // 616
+enum_init<core::panics::PanicResult::<(core::integer::u256,)>, 1>([18]) -> ([19]); // 617
+store_temp<RangeCheck>([3]) -> ([20]); // 618
+store_temp<core::panics::PanicResult::<(core::integer::u256,)>>([19]) -> ([21]); // 619
+return([20], [21]); // 620
+store_temp<core::integer::u256>([2]) -> ([4]); // 621
+function_call<user@core::integer::U256TryIntoNonZero::try_into>([4]) -> ([3]); // 622
+enum_match<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>>([3]) { fallthrough([5]) 654([6]) }; // 623
+branch_align() -> (); // 624
+struct_deconstruct<Tuple<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>>([5]) -> ([7]); // 625
+enum_match<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>([7]) { fallthrough([8]) 641([9]) }; // 626
+branch_align() -> (); // 627
+u256_safe_divmod([0], [1], [8]) -> ([10], [11], [12], [13]); // 628
+store_temp<RangeCheck>([10]) -> ([16]); // 629
+store_temp<U128MulGuarantee>([13]) -> ([17]); // 630
+function_call<user@core::integer::U128MulGuaranteeDestruct::destruct>([16], [17]) -> ([14], [15]); // 631
+drop<Unit>([15]) -> (); // 632
+struct_construct<Tuple<core::integer::u256, core::integer::u256>>([11], [12]) -> ([18]); // 633
+struct_deconstruct<Tuple<core::integer::u256, core::integer::u256>>([18]) -> ([19], [20]); // 634
+drop<core::integer::u256>([20]) -> (); // 635
+struct_construct<Tuple<core::integer::u256>>([19]) -> ([21]); // 636
+enum_init<core::panics::PanicResult::<(core::integer::u256,)>, 0>([21]) -> ([22]); // 637
+store_temp<RangeCheck>([14]) -> ([23]); // 638
+store_temp<core::panics::PanicResult::<(core::integer::u256,)>>([22]) -> ([24]); // 639
+return([23], [24]); // 640
+branch_align() -> (); // 641
+drop<Unit>([9]) -> (); // 642
+drop<core::integer::u256>([1]) -> (); // 643
+array_new<felt252>() -> ([25]); // 644
+felt252_const<5420154128225384396790819266608>() -> ([26]); // 645
+store_temp<felt252>([26]) -> ([26]); // 646
+array_append<felt252>([25], [26]) -> ([27]); // 647
+struct_construct<core::panics::Panic>() -> ([28]); // 648
+struct_construct<Tuple<core::panics::Panic, Array<felt252>>>([28], [27]) -> ([29]); // 649
+enum_init<core::panics::PanicResult::<(core::integer::u256,)>, 1>([29]) -> ([30]); // 650
+store_temp<RangeCheck>([0]) -> ([31]); // 651
+store_temp<core::panics::PanicResult::<(core::integer::u256,)>>([30]) -> ([32]); // 652
+return([31], [32]); // 653
+branch_align() -> (); // 654
+drop<core::integer::u256>([1]) -> (); // 655
+enum_init<core::panics::PanicResult::<(core::integer::u256,)>, 1>([6]) -> ([33]); // 656
+store_temp<RangeCheck>([0]) -> ([34]); // 657
+store_temp<core::panics::PanicResult::<(core::integer::u256,)>>([33]) -> ([35]); // 658
+return([34], [35]); // 659
+struct_deconstruct<core::integer::u256>([0]) -> ([1], [2]); // 660
+snapshot_take<u128>([2]) -> ([3], [4]); // 661
+drop<u128>([3]) -> (); // 662
+u128_const<0>() -> ([5]); // 663
+snapshot_take<u128>([5]) -> ([6], [7]); // 664
+drop<u128>([6]) -> (); // 665
+rename<u128>([4]) -> ([8]); // 666
+snapshot_take<u128>([8]) -> ([9], [10]); // 667
+drop<u128>([9]) -> (); // 668
+rename<u128>([7]) -> ([11]); // 669
+snapshot_take<u128>([11]) -> ([12], [13]); // 670
+drop<u128>([12]) -> (); // 671
+rename<u128>([10]) -> ([14]); // 672
+rename<u128>([13]) -> ([15]); // 673
+u128_eq([14], [15]) { fallthrough() 681() }; // 674
+branch_align() -> (); // 675
+drop<u128>([1]) -> (); // 676
+struct_construct<Unit>() -> ([16]); // 677
+enum_init<core::option::Option::<core::integer::u128>, 1>([16]) -> ([17]); // 678
+store_temp<core::option::Option::<core::integer::u128>>([17]) -> ([18]); // 679
+return([18]); // 680
+branch_align() -> (); // 681
+enum_init<core::option::Option::<core::integer::u128>, 0>([1]) -> ([19]); // 682
+store_temp<core::option::Option::<core::integer::u128>>([19]) -> ([20]); // 683
+return([20]); // 684
+u128s_from_felt252([0], [1]) { fallthrough([2], [3]) 691([4], [5], [6]) }; // 685
+branch_align() -> (); // 686
+enum_init<core::option::Option::<core::integer::u128>, 0>([3]) -> ([7]); // 687
+store_temp<RangeCheck>([2]) -> ([8]); // 688
+store_temp<core::option::Option::<core::integer::u128>>([7]) -> ([9]); // 689
+jump() { 698() }; // 690
+branch_align() -> (); // 691
+drop<u128>([5]) -> (); // 692
+drop<u128>([6]) -> (); // 693
+struct_construct<Unit>() -> ([10]); // 694
+enum_init<core::option::Option::<core::integer::u128>, 1>([10]) -> ([11]); // 695
+store_temp<RangeCheck>([4]) -> ([8]); // 696
+store_temp<core::option::Option::<core::integer::u128>>([11]) -> ([9]); // 697
+rename<RangeCheck>([8]) -> ([12]); // 698
+rename<core::option::Option::<core::integer::u128>>([9]) -> ([13]); // 699
+return([12], [13]); // 700
+u128s_from_felt252([0], [1]) { fallthrough([2], [3]) 708([4], [5], [6]) }; // 701
+branch_align() -> (); // 702
+u128_const<0>() -> ([7]); // 703
+struct_construct<core::integer::u256>([3], [7]) -> ([8]); // 704
+store_temp<RangeCheck>([2]) -> ([9]); // 705
+store_temp<core::integer::u256>([8]) -> ([10]); // 706
+jump() { 712() }; // 707
+branch_align() -> (); // 708
+struct_construct<core::integer::u256>([6], [5]) -> ([11]); // 709
+store_temp<RangeCheck>([4]) -> ([9]); // 710
+store_temp<core::integer::u256>([11]) -> ([10]); // 711
+rename<RangeCheck>([9]) -> ([12]); // 712
+rename<core::integer::u256>([10]) -> ([13]); // 713
+return([12], [13]); // 714
+struct_deconstruct<core::integer::u256>([1]) -> ([3], [4]); // 715
+struct_deconstruct<core::integer::u256>([2]) -> ([5], [6]); // 716
+dup<u128>([4]) -> ([4], [7]); // 717
+dup<u128>([6]) -> ([6], [8]); // 718
+u128_overflowing_sub([0], [7], [8]) { fallthrough([9], [10]) 758([11], [12]) }; // 719
+branch_align() -> (); // 720
+drop<u128>([10]) -> (); // 721
+snapshot_take<u128>([4]) -> ([13], [14]); // 722
+drop<u128>([13]) -> (); // 723
+snapshot_take<u128>([6]) -> ([15], [16]); // 724
+drop<u128>([15]) -> (); // 725
+rename<u128>([14]) -> ([17]); // 726
+rename<u128>([16]) -> ([18]); // 727
+store_temp<RangeCheck>([9]) -> ([9]); // 728
+u128_eq([17], [18]) { fallthrough() 738() }; // 729
+branch_align() -> (); // 730
+drop<u128>([5]) -> (); // 731
+drop<u128>([3]) -> (); // 732
+struct_construct<Unit>() -> ([19]); // 733
+enum_init<core::bool, 0>([19]) -> ([20]); // 734
+store_temp<RangeCheck>([9]) -> ([21]); // 735
+store_temp<core::bool>([20]) -> ([22]); // 736
+jump() { 755() }; // 737
+branch_align() -> (); // 738
+u128_overflowing_sub([9], [3], [5]) { fallthrough([23], [24]) 747([25], [26]) }; // 739
+branch_align() -> (); // 740
+drop<u128>([24]) -> (); // 741
+struct_construct<Unit>() -> ([27]); // 742
+enum_init<core::bool, 0>([27]) -> ([28]); // 743
+store_temp<RangeCheck>([23]) -> ([29]); // 744
+store_temp<core::bool>([28]) -> ([30]); // 745
+jump() { 753() }; // 746
+branch_align() -> (); // 747
+drop<u128>([26]) -> (); // 748
+struct_construct<Unit>() -> ([31]); // 749
+enum_init<core::bool, 1>([31]) -> ([32]); // 750
+store_temp<RangeCheck>([25]) -> ([29]); // 751
+store_temp<core::bool>([32]) -> ([30]); // 752
+rename<RangeCheck>([29]) -> ([21]); // 753
+rename<core::bool>([30]) -> ([22]); // 754
+rename<RangeCheck>([21]) -> ([33]); // 755
+rename<core::bool>([22]) -> ([34]); // 756
+jump() { 768() }; // 757
+branch_align() -> (); // 758
+drop<u128>([12]) -> (); // 759
+drop<u128>([4]) -> (); // 760
+drop<u128>([5]) -> (); // 761
+drop<u128>([3]) -> (); // 762
+drop<u128>([6]) -> (); // 763
+struct_construct<Unit>() -> ([35]); // 764
+enum_init<core::bool, 1>([35]) -> ([36]); // 765
+store_temp<RangeCheck>([11]) -> ([33]); // 766
+store_temp<core::bool>([36]) -> ([34]); // 767
+rename<RangeCheck>([33]) -> ([37]); // 768
+rename<core::bool>([34]) -> ([38]); // 769
+return([37], [38]); // 770
+store_temp<RangeCheck>([0]) -> ([5]); // 771
+store_temp<core::integer::u256>([1]) -> ([6]); // 772
+store_temp<core::integer::u256>([2]) -> ([7]); // 773
+function_call<user@core::integer::u256_overflow_mul>([5], [6], [7]) -> ([3], [4]); // 774
+struct_deconstruct<Tuple<core::integer::u256, core::bool>>([4]) -> ([8], [9]); // 775
+enum_match<core::bool>([9]) { fallthrough([10]) 782([11]) }; // 776
+branch_align() -> (); // 777
+drop<Unit>([10]) -> (); // 778
+enum_init<core::option::Option::<core::integer::u256>, 0>([8]) -> ([12]); // 779
+store_temp<core::option::Option::<core::integer::u256>>([12]) -> ([13]); // 780
+jump() { 788() }; // 781
+branch_align() -> (); // 782
+drop<Unit>([11]) -> (); // 783
+drop<core::integer::u256>([8]) -> (); // 784
+struct_construct<Unit>() -> ([14]); // 785
+enum_init<core::option::Option::<core::integer::u256>, 1>([14]) -> ([15]); // 786
+store_temp<core::option::Option::<core::integer::u256>>([15]) -> ([13]); // 787
+store_temp<RangeCheck>([3]) -> ([16]); // 788
+store_temp<core::option::Option::<core::integer::u256>>([13]) -> ([17]); // 789
+return([16], [17]); // 790
+store_temp<core::integer::u256>([0]) -> ([2]); // 791
+function_call<user@core::integer::u256_as_non_zero>([2]) -> ([1]); // 792
+enum_match<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>>([1]) { fallthrough([3]) 801([4]) }; // 793
+branch_align() -> (); // 794
+struct_deconstruct<Tuple<NonZero<core::integer::u256>>>([3]) -> ([5]); // 795
+enum_init<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>, 0>([5]) -> ([6]); // 796
+struct_construct<Tuple<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>>([6]) -> ([7]); // 797
+enum_init<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>, 0>([7]) -> ([8]); // 798
+store_temp<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>>([8]) -> ([9]); // 799
+return([9]); // 800
+branch_align() -> (); // 801
+enum_init<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>, 1>([4]) -> ([10]); // 802
+store_temp<core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>>([10]) -> ([11]); // 803
+return([11]); // 804
+u128_mul_guarantee_verify([0], [1]) -> ([2]); // 805
+struct_construct<Unit>() -> ([3]); // 806
+store_temp<RangeCheck>([2]) -> ([4]); // 807
+store_temp<Unit>([3]) -> ([5]); // 808
+return([4], [5]); // 809
+struct_deconstruct<core::integer::u256>([1]) -> ([3], [4]); // 810
+struct_deconstruct<core::integer::u256>([2]) -> ([5], [6]); // 811
+dup<u128>([3]) -> ([3], [10]); // 812
+dup<u128>([5]) -> ([5], [11]); // 813
+u128_guarantee_mul([10], [11]) -> ([7], [8], [9]); // 814
+store_temp<RangeCheck>([0]) -> ([14]); // 815
+store_temp<U128MulGuarantee>([9]) -> ([15]); // 816
+function_call<user@core::integer::U128MulGuaranteeDestruct::destruct>([14], [15]) -> ([12], [13]); // 817
+drop<Unit>([13]) -> (); // 818
+dup<u128>([6]) -> ([6], [19]); // 819
+u128_guarantee_mul([3], [19]) -> ([16], [17], [18]); // 820
+store_temp<RangeCheck>([12]) -> ([22]); // 821
+store_temp<U128MulGuarantee>([18]) -> ([23]); // 822
+function_call<user@core::integer::U128MulGuaranteeDestruct::destruct>([22], [23]) -> ([20], [21]); // 823
+drop<Unit>([21]) -> (); // 824
+struct_construct<Tuple<u128, u128>>([16], [17]) -> ([24]); // 825
+struct_deconstruct<Tuple<u128, u128>>([24]) -> ([25], [26]); // 826
+dup<u128>([4]) -> ([4], [30]); // 827
+u128_guarantee_mul([30], [5]) -> ([27], [28], [29]); // 828
+store_temp<RangeCheck>([20]) -> ([33]); // 829
+store_temp<U128MulGuarantee>([29]) -> ([34]); // 830
+function_call<user@core::integer::U128MulGuaranteeDestruct::destruct>([33], [34]) -> ([31], [32]); // 831
+drop<Unit>([32]) -> (); // 832
+struct_construct<Tuple<u128, u128>>([27], [28]) -> ([35]); // 833
+struct_deconstruct<Tuple<u128, u128>>([35]) -> ([36], [37]); // 834
+struct_construct<Tuple<u128, u128>>([7], [8]) -> ([38]); // 835
+struct_deconstruct<Tuple<u128, u128>>([38]) -> ([39], [40]); // 836
+store_temp<u128>([39]) -> ([39]); // 837
+store_temp<u128>([26]) -> ([26]); // 838
+store_temp<u128>([25]) -> ([25]); // 839
+store_temp<u128>([40]) -> ([40]); // 840
+store_temp<u128>([36]) -> ([36]); // 841
+store_temp<u128>([37]) -> ([37]); // 842
+u128_overflowing_add([31], [39], [26]) { fallthrough([41], [42]) 940([43], [44]) }; // 843
+branch_align() -> (); // 844
+snapshot_take<u128>([25]) -> ([45], [46]); // 845
+drop<u128>([45]) -> (); // 846
+u128_const<0>() -> ([47]); // 847
+snapshot_take<u128>([47]) -> ([48], [49]); // 848
+drop<u128>([48]) -> (); // 849
+rename<u128>([46]) -> ([50]); // 850
+snapshot_take<u128>([50]) -> ([51], [52]); // 851
+drop<u128>([51]) -> (); // 852
+rename<u128>([49]) -> ([53]); // 853
+snapshot_take<u128>([53]) -> ([54], [55]); // 854
+drop<u128>([54]) -> (); // 855
+rename<u128>([52]) -> ([56]); // 856
+rename<u128>([55]) -> ([57]); // 857
+store_temp<RangeCheck>([41]) -> ([41]); // 858
+u128_eq([56], [57]) { fallthrough() 865() }; // 859
+branch_align() -> (); // 860
+drop<u128>([6]) -> (); // 861
+drop<u128>([4]) -> (); // 862
+drop<u128>([36]) -> (); // 863
+jump() { 932() }; // 864
+branch_align() -> (); // 865
+snapshot_take<u128>([36]) -> ([58], [59]); // 866
+drop<u128>([58]) -> (); // 867
+u128_const<0>() -> ([60]); // 868
+snapshot_take<u128>([60]) -> ([61], [62]); // 869
+drop<u128>([61]) -> (); // 870
+rename<u128>([59]) -> ([63]); // 871
+snapshot_take<u128>([63]) -> ([64], [65]); // 872
+drop<u128>([64]) -> (); // 873
+rename<u128>([62]) -> ([66]); // 874
+snapshot_take<u128>([66]) -> ([67], [68]); // 875
+drop<u128>([67]) -> (); // 876
+rename<u128>([65]) -> ([69]); // 877
+rename<u128>([68]) -> ([70]); // 878
+u128_eq([69], [70]) { fallthrough() 885() }; // 879
+branch_align() -> (); // 880
+struct_construct<Unit>() -> ([71]); // 881
+enum_init<core::bool, 0>([71]) -> ([72]); // 882
+store_temp<core::bool>([72]) -> ([73]); // 883
+jump() { 889() }; // 884
+branch_align() -> (); // 885
+struct_construct<Unit>() -> ([74]); // 886
+enum_init<core::bool, 1>([74]) -> ([75]); // 887
+store_temp<core::bool>([75]) -> ([73]); // 888
+bool_not_impl([73]) -> ([76]); // 889
+store_temp<core::bool>([76]) -> ([76]); // 890
+enum_match<core::bool>([76]) { fallthrough([77]) 928([78]) }; // 891
+branch_align() -> (); // 892
+drop<Unit>([77]) -> (); // 893
+u128_const<0>() -> ([79]); // 894
+store_temp<u128>([79]) -> ([79]); // 895
+u128_overflowing_sub([41], [79], [4]) { fallthrough([80], [81]) 905([82], [83]) }; // 896
+branch_align() -> (); // 897
+drop<u128>([81]) -> (); // 898
+drop<u128>([6]) -> (); // 899
+struct_construct<Unit>() -> ([84]); // 900
+enum_init<core::bool, 0>([84]) -> ([85]); // 901
+store_temp<RangeCheck>([80]) -> ([86]); // 902
+store_temp<core::bool>([85]) -> ([87]); // 903
+jump() { 925() }; // 904
+branch_align() -> (); // 905
+drop<u128>([83]) -> (); // 906
+u128_const<0>() -> ([88]); // 907
+store_temp<u128>([88]) -> ([88]); // 908
+u128_overflowing_sub([82], [88], [6]) { fallthrough([89], [90]) 917([91], [92]) }; // 909
+branch_align() -> (); // 910
+drop<u128>([90]) -> (); // 911
+struct_construct<Unit>() -> ([93]); // 912
+enum_init<core::bool, 0>([93]) -> ([94]); // 913
+store_temp<RangeCheck>([89]) -> ([95]); // 914
+store_temp<core::bool>([94]) -> ([96]); // 915
+jump() { 923() }; // 916
+branch_align() -> (); // 917
+drop<u128>([92]) -> (); // 918
+struct_construct<Unit>() -> ([97]); // 919
+enum_init<core::bool, 1>([97]) -> ([98]); // 920
+store_temp<RangeCheck>([91]) -> ([95]); // 921
+store_temp<core::bool>([98]) -> ([96]); // 922
+rename<RangeCheck>([95]) -> ([86]); // 923
+rename<core::bool>([96]) -> ([87]); // 924
+rename<RangeCheck>([86]) -> ([99]); // 925
+rename<core::bool>([87]) -> ([100]); // 926
+jump() { 936() }; // 927
+branch_align() -> (); // 928
+drop<Unit>([78]) -> (); // 929
+drop<u128>([6]) -> (); // 930
+drop<u128>([4]) -> (); // 931
+struct_construct<Unit>() -> ([101]); // 932
+enum_init<core::bool, 1>([101]) -> ([102]); // 933
+store_temp<RangeCheck>([41]) -> ([99]); // 934
+store_temp<core::bool>([102]) -> ([100]); // 935
+struct_construct<Tuple<u128, core::bool>>([42], [100]) -> ([103]); // 936
+store_temp<RangeCheck>([99]) -> ([104]); // 937
+store_temp<Tuple<u128, core::bool>>([103]) -> ([105]); // 938
+jump() { 950() }; // 939
+branch_align() -> (); // 940
+drop<u128>([25]) -> (); // 941
+drop<u128>([36]) -> (); // 942
+drop<u128>([6]) -> (); // 943
+drop<u128>([4]) -> (); // 944
+struct_construct<Unit>() -> ([106]); // 945
+enum_init<core::bool, 1>([106]) -> ([107]); // 946
+struct_construct<Tuple<u128, core::bool>>([44], [107]) -> ([108]); // 947
+store_temp<RangeCheck>([43]) -> ([104]); // 948
+store_temp<Tuple<u128, core::bool>>([108]) -> ([105]); // 949
+struct_deconstruct<Tuple<u128, core::bool>>([105]) -> ([109], [110]); // 950
+u128_overflowing_add([104], [109], [37]) { fallthrough([111], [112]) 957([113], [114]) }; // 951
+branch_align() -> (); // 952
+struct_construct<Tuple<u128, core::bool>>([112], [110]) -> ([115]); // 953
+store_temp<RangeCheck>([111]) -> ([116]); // 954
+store_temp<Tuple<u128, core::bool>>([115]) -> ([117]); // 955
+jump() { 964() }; // 956
+branch_align() -> (); // 957
+drop<core::bool>([110]) -> (); // 958
+struct_construct<Unit>() -> ([118]); // 959
+enum_init<core::bool, 1>([118]) -> ([119]); // 960
+struct_construct<Tuple<u128, core::bool>>([114], [119]) -> ([120]); // 961
+store_temp<RangeCheck>([113]) -> ([116]); // 962
+store_temp<Tuple<u128, core::bool>>([120]) -> ([117]); // 963
+struct_deconstruct<Tuple<u128, core::bool>>([117]) -> ([121], [122]); // 964
+struct_construct<core::integer::u256>([40], [121]) -> ([123]); // 965
+struct_construct<Tuple<core::integer::u256, core::bool>>([123], [122]) -> ([124]); // 966
+store_temp<RangeCheck>([116]) -> ([125]); // 967
+store_temp<Tuple<core::integer::u256, core::bool>>([124]) -> ([126]); // 968
+return([125], [126]); // 969
+store_temp<core::integer::u256>([0]) -> ([2]); // 970
+function_call<user@core::integer::u256_try_as_non_zero>([2]) -> ([1]); // 971
+enum_match<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>([1]) { fallthrough([3]) 978([4]) }; // 972
+branch_align() -> (); // 973
+struct_construct<Tuple<NonZero<core::integer::u256>>>([3]) -> ([5]); // 974
+enum_init<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>, 0>([5]) -> ([6]); // 975
+store_temp<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>>([6]) -> ([7]); // 976
+return([7]); // 977
+branch_align() -> (); // 978
+drop<Unit>([4]) -> (); // 979
+array_new<felt252>() -> ([8]); // 980
+felt252_const<2161886914012515606576>() -> ([9]); // 981
+store_temp<felt252>([9]) -> ([9]); // 982
+array_append<felt252>([8], [9]) -> ([10]); // 983
+struct_construct<core::panics::Panic>() -> ([11]); // 984
+struct_construct<Tuple<core::panics::Panic, Array<felt252>>>([11], [10]) -> ([12]); // 985
+enum_init<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>, 1>([12]) -> ([13]); // 986
+store_temp<core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>>([13]) -> ([14]); // 987
+return([14]); // 988
+u256_is_zero([0]) { fallthrough() 995([1]) }; // 989
+branch_align() -> (); // 990
+struct_construct<Unit>() -> ([2]); // 991
+enum_init<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>, 1>([2]) -> ([3]); // 992
+store_temp<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>([3]) -> ([4]); // 993
+jump() { 998() }; // 994
+branch_align() -> (); // 995
+enum_init<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>, 0>([1]) -> ([5]); // 996
+store_temp<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>([5]) -> ([4]); // 997
+rename<core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>>([4]) -> ([6]); // 998
+return([6]); // 999
+
+wadray::wadray::cast_to_u256@0([0]: u128, [1]: u128) -> (Tuple<core::integer::u256, core::integer::u256>);
+wadray::wadray::wmul@7([0]: RangeCheck, [1]: wadray::wadray::Wad, [2]: wadray::wadray::Wad) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Wad,)>);
+wadray::wadray::wmul_wr@27([0]: RangeCheck, [1]: wadray::wadray::Wad, [2]: wadray::wadray::Ray) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Ray,)>);
+wadray::wadray::wmul_rw@47([0]: RangeCheck, [1]: wadray::wadray::Ray, [2]: wadray::wadray::Wad) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Ray,)>);
+wadray::wadray::rmul@64([0]: RangeCheck, [1]: wadray::wadray::Ray, [2]: wadray::wadray::Ray) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Ray,)>);
+wadray::wadray::rmul_rw@84([0]: RangeCheck, [1]: wadray::wadray::Ray, [2]: wadray::wadray::Wad) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Wad,)>);
+wadray::wadray::rmul_wr@104([0]: RangeCheck, [1]: wadray::wadray::Wad, [2]: wadray::wadray::Ray) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Wad,)>);
+wadray::wadray::wdiv@121([0]: RangeCheck, [1]: wadray::wadray::Wad, [2]: wadray::wadray::Wad) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Wad,)>);
+wadray::wadray::wdiv_rw@141([0]: RangeCheck, [1]: wadray::wadray::Ray, [2]: wadray::wadray::Wad) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Ray,)>);
+wadray::wadray::rdiv@161([0]: RangeCheck, [1]: wadray::wadray::Ray, [2]: wadray::wadray::Ray) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Ray,)>);
+wadray::wadray::rdiv_wr@181([0]: RangeCheck, [1]: wadray::wadray::Wad, [2]: wadray::wadray::Ray) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Wad,)>);
+wadray::wadray::rdiv_ww@201([0]: RangeCheck, [1]: wadray::wadray::Wad, [2]: wadray::wadray::Wad) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray::Ray,)>);
+wadray::wadray::scale_u128_by_ray@221([0]: RangeCheck, [1]: u128, [2]: wadray::wadray::Ray) -> (RangeCheck, core::panics::PanicResult::<(core::integer::u128,)>);
+wadray::wadray::div_u128_by_ray@239([0]: RangeCheck, [1]: u128, [2]: wadray::wadray::Ray) -> (RangeCheck, core::panics::PanicResult::<(core::integer::u128,)>);
+wadray::wadray::u128_wmul@257([0]: RangeCheck, [1]: u128, [2]: u128) -> (RangeCheck, core::panics::PanicResult::<(core::integer::u128,)>);
+wadray::wadray::u128_rmul@309([0]: RangeCheck, [1]: u128, [2]: u128) -> (RangeCheck, core::panics::PanicResult::<(core::integer::u128,)>);
+wadray::wadray::u128_wdiv@361([0]: RangeCheck, [1]: u128, [2]: u128) -> (RangeCheck, core::panics::PanicResult::<(core::integer::u128,)>);
+wadray::wadray::u128_rdiv@414([0]: RangeCheck, [1]: u128, [2]: u128) -> (RangeCheck, core::panics::PanicResult::<(core::integer::u128,)>);
+wadray::wadray_signed::signed_wad_from_felt@467([0]: RangeCheck, [1]: felt252) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray_signed::SignedWad,)>);
+wadray::wadray_signed::signed_ray_from_felt@498([0]: RangeCheck, [1]: felt252) -> (RangeCheck, core::panics::PanicResult::<(wadray::wadray_signed::SignedRay,)>);
+wadray::wadray_signed::_felt_sign@529([0]: RangeCheck, [1]: felt252) -> (RangeCheck, core::bool);
+wadray::wadray_signed::_felt_abs@543([0]: RangeCheck, [1]: felt252) -> (RangeCheck, felt252);
+wadray::wadray_signed::sign_from_mul@560([0]: core::bool, [1]: core::bool) -> (core::bool);
+core::integer::U128IntoU256::into@594([0]: u128) -> (core::integer::u256);
+core::integer::U256Mul::mul@598([0]: RangeCheck, [1]: core::integer::u256, [2]: core::integer::u256) -> (RangeCheck, core::panics::PanicResult::<(core::integer::u256,)>);
+core::integer::U256Div::div@621([0]: RangeCheck, [1]: core::integer::u256, [2]: core::integer::u256) -> (RangeCheck, core::panics::PanicResult::<(core::integer::u256,)>);
+core::integer::U256TryIntoU128::try_into@660([0]: core::integer::u256) -> (core::option::Option::<core::integer::u128>);
+core::integer::u128_try_from_felt252@685([0]: RangeCheck, [1]: felt252) -> (RangeCheck, core::option::Option::<core::integer::u128>);
+core::integer::u256_from_felt252@701([0]: RangeCheck, [1]: felt252) -> (RangeCheck, core::integer::u256);
+core::integer::U256PartialOrd::lt@715([0]: RangeCheck, [1]: core::integer::u256, [2]: core::integer::u256) -> (RangeCheck, core::bool);
+core::integer::u256_checked_mul@771([0]: RangeCheck, [1]: core::integer::u256, [2]: core::integer::u256) -> (RangeCheck, core::option::Option::<core::integer::u256>);
+core::integer::U256TryIntoNonZero::try_into@791([0]: core::integer::u256) -> (core::panics::PanicResult::<(core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>,)>);
+core::integer::U128MulGuaranteeDestruct::destruct@805([0]: RangeCheck, [1]: U128MulGuarantee) -> (RangeCheck, Unit);
+core::integer::u256_overflow_mul@810([0]: RangeCheck, [1]: core::integer::u256, [2]: core::integer::u256) -> (RangeCheck, Tuple<core::integer::u256, core::bool>);
+core::integer::u256_as_non_zero@970([0]: core::integer::u256) -> (core::panics::PanicResult::<(core::zeroable::NonZero::<core::integer::u256>,)>);
+core::integer::u256_try_as_non_zero@989([0]: core::integer::u256) -> (core::option::Option::<core::zeroable::NonZero::<core::integer::u256>>);
