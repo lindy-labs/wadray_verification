@@ -572,7 +572,7 @@ aegis_prove "wadray::wadray::RayIntoWad::into" :=
   unfold «spec_wadray::wadray::RayIntoWad::into»
   rintro ⟨_,_,_,(h|h),h'⟩
   · rcases h' with (⟨rfl,rfl⟩|⟨rfl,rfl⟩)
-    · rcases h with ⟨h,ρ',h₁,h₂⟩
+    · rcases h with ⟨_,ρ',h₁,h₂⟩
       cases h₁
       congr
       simp only [Ray.toWad, ZMod.ndiv, U128_MOD]
@@ -582,6 +582,26 @@ aegis_prove "wadray::wadray::RayIntoWad::into" :=
   · rcases h with ⟨h,-⟩
     rw [ZMod.int_cast_zmod_eq_zero_iff_dvd] at h
     norm_num [U128_MOD] at h
+
+aegis_spec "wadray::wadray::WadIntoU256::into" :=
+  fun _ a ρ =>
+  ρ = (a, 0)
+
+aegis_prove "wadray::wadray::WadIntoU256::into" :=
+  fun _ a ρ => by
+  unfold «spec_wadray::wadray::WadIntoU256::into»
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::U256TryIntoWad::try_into" :=
+  fun _ (a : UInt256) ρ =>
+  (a.val < U128_MOD ∧ ρ = .inl a.1)
+  ∨ (U128_MOD ≤ a.val ∧ ρ = .inr ())
+
+aegis_prove "wadray::wadray::U256TryIntoWad::try_into" :=
+  fun _ (a : UInt256) ρ => by
+  unfold «spec_wadray::wadray::U256TryIntoWad::try_into»
+  aesop
 
 /-aegis_spec "wadray::wadray::WadSerde::serialize" :=
   fun _ a b ρ _ =>
