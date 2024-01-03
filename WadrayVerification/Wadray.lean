@@ -166,6 +166,15 @@ aegis_prove "wadray::wadray::WadPartialEq::ne" :=
   unfold «spec_wadray::wadray::WadPartialEq::ne»
   aesop
 
+aegis_spec "wadray::wadray::WadPartialEq::eq" :=
+  fun _ a b ρ =>
+  ρ = Bool.toSierraBool (a = b)
+
+aegis_prove "wadray::wadray::WadPartialEq::eq" :=
+  fun _ a b ρ => by
+  unfold «spec_wadray::wadray::WadPartialEq::eq»
+  aesop
+
 aegis_spec "wadray::wadray::RayPartialEq::eq" :=
   fun _ a b ρ =>
   ρ = Bool.toSierraBool (a = b)
@@ -534,6 +543,16 @@ aegis_prove "wadray::wadray::wdiv" :=
   unfold «spec_wadray::wadray::wdiv»
   aesop
 
+aegis_spec "wadray::wadray::WadDivEq::div_eq" :=
+  fun _ _ (a b : Wad) _ (ρ : (Wad × _) ⊕ _) =>
+  (a.toZMod.val * Wad.WAD_SCALE / b.toZMod.val < U128_MOD ∧ b.toZMod.val ≠ 0 ∧ ρ = .inl (a / b, ()))
+  ∨ ((U128_MOD ≤ a.toZMod.val * Wad.WAD_SCALE / b.toZMod.val ∨ b.toZMod.val = 0) ∧ ρ.isRight)
+
+aegis_prove "wadray::wadray::WadDivEq::div_eq" :=
+  fun _ _ (a b : Wad) _ (ρ : (Wad × _) ⊕ _) => by
+  unfold «spec_wadray::wadray::WadDivEq::div_eq»
+  aesop
+
 aegis_spec "wadray::wadray::rdiv" :=
   fun _ _ (a b : Ray) _ (ρ : Ray ⊕ _) =>
   (a.toZMod.val * Ray.RAY_SCALE / b.toZMod.val < U128_MOD ∧ b.toZMod.val ≠ 0 ∧ ρ = .inl (a / b))
@@ -544,30 +563,25 @@ aegis_prove "wadray::wadray::rdiv" :=
   unfold «spec_wadray::wadray::rdiv»
   aesop
 
--- TODO maybe weaken to soundness only
-/-aegis_spec "wadray::wadray::fixed_point_to_wad" :=
-  fun m _ gas n decimals _ _ (ρ : Wad ⊕ _) =>
-  let i : Identifier := (id!"wadray::pow::pow10")
-  (decimals.val ≤ 18 ∧ (19 - decimals.val) * m.costs i ≤ gas ∧ ∃ ρ', ρ = .inl ρ' ∧ ρ'.toRat = n.val / 10 ^ decimals.val)
-  ∨ ((18 < decimals.val ∨ gas < (19 - decimals.val) * m.costs i) ∧ ρ.isRight)
+aegis_spec "wadray::wadray::RayIntoWad::into" :=
+  fun _ _ (a : Ray) _ ρ =>
+  ρ = .inl a.toWad
 
-aegis_prove "wadray::wadray::fixed_point_to_wad" :=
-  fun _ _ _ n decimals _ _ (ρ : Wad ⊕ _) => by
-  sierra_simp'
-  unfold «spec_wadray::wadray::fixed_point_to_wad»
-  rintro (h₁|h₁)
-  · rcases h₁ with ⟨_,h₁,h₂,h₃⟩
-    simp only [h₁] at h₂
-    rcases h₂ with (⟨-,rfl⟩|h₂)
-    · rcases h₃ with (⟨_,_,h₃,h₄,h₅⟩|h₃)
-      · injection h₃ with h₃; subst h₃
-        rcases h₅ with (⟨_,_,rfl,h₅⟩|⟨_,rfl,rfl⟩)
-        · sorry
-        · simp at h₄
-          sorry
-      · simp_all
-    · aesop
-  · aesop-/
+aegis_prove "wadray::wadray::RayIntoWad::into" :=
+  fun _ _ (a : Ray) _ ρ => by
+  unfold «spec_wadray::wadray::RayIntoWad::into»
+  rintro ⟨_,_,_,(h|h),h'⟩
+  · rcases h' with (⟨rfl,rfl⟩|⟨rfl,rfl⟩)
+    · rcases h with ⟨h,ρ',h₁,h₂⟩
+      cases h₁
+      congr
+      simp only [Ray.toWad, ZMod.ndiv, U128_MOD]
+      apply ZMod.val_injective
+      exact h₂
+    · simp at h
+  · rcases h with ⟨h,-⟩
+    rw [ZMod.int_cast_zmod_eq_zero_iff_dvd] at h
+    norm_num [U128_MOD] at h
 
 /-aegis_spec "wadray::wadray::WadSerde::serialize" :=
   fun _ a b ρ _ =>
