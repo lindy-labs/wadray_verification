@@ -67,7 +67,7 @@
   {"url": "git@github.com:lindy-labs/corelib_verification.git",
    "type": "git",
    "subDir": null,
-   "rev": "cf1fffe6e3f6186a287e9f79eb5e30c72d21cbfa",
+   "rev": "4fc7b0fb2834fab4d9db82675507dcd9900f2b0a",
    "name": "corelib_verification",
    "manifestFile": "lake-manifest.json",
    "inputRev": "main",

@@ -1,4 +1,4 @@
 import WadrayVerification.Load
---import CorelibVerification
+import WadrayVerification.Wadray
 
 aegis_complete

@@ -43,6 +43,33 @@ aegis_prove "wadray::wadray::WadPartialOrd::gt" :=
   unfold «spec_wadray::wadray::WadPartialOrd::gt»
   aesop (add safe forward [Wad.toRat_le_toRat_of_val_le_val, Wad.toRat_lt_toRat_of_val_lt_val])
 
+aegis_spec "wadray::wadray::WadPartialOrd::ge" :=
+  fun _ _ (a b : Wad) _ ρ =>
+  ρ = Bool.toSierraBool (b.toRat ≤ a.toRat)
+
+aegis_prove "wadray::wadray::WadPartialOrd::ge" :=
+  fun _ _ (a b : Wad) _ ρ => by
+  unfold «spec_wadray::wadray::WadPartialOrd::ge»
+  aesop (add safe forward [Wad.toRat_le_toRat_of_val_le_val, Wad.toRat_lt_toRat_of_val_lt_val])
+
+aegis_spec "wadray::wadray::RayPartialOrd::lt" :=
+  fun _ _ (a b : Ray) _ ρ =>
+  ρ = Bool.toSierraBool (a.toRat < b.toRat)
+
+aegis_prove "wadray::wadray::RayPartialOrd::lt" :=
+  fun _ _ (a b : Ray) _ ρ => by
+  unfold «spec_wadray::wadray::RayPartialOrd::lt»
+  aesop (add safe forward [Ray.toRat_le_toRat_of_val_le_val, Ray.toRat_lt_toRat_of_val_lt_val])
+
+aegis_spec "wadray::wadray::RayPartialOrd::gt" :=
+  fun _ _ (a b : Ray) _ ρ =>
+  ρ = Bool.toSierraBool (b.toRat < a.toRat)
+
+aegis_prove "wadray::wadray::RayPartialOrd::gt" :=
+  fun _ _ (a b : Ray) _ ρ => by
+  unfold «spec_wadray::wadray::RayPartialOrd::gt»
+  aesop (add safe forward [Ray.toRat_le_toRat_of_val_le_val, Ray.toRat_lt_toRat_of_val_lt_val])
+
 aegis_spec "wadray::wadray::RayPartialOrd::le" :=
   fun _ _ (a b : Ray) _ ρ =>
   ρ = Bool.toSierraBool (a.toRat ≤ b.toRat)
@@ -50,6 +77,15 @@ aegis_spec "wadray::wadray::RayPartialOrd::le" :=
 aegis_prove "wadray::wadray::RayPartialOrd::le" :=
   fun _ _ (a b : Ray) _ ρ => by
   unfold «spec_wadray::wadray::RayPartialOrd::le»
+  aesop (add safe forward [Ray.toRat_le_toRat_of_val_le_val, Ray.toRat_lt_toRat_of_val_lt_val])
+
+aegis_spec "wadray::wadray::RayPartialOrd::ge" :=
+  fun _ _ (a b : Ray) _ ρ =>
+  ρ = Bool.toSierraBool (b.toRat ≤ a.toRat)
+
+aegis_prove "wadray::wadray::RayPartialOrd::ge" :=
+  fun _ _ (a b : Ray) _ ρ => by
+  unfold «spec_wadray::wadray::RayPartialOrd::ge»
   aesop (add safe forward [Ray.toRat_le_toRat_of_val_le_val, Ray.toRat_lt_toRat_of_val_lt_val])
 
 theorem U128_MOD_lt_U256_MOD : U128_MOD < U256_MOD := by norm_num[U128_MOD, U256_MOD]
@@ -137,6 +173,15 @@ aegis_spec "wadray::wadray::RayPartialEq::eq" :=
 aegis_prove "wadray::wadray::RayPartialEq::eq" :=
   fun _ a b ρ => by
   unfold «spec_wadray::wadray::RayPartialEq::eq»
+  aesop
+
+aegis_spec "wadray::wadray::RayPartialEq::ne" :=
+  fun _ a b ρ =>
+  ρ = Bool.toSierraBool (a ≠ b)
+
+aegis_prove "wadray::wadray::RayPartialEq::ne" :=
+  fun _ a b ρ => by
+  unfold «spec_wadray::wadray::RayPartialEq::ne»
   aesop
 
 theorem RAY_SCALE_val :
@@ -265,6 +310,15 @@ aegis_prove "wadray::wadray::WadZeroable::is_zero" :=
   unfold «spec_wadray::wadray::WadZeroable::is_zero»
   aesop (add simp norm [Bool.toSierraBool_def, Wad.toRat, ZMod.cast_rat_eq_zero_iff, Wad.toZMod])
 
+aegis_spec "wadray::wadray::RayZeroable::is_zero" :=
+  fun _ (a : Ray) ρ =>
+  ρ = Bool.toSierraBool (a.toRat = 0)
+
+aegis_prove "wadray::wadray::RayZeroable::is_zero" :=
+  fun _ (a : Ray) ρ => by
+  unfold «spec_wadray::wadray::RayZeroable::is_zero»
+  aesop (add simp norm [Bool.toSierraBool_def, Ray.toRat, ZMod.cast_rat_eq_zero_iff, Ray.toZMod])
+
 aegis_spec "wadray::wadray::RayZeroable::is_non_zero" :=
   fun _ (a : Ray) ρ =>
   ρ = Bool.toSierraBool (a.toRat ≠ 0)
@@ -273,6 +327,42 @@ aegis_prove "wadray::wadray::RayZeroable::is_non_zero" :=
   fun _ (a : Ray) ρ => by
   unfold «spec_wadray::wadray::RayZeroable::is_non_zero»
   aesop (add simp norm [Ray.toRat, Ray.toZMod, ZMod.cast_rat_eq_zero_iff])
+
+aegis_spec "wadray::wadray::BoundedWad::min" :=
+  fun _ ρ =>
+  ρ = 0
+
+aegis_prove "wadray::wadray::BoundedWad::min" :=
+  fun _ ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::BoundedRay::min" :=
+  fun _ ρ =>
+  ρ = 0
+
+aegis_prove "wadray::wadray::BoundedRay::min" :=
+  fun _ ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::BoundedWad::max" :=
+  fun _ ρ =>
+  ρ = U128_MOD - 1
+
+aegis_prove "wadray::wadray::BoundedWad::max" :=
+  fun _ ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::BoundedRay::max" :=
+  fun _ ρ =>
+  ρ = U128_MOD - 1
+
+aegis_prove "wadray::wadray::BoundedRay::max" :=
+  fun _ ρ => by
+  rintro rfl
+  rfl
 
 aegis_spec "wadray::wadray::WadAddEq::add_eq" :=
   fun _ _ (a b : Wad) _ (ρ : Wad × _ ⊕ _) =>
