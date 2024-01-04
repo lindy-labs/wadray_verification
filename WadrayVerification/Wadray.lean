@@ -603,6 +603,78 @@ aegis_prove "wadray::wadray::U256TryIntoWad::try_into" :=
   unfold «spec_wadray::wadray::U256TryIntoWad::try_into»
   aesop
 
+aegis_spec "wadray::wadray::TIntoRay<core::integer::u64, core::integer::UpcastableInto<core::integer::u64, core::integer::u128, core::integer::UpcastableU64U128>>::into" :=
+  fun _ a ρ =>
+  ρ = a.cast
+
+aegis_prove "wadray::wadray::TIntoRay<core::integer::u64, core::integer::UpcastableInto<core::integer::u64, core::integer::u128, core::integer::UpcastableU64U128>>::into" :=
+  fun _ a ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::TIntoRay<core::integer::u32, core::integer::UpcastableInto<core::integer::u32, core::integer::u128, core::integer::UpcastableU32U128>>::into" :=
+  fun _ a ρ =>
+  ρ = a.cast
+
+aegis_prove "wadray::wadray::TIntoRay<core::integer::u32, core::integer::UpcastableInto<core::integer::u32, core::integer::u128, core::integer::UpcastableU32U128>>::into" :=
+  fun _ a ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::TIntoRay<core::integer::u16, core::integer::UpcastableInto<core::integer::u16, core::integer::u128, core::integer::UpcastableU16U128>>::into" :=
+  fun _ a ρ =>
+  ρ = a.cast
+
+aegis_prove "wadray::wadray::TIntoRay<core::integer::u16, core::integer::UpcastableInto<core::integer::u16, core::integer::u128, core::integer::UpcastableU16U128>>::into" :=
+  fun _ a ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::TIntoRay<core::integer::u8, core::integer::UpcastableInto<core::integer::u8, core::integer::u128, core::integer::UpcastableU8U128>>::into" :=
+  fun _ a ρ =>
+  ρ = a.cast
+
+aegis_prove "wadray::wadray::TIntoRay<core::integer::u8, core::integer::UpcastableInto<core::integer::u8, core::integer::u128, core::integer::UpcastableU8U128>>::into" :=
+  fun _ a ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::TIntoWad<core::integer::u64, core::integer::UpcastableInto<core::integer::u64, core::integer::u128, core::integer::UpcastableU64U128>>::into" :=
+  fun _ a ρ =>
+  ρ = a.cast
+
+aegis_prove "wadray::wadray::TIntoWad<core::integer::u64, core::integer::UpcastableInto<core::integer::u64, core::integer::u128, core::integer::UpcastableU64U128>>::into" :=
+  fun _ a ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::TIntoWad<core::integer::u32, core::integer::UpcastableInto<core::integer::u32, core::integer::u128, core::integer::UpcastableU32U128>>::into" :=
+  fun _ a ρ =>
+  ρ = a.cast
+
+aegis_prove "wadray::wadray::TIntoWad<core::integer::u32, core::integer::UpcastableInto<core::integer::u32, core::integer::u128, core::integer::UpcastableU32U128>>::into" :=
+  fun _ a ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::TIntoWad<core::integer::u16, core::integer::UpcastableInto<core::integer::u16, core::integer::u128, core::integer::UpcastableU16U128>>::into" :=
+  fun _ a ρ =>
+  ρ = a.cast
+
+aegis_prove "wadray::wadray::TIntoWad<core::integer::u16, core::integer::UpcastableInto<core::integer::u16, core::integer::u128, core::integer::UpcastableU16U128>>::into" :=
+  fun _ a ρ => by
+  rintro rfl
+  rfl
+
+aegis_spec "wadray::wadray::TIntoWad<core::integer::u8, core::integer::UpcastableInto<core::integer::u8, core::integer::u128, core::integer::UpcastableU8U128>>::into" :=
+  fun _ a ρ =>
+  ρ = a.cast
+
+aegis_prove "wadray::wadray::TIntoWad<core::integer::u8, core::integer::UpcastableInto<core::integer::u8, core::integer::u128, core::integer::UpcastableU8U128>>::into" :=
+  fun _ a ρ => by
+  rintro rfl
+  rfl
+
 /-aegis_spec "wadray::wadray::WadSerde::serialize" :=
   fun _ a b ρ _ =>
   ρ = b ++ [a.cast]
