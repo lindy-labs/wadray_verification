@@ -677,8 +677,8 @@ aegis_prove "wadray::wadray::TIntoWad<core::integer::u8, core::integer::Upcastab
 
 aegis_spec "wadray::wadray::WadTryIntoRay::try_into" :=
   fun _ _ (a : Wad) _ (ρ : (Ray ⊕ _) ⊕ _) =>
-  if (a.toZMod.val ≤ Wad.MAX_CONVERTIBLE_WAD) then ρ = .inl (.inl a.toRay)
-  else ρ = .inl (.inr ())
+  ρ = if (a.toZMod.val ≤ Wad.MAX_CONVERTIBLE_WAD) then .inl (.inl a.toRay)
+      else .inl (.inr ())
 
 aegis_prove "wadray::wadray::WadTryIntoRay::try_into" :=
   fun _ _ (a : Wad) _ (ρ : (Ray ⊕ _) ⊕ _) => by
@@ -694,10 +694,19 @@ aegis_prove "wadray::wadray::WadTryIntoRay::try_into" :=
           and_true] at h₃ h₄
         rw [h₂] at h₄
         rw [h₁] at h₃
-        simp only [ite_self]
         replace h₄ := h₄.trans (Nat.mul_le_mul_right 1000000000 h₃)
         norm_num [U128_MOD, Wad.MAX_CONVERTIBLE_WAD] at h₄
   · aesop
+
+aegis_spec "wadray::wadray::scale_u128_by_ray" :=
+  fun _ _ a (b : Ray) _ ρ =>
+  (a.val * b.toZMod.val / Ray.RAY_SCALE < U128_MOD ∧ ρ = .inl (a.val * b.toZMod.val / Ray.RAY_SCALE))
+  ∨ (U128_MOD ≤ a.val * b.toZMod.val / Ray.RAY_SCALE ∧ ρ.isRight)
+
+aegis_prove "wadray::wadray::scale_u128_by_ray" :=
+  fun _ _ a (b : Ray) _ ρ => by
+  unfold «spec_wadray::wadray::scale_u128_by_ray»
+  aesop
 
 /-
 aegis_spec "core::starknet::SyscallResultTraitImpl<(wadray::wadray::Ray, wadray::wadray::Ray)>::unwrap_syscall" :=
