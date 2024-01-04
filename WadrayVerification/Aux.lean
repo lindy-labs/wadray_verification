@@ -149,3 +149,5 @@ theorem toRat_lt_toRat_of_val_lt_val (h : @ZMod.val U128_MOD r < @ZMod.val U128_
 end Ray
 
 def Wad.toRay (w : Wad) : Ray := w.toZMod * (Ray.DIFF : UInt128)
+
+def Wad.MAX_CONVERTIBLE_WAD : ℕ := 340282366920938463463374607431

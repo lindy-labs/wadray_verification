@@ -675,6 +675,30 @@ aegis_prove "wadray::wadray::TIntoWad<core::integer::u8, core::integer::Upcastab
   rintro rfl
   rfl
 
+aegis_spec "wadray::wadray::WadTryIntoRay::try_into" :=
+  fun _ _ (a : Wad) _ (ρ : (Ray ⊕ _) ⊕ _) =>
+  if (a.toZMod.val ≤ Wad.MAX_CONVERTIBLE_WAD) then ρ = .inl (.inl a.toRay)
+  else ρ = .inl (.inr ())
+
+aegis_prove "wadray::wadray::WadTryIntoRay::try_into" :=
+  fun _ _ (a : Wad) _ (ρ : (Ray ⊕ _) ⊕ _) => by
+  unfold «spec_wadray::wadray::WadTryIntoRay::try_into»
+  have h₁ : ZMod.val (340282366920938463463374607431 : UInt128) = Wad.MAX_CONVERTIBLE_WAD := rfl
+  have h₂ : ZMod.val (1000000000 : UInt128) = 1000000000 := rfl
+  rintro ⟨_,_,_,(h|h)⟩
+  · rcases h with ⟨h₃,(h₄|h₄),h₅⟩
+    · aesop
+    · rcases h₅ with (h₅|⟨rfl,rfl⟩)
+      · aesop
+      · simp only [Int.ofNat_eq_coe, Nat.cast_ofNat, Int.int_cast_ofNat, Sum.isRight_inr,
+          and_true] at h₃ h₄
+        rw [h₂] at h₄
+        rw [h₁] at h₃
+        simp only [ite_self]
+        replace h₄ := h₄.trans (Nat.mul_le_mul_right 1000000000 h₃)
+        norm_num [U128_MOD, Wad.MAX_CONVERTIBLE_WAD] at h₄
+  · aesop
+
 /-
 aegis_spec "core::starknet::SyscallResultTraitImpl<(wadray::wadray::Ray, wadray::wadray::Ray)>::unwrap_syscall" :=
   fun _ a ρ =>
