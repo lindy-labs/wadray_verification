@@ -708,6 +708,17 @@ aegis_prove "wadray::wadray::scale_u128_by_ray" :=
   unfold «spec_wadray::wadray::scale_u128_by_ray»
   aesop
 
+aegis_spec "wadray::wadray::div_u128_by_ray" :=
+  fun _ _ a (b : Ray) _ ρ =>
+  a.val * Ray.RAY_SCALE / b.toZMod.val < U128_MOD ∧ b.toZMod.val ≠ 0
+    ∧ ρ = .inl (a.val * Ray.RAY_SCALE / b.toZMod.val)
+  ∨ (U128_MOD ≤ a.val * Ray.RAY_SCALE / b.toZMod.val ∨ b.toZMod.val = 0) ∧ ρ.isRight
+
+aegis_prove "wadray::wadray::div_u128_by_ray" :=
+  fun _ _ a (b : Ray) _ ρ => by
+  unfold «spec_wadray::wadray::div_u128_by_ray»
+  aesop
+
 /-
 aegis_spec "core::starknet::SyscallResultTraitImpl<(wadray::wadray::Ray, wadray::wadray::Ray)>::unwrap_syscall" :=
   fun _ a ρ =>
