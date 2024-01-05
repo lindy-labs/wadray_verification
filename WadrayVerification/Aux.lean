@@ -90,6 +90,8 @@ variable (r r' : Ray)
 
 protected def toZMod : UInt128 := r
 
+protected def ofZMod (a : UInt128) := a
+
 protected def toRat : ℚ := r.toZMod.val / RAY_SCALE
 
 protected def mul : Ray := (r.toZMod.val * r'.toZMod.val / RAY_SCALE  : UInt128)

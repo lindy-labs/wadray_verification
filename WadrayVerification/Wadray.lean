@@ -719,6 +719,50 @@ aegis_prove "wadray::wadray::div_u128_by_ray" :=
   unfold «spec_wadray::wadray::div_u128_by_ray»
   aesop
 
+aegis_spec "wadray::wadray::wmul_wr" :=
+  fun _ _ (a : Wad) (b : Ray) _ (ρ : Ray ⊕ _) =>
+  a.toZMod.val * b.toZMod.val / Wad.WAD_SCALE < U128_MOD
+    ∧ ρ = .inl (Ray.ofZMod (a.toZMod.val * b.toZMod.val / Wad.WAD_SCALE))
+  ∨ U128_MOD ≤ a.toZMod.val * b.toZMod.val / Wad.WAD_SCALE ∧ ρ.isRight
+
+aegis_prove "wadray::wadray::wmul_wr" :=
+  fun _ _ (a : Wad) (b : Ray) _ (ρ : Ray ⊕ _) => by
+  unfold «spec_wadray::wadray::wmul_wr»
+  aesop
+
+aegis_spec "wadray::wadray::wmul_rw" :=
+  fun _ _ (a : Ray) (b : Wad) _ (ρ : Ray ⊕ _) =>
+  a.toZMod.val * b.toZMod.val / Wad.WAD_SCALE < U128_MOD
+    ∧ ρ = .inl (Ray.ofZMod (a.toZMod.val * b.toZMod.val / Wad.WAD_SCALE))
+  ∨ U128_MOD ≤ a.toZMod.val * b.toZMod.val / Wad.WAD_SCALE ∧ ρ.isRight
+
+aegis_prove "wadray::wadray::wmul_rw" :=
+  fun _ _ (a : Ray) (b : Wad) _ (ρ : Ray ⊕ _) => by
+  unfold «spec_wadray::wadray::wmul_rw»
+  aesop (add simp [mul_comm])
+
+aegis_spec "wadray::wadray::rmul_rw" :=
+  fun _ _ (a : Ray) (b : Wad) _ (ρ : Wad ⊕ _) =>
+  a.toZMod.val * b.toZMod.val / Ray.RAY_SCALE < U128_MOD
+    ∧ ρ = .inl (Ray.ofZMod (a.toZMod.val * b.toZMod.val / Ray.RAY_SCALE))
+  ∨ U128_MOD ≤ a.toZMod.val * b.toZMod.val / Ray.RAY_SCALE ∧ ρ.isRight
+
+aegis_prove "wadray::wadray::rmul_rw" :=
+  fun _ _ (a : Ray) (b : Wad) _ (ρ : Ray ⊕ _) => by
+  unfold «spec_wadray::wadray::rmul_rw»
+  aesop (add simp [mul_comm])
+
+aegis_spec "wadray::wadray::rmul_wr" :=
+  fun _ _ (a : Wad) (b : Ray) _ (ρ : Wad ⊕ _) =>
+  a.toZMod.val * b.toZMod.val / Ray.RAY_SCALE < U128_MOD
+    ∧ ρ = .inl (Ray.ofZMod (a.toZMod.val * b.toZMod.val / Ray.RAY_SCALE))
+  ∨ U128_MOD ≤ a.toZMod.val * b.toZMod.val / Ray.RAY_SCALE ∧ ρ.isRight
+
+aegis_prove "wadray::wadray::rmul_wr" :=
+  fun _ _ (a : Ray) (b : Wad) _ (ρ : Ray ⊕ _) => by
+  unfold «spec_wadray::wadray::rmul_wr»
+  aesop (add simp [mul_comm])
+
 /-
 aegis_spec "core::starknet::SyscallResultTraitImpl<(wadray::wadray::Ray, wadray::wadray::Ray)>::unwrap_syscall" :=
   fun _ a ρ =>
