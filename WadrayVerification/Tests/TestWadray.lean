@@ -124,3 +124,98 @@ aegis_prove "wadray::tests::test_wadray::test_div_of_0" :=
   have : @HDiv.hDiv Ray Ray Ray instHDiv (0 : UInt128) (42 : UInt128) = (0 : Ray)
   · simp [Ray.div_def, Ray.zero_toZMod]
   aesop (add simp [Ray.toZMod, Ray.ofZMod, Wad.toZMod, Wad.ofZMod])
+
+
+aegis_spec "wadray::tests::test_wadray::test_div_wad_fail" :=
+  fun _ _ _ ρ =>
+  ρ.isRight
+
+aegis_prove "wadray::tests::test_wadray::test_div_wad_fail" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_div_wad_fail»
+  aesop
+
+aegis_spec "wadray::tests::test_wadray::test_div_ray_fail" :=
+  fun _ _ _ ρ =>
+  ρ.isRight
+
+aegis_prove "wadray::tests::test_wadray::test_div_ray_fail" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_div_ray_fail»
+  aesop
+
+/-aegis_spec "wadray::tests::test_wadray::test_conversions" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_conversions" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_conversions»
+  sierra_simp'
+  have : Wad.toRay (1000000000000000000 : UInt128) = (1000000000000000000000000000 : UInt128)
+  · sorry
+  aesop-/
+
+aegis_spec "wadray::tests::test_wadray::test_zeroable" :=
+  fun _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_zeroable" :=
+  fun _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_zeroable»
+  have : Wad.WAD_SCALE ≠ 0
+  · norm_num [Wad.WAD_SCALE]
+  have : Ray.RAY_SCALE ≠ 0
+  · norm_num [Ray.RAY_SCALE]
+  have : ((1 : UInt128) : Rat) = 1
+  · aesop
+  aesop (add simp [Wad.toRat, Ray.toRat, Wad.toZMod, Ray.toZMod, ZMod.cast_one'])
+
+aegis_spec "wadray::tests::test_wadray::test_bounded" :=
+  fun _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_bounded" :=
+  fun _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_bounded»
+  have : (340282366920938463463374607431768211455 : UInt128) = -1
+  · apply ZMod.val_injective
+    erw [ZMod.val_nat_cast]
+  aesop
+
+aegis_spec "wadray::tests::test_wadray::test_conversions_from_primitive_types" :=
+  fun _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_conversions_from_primitive_types" :=
+  fun _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_conversions_from_primitive_types»
+  have : ((1 : Sierra.UInt8) : UInt128) = (1 : UInt128)
+  · aesop
+  have : ((1 : Sierra.UInt16) : UInt128) = (1 : UInt128)
+  · aesop
+  have : ((1 : Sierra.UInt32) : UInt128) = (1 : UInt128)
+  · aesop
+  have : ((1 : Sierra.UInt64) : UInt128) = (1 : UInt128)
+  · aesop
+  aesop
+
+aegis_spec "wadray::tests::test_wadray::test_u256_try_into_wadray" :=
+  fun _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_u256_try_into_wadray" :=
+  fun _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_u256_try_into_wadray»
+  have : (5 : UInt128).val < U128_MOD
+  · apply ZMod.val_lt
+  aesop (add simp [UInt256.val])
+
+aegis_spec "wadray::tests::test_wadray::test_wadray_into_u256" :=
+  fun _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_wadray_into_u256" :=
+  fun _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_wadray_into_u256»
+  aesop
