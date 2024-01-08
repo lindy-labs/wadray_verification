@@ -774,6 +774,17 @@ aegis_prove "wadray::wadray::rdiv_wr" :=
   unfold «spec_wadray::wadray::rdiv_wr»
   aesop
 
+aegis_spec "wadray::wadray::rdiv_ww" :=
+  fun _ _ (a b : Wad) _ (ρ : Ray ⊕ _) =>
+  a.toZMod.val * Ray.RAY_SCALE / b.toZMod.val < U128_MOD
+    ∧ b.toZMod.val ≠ 0 ∧ ρ = .inl (Wad.ofZMod (a.toZMod.val * Ray.RAY_SCALE / b.toZMod.val))
+  ∨ (U128_MOD ≤ a.toZMod.val * Ray.RAY_SCALE / b.toZMod.val ∨ b.toZMod.val = 0) ∧ ρ.isRight
+
+aegis_prove "wadray::wadray::rdiv_ww" :=
+  fun _ _ (a b : Wad) _ (ρ : Ray ⊕ _) => by
+  unfold «spec_wadray::wadray::rdiv_ww»
+  aesop
+
 
 /-
 aegis_spec "core::starknet::SyscallResultTraitImpl<(wadray::wadray::Ray, wadray::wadray::Ray)>::unwrap_syscall" :=
