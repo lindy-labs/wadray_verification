@@ -15,6 +15,8 @@ variable (w w' : Wad)
 
 protected def toZMod : UInt128 := w
 
+protected def ofZMod (a : UInt128) : Wad := a
+
 protected def toRat : ℚ := w.toZMod.val / WAD_SCALE
 
 theorem toRat_le_toRat_of_val_le_val (h : @ZMod.val U128_MOD w ≤ @ZMod.val U128_MOD w') :
@@ -90,7 +92,7 @@ variable (r r' : Ray)
 
 protected def toZMod : UInt128 := r
 
-protected def ofZMod (a : UInt128) := a
+protected def ofZMod (a : UInt128) : Ray := a
 
 protected def toRat : ℚ := r.toZMod.val / RAY_SCALE
 
