@@ -423,8 +423,9 @@ aegis_prove "wadray::wadray::TIntoRay<core::integer::u128, core::traits::TIntoT<
 
 aegis_spec "wadray::wadray::u128_wdiv" :=
   fun _ _ (a b : Wad) _ (ρ : Wad ⊕ _) =>
-  (a.toZMod.val * Wad.WAD_SCALE / b.toZMod.val < U128_MOD ∧ b.toZMod.val ≠ 0 ∧ ρ = .inl (a / b))
-  ∨ ((U128_MOD ≤ a.toZMod.val * Wad.WAD_SCALE / b.toZMod.val ∨ b.toZMod.val = 0) ∧ ρ.isRight)
+  a.toZMod.val * Wad.WAD_SCALE / b.toZMod.val < U128_MOD
+    ∧ b.toZMod.val ≠ 0 ∧ ρ = .inl (a / b)
+  ∨ (U128_MOD ≤ a.toZMod.val * Wad.WAD_SCALE / b.toZMod.val ∨ b.toZMod.val = 0) ∧ ρ.isRight
 
 aegis_prove "wadray::wadray::u128_wdiv" :=
   fun _ _ (a b : Wad) _ (ρ : Wad ⊕ _) => by
@@ -772,6 +773,17 @@ aegis_spec "wadray::wadray::rdiv_wr" :=
 aegis_prove "wadray::wadray::rdiv_wr" :=
   fun _ _ (a : Wad) (b : Ray) _ (ρ : Wad ⊕ _) => by
   unfold «spec_wadray::wadray::rdiv_wr»
+  aesop
+
+aegis_spec "wadray::wadray::wdiv_rw" :=
+  fun _ _ (a : Ray) (b : Wad) _ (ρ : Ray ⊕ _) =>
+  a.toZMod.val * Wad.WAD_SCALE / b.toZMod.val < U128_MOD
+    ∧ b.toZMod.val ≠ 0 ∧ ρ = .inl (Ray.ofZMod (a.toZMod.val * Wad.WAD_SCALE / b.toZMod.val))
+  ∨ (U128_MOD ≤ a.toZMod.val * Wad.WAD_SCALE / b.toZMod.val ∨ b.toZMod.val = 0) ∧ ρ.isRight
+
+aegis_prove "wadray::wadray::wdiv_rw" :=
+  fun _ _ (a : Ray) (b : Wad) _ (ρ : Wad ⊕ _) => by
+  unfold «spec_wadray::wadray::wdiv_rw»
   aesop
 
 aegis_spec "wadray::wadray::rdiv_ww" :=
