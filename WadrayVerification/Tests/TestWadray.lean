@@ -71,3 +71,56 @@ aegis_prove "wadray::tests::test_wadray::test_sub_eq" :=
     norm_cast
   sierra_simp'
   aesop (add unsafe forward [not_le_of_lt])
+
+aegis_spec "wadray::tests::test_wadray::test_mul_eq" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_mul_eq" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_mul_eq»
+  have : (Wad.toZMod (5 : UInt128)).val * (Wad.toZMod (3 : UInt128)).val / Wad.WAD_SCALE < U128_MOD
+  · simp only [Wad.toZMod]
+    erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
+    norm_num [U128_MOD, Wad.WAD_SCALE]
+  aesop
+
+aegis_spec "wadray::tests::test_wadray::test_div_eq" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_div_eq" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_div_eq»
+  have : (Wad.toZMod (15 : UInt128)).val * Wad.WAD_SCALE / (Wad.toZMod (3 : UInt128)).val < U128_MOD
+  · simp only [Wad.toZMod]
+    erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
+    norm_num [U128_MOD, Wad.WAD_SCALE]
+  have : Wad.toZMod (3 : UInt128) ≠ 0
+  · simp only [Wad.toZMod]
+    intro he
+    have := congr_arg ZMod.val he
+    erw [ZMod.val_nat_cast, ZMod.val_nat_cast] at this
+    norm_num [U128_MOD] at this
+  aesop
+
+aegis_spec "wadray::tests::test_wadray::test_div_of_0" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_div_of_0" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_div_of_0»
+  sierra_simp'
+  have : U128_MOD ≠ 0
+  · norm_num [U128_MOD]
+  have : (42 : UInt128) ≠ 0
+  · intro he
+    have := congr_arg ZMod.val he
+    erw [ZMod.val_nat_cast, ZMod.val_nat_cast] at this
+    norm_num [U128_MOD] at this
+  have : @HDiv.hDiv Wad Wad Wad instHDiv (0 : UInt128) (42 : UInt128) = (0 : Wad)
+  · simp [Wad.div_def, Wad.zero_toZMod]
+  have : @HDiv.hDiv Ray Ray Ray instHDiv (0 : UInt128) (42 : UInt128) = (0 : Ray)
+  · simp [Ray.div_def, Ray.zero_toZMod]
+  aesop (add simp [Ray.toZMod, Ray.ofZMod, Wad.toZMod, Wad.ofZMod])

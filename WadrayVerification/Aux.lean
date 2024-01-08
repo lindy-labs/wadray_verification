@@ -150,6 +150,15 @@ theorem toRat_lt_toRat_of_val_lt_val (h : @ZMod.val U128_MOD r < @ZMod.val U128_
   · apply Nat.cast_nonneg
   · norm_num[RAY_SCALE]
 
+protected def zero : Ray := (0 : UInt128)
+
+instance : Zero Ray := ⟨Ray.zero⟩
+
+@[simp]
+protected theorem zero_toZMod :
+    (0 : Ray).toZMod = 0 :=
+  rfl
+
 end Ray
 
 def Wad.toRay (w : Wad) : Ray := w.toZMod * (Ray.DIFF : UInt128)
