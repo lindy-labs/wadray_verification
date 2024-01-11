@@ -219,3 +219,78 @@ aegis_prove "wadray::tests::test_wadray::test_wadray_into_u256" :=
   fun _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_wadray_into_u256»
   aesop
+
+aegis_spec "wadray::tests::test_wadray::test_conversions_fail2" :=
+  fun _ _ _ ρ =>
+  ρ.isRight
+
+aegis_prove "wadray::tests::test_wadray::test_conversions_fail2" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_conversions_fail2»
+  aesop (add simp [Wad.toZMod, ZMod.val_add_of_lt])
+
+aegis_spec "wadray::tests::test_wadray::test_comparisons2" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_comparisons2" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_comparisons2»
+  have : (1000000000000000000 : UInt128).val + (1 : UInt128).val < U128_MOD
+  · erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
+    norm_num [U128_MOD]
+  have : (1000000000000000000000000000 : UInt128).val + (1 : UInt128).val < U128_MOD
+  · erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
+    norm_num [U128_MOD]
+  aesop
+
+aegis_spec "wadray::tests::test_wadray::test_comparisons1" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+set_option maxHeartbeats 800000
+aegis_prove "wadray::tests::test_wadray::test_comparisons1" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_comparisons1»
+  sierra_simp'
+  have uone : (((1000000000000000000000000000 : ℕ) : ℤ) : UInt128) = 1
+  · sorry
+  have uone' : (((1000000000000000000 : ℕ) : ℤ) : UInt128) = 1
+  · sorry
+  have wone : Wad.toRat (1 : UInt128) = 1
+  · sorry
+  have rone : Ray.toRat (1 : UInt128) = 1
+  · sorry
+  have : Wad.toRat ((1 : UInt128) + (1 : UInt128)) = 2
+  · sorry
+  have : Ray.toRat ((1 : UInt128) + (1 : UInt128)) = 2
+  · sorry
+  have : (1 : UInt128).val + (1 : UInt128).val < U128_MOD
+  · sorry
+  have : (1 : ℚ) < 2 := by norm_num
+  aesop (add simp [uone, uone', wone, rone], safe forward [not_le_of_lt])
+
+aegis_spec "wadray::tests::test_wadray::test_conversions" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_conversions" :=
+  fun _ _ _ ρ => by
+  unfold «spec_wadray::tests::test_wadray::test_conversions»
+  have : Wad.toRay (1000000000000000000 : UInt128) = (1000000000000000000000000000 : UInt128)
+  · sorry
+  have : Wad.toRay (340282366920938463463374607431 : UInt128) = (340282366920938463463374607431 : UInt128) * (1000000000 : UInt128)
+  · sorry
+  have : Ray.toWad (1000000000000000000000000000 : UInt128) = (1000000000000000000 : UInt128)
+  · sorry
+  have : (Wad.toZMod (340282366920938463463374607431 : UInt128)).val = Wad.MAX_CONVERTIBLE_WAD
+  · sorry
+  have : ZMod.val (Wad.toZMod (1000000000000000000 : UInt128)) ≤ Wad.MAX_CONVERTIBLE_WAD
+  · sorry
+  have : ZMod.val (340282366920938463463374607431 : UInt128) + ZMod.val (1 : UInt128) < U128_MOD
+  · sorry
+  have : ZMod.val (340282366920938463463374607431 : UInt128) * ZMod.val (1000000000 : UInt128) < U128_MOD
+  · sorry
+  have : Wad.MAX_CONVERTIBLE_WAD < ZMod.val (Wad.toZMod ((340282366920938463463374607431 : UInt128) + (1 : UInt128)))
+  · sorry
+  aesop (add safe forward [not_le_of_lt])
