@@ -186,6 +186,16 @@ theorem zero_val : (0 : SignedWad).1 = 0 := rfl
 @[simp]
 theorem zero_sign : (0 : SignedWad).2 = .inl () := rfl
 
+instance : One SignedWad := ⟨(Wad.WAD_SCALE, false.toSierraBool)⟩
+
+theorem one_def : (1 : SignedWad) = ((Wad.WAD_SCALE : UInt128), false.toSierraBool) := rfl
+
+@[simp]
+theorem one_val : (1 : SignedWad).1 = (Wad.WAD_SCALE : UInt128) := rfl
+
+@[simp]
+theorem one_sign : (1 : SignedWad).2 = .inl () := rfl
+
 end SignedWad
 
 def SignedRay := UInt128 × (Unit ⊕ Unit)
@@ -205,5 +215,15 @@ theorem zero_val : (0 : SignedRay).1 = 0 := rfl
 
 @[simp]
 theorem zero_sign : (0 : SignedRay).2 = .inl () := rfl
+
+instance : One SignedRay := ⟨(Ray.RAY_SCALE, false.toSierraBool)⟩
+
+theorem one_def : (1 : SignedRay) = ((Ray.RAY_SCALE : UInt128), false.toSierraBool) := rfl
+
+@[simp]
+theorem one_val : (1 : SignedRay).1 = (Ray.RAY_SCALE : UInt128) := rfl
+
+@[simp]
+theorem one_sign : (1 : SignedRay).2 = .inl () := rfl
 
 end SignedRay
