@@ -186,6 +186,24 @@ theorem zero_val : (0 : SignedWad).1 = 0 := rfl
 @[simp]
 theorem zero_sign : (0 : SignedWad).2 = .inl () := rfl
 
-
-
 end SignedWad
+
+def SignedRay := UInt128 × (Unit ⊕ Unit)
+
+namespace SignedRay
+
+variable (w : SignedRay)
+
+def sign := SierraBool.toBool w.2
+
+instance : Zero SignedRay := ⟨(0, false.toSierraBool)⟩
+
+theorem zero_def : (0 : SignedRay) = (0, false.toSierraBool) := rfl
+
+@[simp]
+theorem zero_val : (0 : SignedRay).1 = 0 := rfl
+
+@[simp]
+theorem zero_sign : (0 : SignedRay).2 = .inl () := rfl
+
+end SignedRay
