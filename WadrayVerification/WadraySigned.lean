@@ -54,3 +54,23 @@ aegis_prove "wadray::wadray_signed::SignedRayPartialEq::eq" :=
   fun _ (a b : SignedRay) ρ => by
   unfold «spec_wadray::wadray_signed::SignedRayPartialEq::eq»
   aesop (add simp [SignedRay.bEq_def])
+
+aegis_spec "wadray::wadray_signed::SignedWadPartialEq::ne" :=
+  fun _ (a b : SignedWad) ρ =>
+  ρ = Bool.toSierraBool (!(a == b))
+
+aegis_prove "wadray::wadray_signed::SignedWadPartialEq::ne" :=
+  fun _ (a b : SignedWad) ρ => by
+  unfold «spec_wadray::wadray_signed::SignedWadPartialEq::ne»
+  rintro rfl
+  simp
+
+aegis_spec "wadray::wadray_signed::SignedRayPartialEq::ne" :=
+  fun _ (a b : SignedRay) ρ =>
+  ρ = Bool.toSierraBool (!(a == b))
+
+aegis_prove "wadray::wadray_signed::SignedRayPartialEq::ne" :=
+  fun _ (a b : SignedRay) ρ => by
+  unfold «spec_wadray::wadray_signed::SignedRayPartialEq::ne»
+  rintro rfl
+  simp
