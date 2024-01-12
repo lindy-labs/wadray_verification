@@ -1,5 +1,6 @@
 import WadrayVerification.Load
 import WadrayVerification.Wadray
+import WadrayVerification.WadraySigned
 import WadrayVerification.Tests.TestWadray
 
 aegis_complete

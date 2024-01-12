@@ -172,7 +172,7 @@ def SignedWad := UInt128 × (Unit ⊕ Unit)
 
 namespace SignedWad
 
-variable (w : SignedWad)
+variable (w w₁ w₂ : SignedWad)
 
 def sign := SierraBool.toBool w.2
 
@@ -196,13 +196,46 @@ theorem one_val : (1 : SignedWad).1 = (Wad.WAD_SCALE : UInt128) := rfl
 @[simp]
 theorem one_sign : (1 : SignedWad).2 = .inl () := rfl
 
+/-- Define a `Bool` valued equality to account for two representations of `0` -/
+instance : BEq SignedWad := ⟨fun w₁ w₂ => w₁.1 = w₂.1 && (w₁.1 = 0 || w₁.2 = w₂.2)⟩
+
+theorem bEq_def : (w₁ == w₂) = (w₁.1 = w₂.1 && (w₁.1 = 0 || w₁.2 = w₂.2)) := rfl
+
+theorem bEq_symm : (w₁ == w₂) = (w₂ == w₁) := by
+  rcases w₁ with ⟨w₁v, (w₁s|w₁s)⟩
+  <;> rcases w₂ with ⟨w₂v, (w₂s|w₂s)⟩
+  · aesop (add simp [bEq_def])
+  · simp [bEq_def]
+    by_cases he : w₁v = w₂v
+    · subst he; rfl
+    · have he' := Ne.symm he
+      simp [he, he']
+  · simp [bEq_def]
+    by_cases he : w₁v = w₂v
+    · subst he; rfl
+    · have he' := Ne.symm he
+      simp [he, he']
+  · aesop (add simp [bEq_def])
+
+@[simp]
+theorem bEq_zero : (w₁ == 0) = (w₁.1 = 0) := by
+  rcases w₁ with ⟨w₁v, (w₁s|w₁s)⟩
+  <;> aesop (add simp [bEq_def])
+
+@[simp]
+theorem bEq_rfl : (w == w) = .true := by simp [bEq_def]
+
+@[simp]
+theorem zero_bEq : (0 == w) = (w.1 = 0) := by
+  rw [bEq_symm, bEq_zero]
+
 end SignedWad
 
 def SignedRay := UInt128 × (Unit ⊕ Unit)
 
 namespace SignedRay
 
-variable (w : SignedRay)
+variable (w w₁ w₂ : SignedRay)
 
 def sign := SierraBool.toBool w.2
 
@@ -225,5 +258,38 @@ theorem one_val : (1 : SignedRay).1 = (Ray.RAY_SCALE : UInt128) := rfl
 
 @[simp]
 theorem one_sign : (1 : SignedRay).2 = .inl () := rfl
+
+/-- Define a `Bool` valued equality to account for two representations of `0` -/
+instance : BEq SignedRay := ⟨fun w₁ w₂ => w₁.1 = w₂.1 && (w₁.1 = 0 || w₁.2 = w₂.2)⟩
+
+theorem bEq_def : (w₁ == w₂) = (w₁.1 = w₂.1 && (w₁.1 = 0 || w₁.2 = w₂.2)) := rfl
+
+theorem bEq_symm : (w₁ == w₂) = (w₂ == w₁) := by
+  rcases w₁ with ⟨w₁v, (w₁s|w₁s)⟩
+  <;> rcases w₂ with ⟨w₂v, (w₂s|w₂s)⟩
+  · aesop (add simp [bEq_def])
+  · simp [bEq_def]
+    by_cases he : w₁v = w₂v
+    · subst he; rfl
+    · have he' := Ne.symm he
+      simp [he, he']
+  · simp [bEq_def]
+    by_cases he : w₁v = w₂v
+    · subst he; rfl
+    · have he' := Ne.symm he
+      simp [he, he']
+  · aesop (add simp [bEq_def])
+
+@[simp]
+theorem bEq_zero : (w₁ == 0) = (w₁.1 = 0) := by
+  rcases w₁ with ⟨w₁v, (w₁s|w₁s)⟩
+  <;> aesop (add simp [bEq_def])
+
+@[simp]
+theorem bEq_rfl : (w == w) = .true := by simp [bEq_def]
+
+@[simp]
+theorem zero_bEq : (0 == w) = (w.1 = 0) := by
+  rw [bEq_symm, bEq_zero]
 
 end SignedRay
