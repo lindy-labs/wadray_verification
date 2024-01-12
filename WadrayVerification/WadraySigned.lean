@@ -168,3 +168,21 @@ aegis_prove "wadray::wadray_signed::SignedRayZeroable::is_zero" :=
   have : ¬ (Ray.RAY_SCALE = 0)
   · norm_num [Ray.RAY_SCALE]
   aesop (add simp [SignedRay.toRat, Ray.toRat])
+
+aegis_spec "wadray::wadray_signed::SignedWadZeroable::is_non_zero" :=
+  fun _ (a : SignedWad) ρ =>
+  ρ = Bool.toSierraBool (a.toRat ≠ 0)
+
+aegis_prove "wadray::wadray_signed::SignedWadZeroable::is_non_zero" :=
+  fun _ (a : SignedWad) ρ => by
+  unfold «spec_wadray::wadray_signed::SignedWadZeroable::is_non_zero»
+  aesop (add simp [SignedWad.toRat, Wad.toRat, Wad.toZMod])
+
+aegis_spec "wadray::wadray_signed::SignedRayZeroable::is_non_zero" :=
+  fun _ (a : SignedRay) ρ =>
+  ρ = Bool.toSierraBool (a.toRat ≠ 0)
+
+aegis_prove "wadray::wadray_signed::SignedRayZeroable::is_non_zero" :=
+  fun _ (a : SignedRay) ρ => by
+  unfold «spec_wadray::wadray_signed::SignedRayZeroable::is_non_zero»
+  aesop (add simp [SignedRay.toRat, Ray.toRat, Ray.toZMod])
