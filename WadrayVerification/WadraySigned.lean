@@ -118,3 +118,31 @@ aegis_prove "wadray::wadray_signed::SignedRaySigned::is_positive" :=
     · simp [SignedRay.toRat, Ray.toRat]
       rw [le_div_iff (by norm_num [Ray.RAY_SCALE]), zero_mul]
       apply ZMod.cast_rat_nonneg
+
+aegis_spec "wadray::wadray_signed::SignedWadSigned::is_negative" :=
+  fun _ _ (a : SignedWad) _ ρ =>
+  ρ = Bool.toSierraBool (a.toRat < 0)
+
+aegis_prove "wadray::wadray_signed::SignedWadSigned::is_negative" :=
+  fun _ _ (a : SignedWad) _ ρ => by
+  unfold «spec_wadray::wadray_signed::SignedWadSigned::is_negative»
+  rintro ⟨w,s,rfl,(⟨h,rfl⟩|⟨h,rfl⟩)⟩
+  · aesop (add simp [SignedWad.toRat, Wad.toRat])
+  · have : 0 < (Wad.WAD_SCALE : ℚ) := by norm_num [Wad.WAD_SCALE]
+    rcases s with (s|s)
+    <;> aesop (add simp [SignedWad.toRat, Wad.toRat, lt_div_iff, le_div_iff,
+      Wad.toZMod, ZMod.cast_rat_nonneg], safe apply [Ne.lt_of_le])
+
+aegis_spec "wadray::wadray_signed::SignedRaySigned::is_negative" :=
+  fun _ _ (a : SignedRay) _ ρ =>
+  ρ = Bool.toSierraBool (a.toRat < 0)
+
+aegis_prove "wadray::wadray_signed::SignedRaySigned::is_negative" :=
+  fun _ _ (a : SignedRay) _ ρ => by
+  unfold «spec_wadray::wadray_signed::SignedRaySigned::is_negative»
+  rintro ⟨w,s,rfl,(⟨h,rfl⟩|⟨h,rfl⟩)⟩
+  · aesop (add simp [SignedRay.toRat, Ray.toRat])
+  · have : 0 < (Ray.RAY_SCALE : ℚ) := by norm_num [Ray.RAY_SCALE]
+    rcases s with (s|s)
+    <;> aesop (add simp [SignedRay.toRat, Ray.toRat, lt_div_iff, le_div_iff,
+      Ray.toZMod, ZMod.cast_rat_nonneg], safe apply [Ne.lt_of_le])

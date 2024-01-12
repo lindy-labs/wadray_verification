@@ -10,6 +10,12 @@ theorem ZMod.cast_rat_nonneg [NeZero n] (a : ZMod n) : 0 ≤ (a.cast : ℚ) := b
   simp only [ZMod.cast, ZMod.val, Nat.cast_eq_zero]
   exact Nat.cast_nonneg a
 
+@[simp]
+theorem ZMod.zero_eq_cast_rat_iff [NeZero n] (a : ZMod n) : (0 = (a.cast : ℚ)) ↔ a = 0 := by
+ rw [eq_comm, ZMod.cast_rat_eq_zero_iff]
+
+attribute [simp] ZMod.cast_rat_eq_zero_iff
+
 def Wad : Type := UInt128
 
 namespace Wad
