@@ -4,6 +4,12 @@ import Aegis.Aux.ZMod.DivMod
 
 open Sierra
 
+theorem ZMod.cast_rat_nonneg [NeZero n] (a : ZMod n) : 0 ≤ (a.cast : ℚ) := by
+  cases n; cases NeZero.ne 0 rfl
+  rcases a with ⟨a, ha⟩
+  simp only [ZMod.cast, ZMod.val, Nat.cast_eq_zero]
+  exact Nat.cast_nonneg a
+
 def Wad : Type := UInt128
 
 namespace Wad
@@ -229,6 +235,15 @@ theorem bEq_rfl : (w == w) = .true := by simp [bEq_def]
 theorem zero_bEq : (0 == w) = (w.1 = 0) := by
   rw [bEq_symm, bEq_zero]
 
+/-- Give `SignedWad` a meaning by mapping it to the rationals. -/
+def toRat : ℚ := if w.2 then -(Wad.toRat w.1) else Wad.toRat w.1
+
+theorem toRat_eq_zero_iff : w.toRat = 0 ↔ w.1 = 0 := by
+  have := Wad.WAD_SCALE_pos
+  rcases w with ⟨w, (s|s)⟩ <;> cases s
+  <;> simp only [SignedWad.toRat, Wad.toRat, Wad.toZMod]
+  <;> aesop (add simp ZMod.cast_rat_eq_zero_iff)
+
 end SignedWad
 
 def SignedRay := UInt128 × (Unit ⊕ Unit)
@@ -291,5 +306,14 @@ theorem bEq_rfl : (w == w) = .true := by simp [bEq_def]
 @[simp]
 theorem zero_bEq : (0 == w) = (w.1 = 0) := by
   rw [bEq_symm, bEq_zero]
+
+/-- Give `SignedWad` a meaning by mapping it to the rationals. -/
+def toRat : ℚ := if w.2 then -(Ray.toRat w.1) else Ray.toRat w.1
+
+theorem toRat_eq_zero_iff : w.toRat = 0 ↔ w.1 = 0 := by
+  have := Ray.RAY_SCALE_pos
+  rcases w with ⟨w, (s|s)⟩ <;> cases s
+  <;> simp only [SignedRay.toRat, Ray.toRat, Ray.toZMod]
+  <;> aesop (add simp ZMod.cast_rat_eq_zero_iff)
 
 end SignedRay
