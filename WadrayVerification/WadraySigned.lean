@@ -186,3 +186,43 @@ aegis_prove "wadray::wadray_signed::SignedRayZeroable::is_non_zero" :=
   fun _ (a : SignedRay) ρ => by
   unfold «spec_wadray::wadray_signed::SignedRayZeroable::is_non_zero»
   aesop (add simp [SignedRay.toRat, Ray.toRat, Ray.toZMod])
+
+aegis_spec "wadray::wadray_signed::SignedWadOneable::is_one" :=
+  fun _ (a : SignedWad) ρ =>
+  ρ = Bool.toSierraBool (a.toRat = 1)
+
+aegis_prove "wadray::wadray_signed::SignedWadOneable::is_one" :=
+  fun _ (a : SignedWad) ρ => by
+  unfold «spec_wadray::wadray_signed::SignedWadOneable::is_one»
+  rintro ⟨w,s,h⟩
+  have : 1000000000000000000 = ((1000000000000000000 : Sierra.UInt128) : ℚ)
+  · rw [ZMod.cast_eq_val]; aesop
+  have : (1000000000000000000 : ℚ) ≠ 0
+  · norm_num
+  have : ¬ (-(w : ℚ) = 1000000000000000000)
+  · apply ne_of_lt
+    apply lt_of_le_of_lt (b := 0)
+    · simp only [Left.neg_nonpos_iff, ZMod.cast_rat_nonneg]
+    · norm_num
+  aesop (add simp [SignedWad.toRat, Wad.toRat, Wad.toZMod, Wad.WAD_SCALE,
+    div_eq_iff, neg_div'], safe forward [ZMod.cast_rat_injective])
+
+aegis_spec "wadray::wadray_signed::SignedRayOneable::is_one" :=
+  fun _ (a : SignedRay) ρ =>
+  ρ = Bool.toSierraBool (a.toRat = 1)
+
+aegis_prove "wadray::wadray_signed::SignedRayOneable::is_one" :=
+  fun _ (a : SignedWad) ρ => by
+  unfold «spec_wadray::wadray_signed::SignedRayOneable::is_one»
+  rintro ⟨w,s,h⟩
+  have : 1000000000000000000000000000 = ((1000000000000000000000000000 : Sierra.UInt128) : ℚ)
+  · rw [ZMod.cast_eq_val]; aesop
+  have : (1000000000000000000000000000 : ℚ) ≠ 0
+  · norm_num
+  have : ¬ (-(w : ℚ) = 1000000000000000000000000000)
+  · apply ne_of_lt
+    apply lt_of_le_of_lt (b := 0)
+    · simp only [Left.neg_nonpos_iff, ZMod.cast_rat_nonneg]
+    · norm_num
+  aesop (add simp [SignedRay.toRat, Ray.toRat, Ray.toZMod, Ray.RAY_SCALE,
+    div_eq_iff, neg_div'], safe forward [ZMod.cast_rat_injective])

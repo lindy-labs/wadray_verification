@@ -14,6 +14,15 @@ theorem ZMod.cast_rat_nonneg [NeZero n] (a : ZMod n) : 0 ≤ (a.cast : ℚ) := b
 theorem ZMod.zero_eq_cast_rat_iff [NeZero n] (a : ZMod n) : (0 = (a.cast : ℚ)) ↔ a = 0 := by
  rw [eq_comm, ZMod.cast_rat_eq_zero_iff]
 
+theorem ZMod.cast_rat_injective [NeZero n] : Function.Injective (ZMod.cast : ZMod n → ℚ) := by
+  cases n; cases NeZero.ne 0 rfl
+  intro a b
+  rcases a with ⟨a, ha⟩
+  rcases b with ⟨b, hb⟩
+  simp only [cast, val, Nat.cast_inj]
+  rintro rfl
+  rfl
+
 attribute [simp] ZMod.cast_rat_eq_zero_iff
 
 def Wad : Type := UInt128
