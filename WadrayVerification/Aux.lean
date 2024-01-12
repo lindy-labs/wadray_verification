@@ -1,4 +1,5 @@
 import CorelibVerification.Aux.ZMod
+import Aegis.Aux.Bool
 import Aegis.Aux.ZMod.DivMod
 
 open Sierra
@@ -164,3 +165,27 @@ end Ray
 def Wad.toRay (w : Wad) : Ray := w.toZMod * (Ray.DIFF : UInt128)
 
 def Wad.MAX_CONVERTIBLE_WAD : ℕ := 340282366920938463463374607431
+
+/- Signed Wad -/
+
+def SignedWad := UInt128 × (Unit ⊕ Unit)
+
+namespace SignedWad
+
+variable (w : SignedWad)
+
+def sign := SierraBool.toBool w.2
+
+instance : Zero SignedWad := ⟨(0, false.toSierraBool)⟩
+
+theorem zero_def : (0 : SignedWad) = (0, false.toSierraBool) := rfl
+
+@[simp]
+theorem zero_val : (0 : SignedWad).1 = 0 := rfl
+
+@[simp]
+theorem zero_sign : (0 : SignedWad).2 = .inl () := rfl
+
+
+
+end SignedWad
