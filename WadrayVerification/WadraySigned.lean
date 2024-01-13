@@ -39,25 +39,27 @@ aegis_prove "wadray::wadray_signed::SignedRayOneable::one" :=
 
 aegis_spec "wadray::wadray_signed::SignedWadPartialEq::eq" :=
   fun _ (a b : SignedWad) ρ =>
-  ρ = Bool.toSierraBool (a == b)
+  ρ = Bool.toSierraBool (a.toRat = b.toRat)
 
 aegis_prove "wadray::wadray_signed::SignedWadPartialEq::eq" :=
   fun _ (a b : SignedWad) ρ => by
   unfold «spec_wadray::wadray_signed::SignedWadPartialEq::eq»
-  aesop (add simp [SignedWad.bEq_def])
+  aesop (add safe forward [SignedWad.val_eq_of_toRat_eq, SignedWad.val_eq_zero_of_toRat_neg,
+    SignedWad.val_eq_zero_of_toRat_neg'])
 
 aegis_spec "wadray::wadray_signed::SignedRayPartialEq::eq" :=
   fun _ (a b : SignedRay) ρ =>
-  ρ = Bool.toSierraBool (a == b)
+  ρ = Bool.toSierraBool (a.toRat = b.toRat)
 
 aegis_prove "wadray::wadray_signed::SignedRayPartialEq::eq" :=
   fun _ (a b : SignedRay) ρ => by
   unfold «spec_wadray::wadray_signed::SignedRayPartialEq::eq»
-  aesop (add simp [SignedRay.bEq_def])
+  aesop (add safe forward [SignedRay.val_eq_of_toRat_eq, SignedRay.val_eq_zero_of_toRat_neg,
+    SignedRay.val_eq_zero_of_toRat_neg'])
 
 aegis_spec "wadray::wadray_signed::SignedWadPartialEq::ne" :=
   fun _ (a b : SignedWad) ρ =>
-  ρ = Bool.toSierraBool (!(a == b))
+  ρ = Bool.toSierraBool (a.toRat ≠ b.toRat)
 
 aegis_prove "wadray::wadray_signed::SignedWadPartialEq::ne" :=
   fun _ (a b : SignedWad) ρ => by
@@ -67,7 +69,7 @@ aegis_prove "wadray::wadray_signed::SignedWadPartialEq::ne" :=
 
 aegis_spec "wadray::wadray_signed::SignedRayPartialEq::ne" :=
   fun _ (a b : SignedRay) ρ =>
-  ρ = Bool.toSierraBool (!(a == b))
+  ρ = Bool.toSierraBool (a.toRat ≠ b.toRat)
 
 aegis_prove "wadray::wadray_signed::SignedRayPartialEq::ne" :=
   fun _ (a b : SignedRay) ρ => by
