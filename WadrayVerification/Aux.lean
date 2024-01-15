@@ -478,4 +478,20 @@ theorem val_eq_zero_of_toRat_neg' (x : Ray) (p q : Unit)
   rw [← Ray.toRat_zero] at h
   exact Ray.toRat_injective h
 
+theorem toRat_le_toRat_of_val_le_val_inl {x y : Ray} (h : x.toZMod.val ≤ y.toZMod.val) :
+    SignedRay.toRat (x, .inl ()) ≤ SignedRay.toRat (y, .inl ()) := by
+  simp only [Ray.toZMod] at h
+  simp [SignedRay.toRat, Ray.toRat_le_toRat_of_val_le_val _ _ h]
+
+theorem toRat_le_toRat_of_val_ge_val_inr {x y : Ray} (h : y.toZMod.val ≤ x.toZMod.val) :
+    SignedRay.toRat (x, .inr ()) ≤ SignedRay.toRat (y, .inr ()) := by
+  simp only [Ray.toZMod] at h
+  simp [SignedRay.toRat, Ray.toRat_le_toRat_of_val_le_val _ _ h]
+
+theorem toRat_inr_le_toRat_inl {x y : Ray} :
+    SignedRay.toRat (x, .inr ()) ≤ SignedRay.toRat (y, .inl ()) := by
+  apply le_trans (b := 0)
+  · simp [toRat, Ray.toRat_nonneg]
+  · apply Ray.toRat_nonneg
+
 end SignedRay

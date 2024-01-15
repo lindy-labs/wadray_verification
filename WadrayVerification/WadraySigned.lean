@@ -938,3 +938,150 @@ aegis_prove "wadray::wadray_signed::SignedWadPartialOrd::le" :=
   simp only [← not_lt]
   rw [decide_not]
   simp only [Bool.coe_toSierraBool, Bool.toSierraBool_not]
+
+aegis_spec "wadray::wadray_signed::SignedRayPartialOrd::gt" :=
+  fun _ _ (a b : SignedRay) _ ρ =>
+  ρ = Bool.toSierraBool (b.toRat < a.toRat)
+
+aegis_prove "wadray::wadray_signed::SignedRayPartialOrd::gt" :=
+  fun _ _ (a b : SignedRay) _ ρ => by
+  unfold «spec_wadray::wadray_signed::SignedRayPartialOrd::gt»
+  have : 0 < (Ray.RAY_SCALE : ℚ)
+  · norm_num [Ray.RAY_SCALE]
+  rintro ⟨w₁,s₁,w₂,s₂,u₁,u₂,u₃,u₄,u₅,u₆,rfl,rfl,(h|h)⟩
+    <;> (cases u₁; cases u₂; cases u₃; cases u₄; cases u₅; cases u₆)
+  · rcases h with ⟨rfl,(h|h)⟩
+    · rcases h with ⟨rfl,(⟨hne,h⟩|⟨rfl,rfl,rfl⟩)⟩
+      · rcases h with (⟨hle,rfl⟩|⟨hlt,rfl⟩)
+        · simp [SignedRay.toRat_le_toRat_of_val_le_val_inl hle]
+        · simp only [SierraBool_toBool_inr, SierraBool_toBool_inl, Bool.xor_false,
+            Bool.toSierraBool_true, Bool.toSierraBool_decide_inr']
+          apply lt_of_le_of_ne
+          · apply SignedRay.toRat_le_toRat_of_val_le_val_inl
+            simp [Ray.toZMod, le_of_lt hlt]
+          · intro he
+            exact hne (SignedRay.val_eq_of_toRat_eq _ _ he).symm
+      · simp only [lt_self_iff_false, decide_False, Bool.toSierraBool_false]
+    · rcases h with ⟨rfl,(⟨hne,rfl,rfl⟩|h)⟩
+      · simp only [SierraBool_toBool_inl, Bool.not_false, Bool.toSierraBool_true,
+          Bool.toSierraBool_decide_inr']
+        apply lt_of_le_of_ne
+        · simp [SignedRay.toRat_inr_le_toRat_inl]
+        · intro he
+          exact hne (SignedRay.val_eq_of_toRat_eq _ _ he).symm
+      · rcases h with ⟨rfl,(⟨h,rfl,rfl⟩|⟨h,rfl,rfl⟩)⟩
+        · simp only [Nat.cast_pos, Bool.toSierraBool_decide_inl', SierraBool_toBool_inl,
+            Bool.not_false, Bool.toSierraBool_true, Bool.toSierraBool_decide_inr'] at *
+          apply lt_of_lt_of_le (b := 0)
+          · apply lt_of_le_of_ne
+            · simp [SignedRay.toRat, Ray.toRat_nonneg]
+            · simpa [SignedRay.toRat]
+          · simp [SignedRay.toRat, Ray.toRat_nonneg]
+        · simp only [Nat.cast_pos, SignedRay.toRat, SierraBool_toBool_inl, ite_false,
+            Bool.toSierraBool_decide_inr', SierraBool_toBool_inr, ite_true, neg_lt_self_iff,
+            Bool.toSierraBool_decide_inl', not_lt] at *
+          apply le_of_eq h
+  · rcases h with ⟨rfl,(h|h)⟩
+    · rcases h with ⟨h',(h|⟨rfl,rfl,rfl⟩)⟩ <;> rcases s₂ with (_|s₂); · simp at h'
+      · simp at h'
+        rcases h with ⟨hne,(⟨hle,rfl⟩|⟨h,rfl⟩)⟩
+        · simp at *
+          · cases s₂
+            apply lt_of_le_of_ne
+            · apply SignedRay.toRat_le_toRat_of_val_ge_val_inr hle
+            · intro he
+              exact hne (SignedRay.val_eq_of_toRat_eq _ _ he).symm
+        · simp at *
+          apply SignedRay.toRat_le_toRat_of_val_ge_val_inr (le_of_lt h)
+      · simp at *
+      · simp at *
+    · rcases h with ⟨h',h⟩
+      rcases s₂ with (s₂|s₂) <;> cases s₂
+      · rcases h with (⟨_,rfl,rfl⟩|⟨rfl,(⟨_,rfl,rfl⟩|⟨_,rfl,rfl⟩)⟩)
+          <;> simp [SignedRay.toRat_inr_le_toRat_inl]
+      · simp at h'
+
+aegis_spec "wadray::wadray_signed::SignedRayPartialOrd::lt" :=
+  fun _ _ (a b : SignedRay) _ ρ =>
+  ρ = Bool.toSierraBool (a.toRat < b.toRat)
+
+aegis_prove "wadray::wadray_signed::SignedRayPartialOrd::lt" :=
+  fun _ _ (a b : SignedRay) _ ρ => by
+  unfold «spec_wadray::wadray_signed::SignedRayPartialOrd::lt»
+  have : 0 < (Ray.RAY_SCALE : ℚ)
+  · norm_num [Ray.RAY_SCALE]
+  rintro ⟨w₁,s₁,w₂,s₂,u₁,u₂,u₃,u₄,u₅,u₆,rfl,rfl,(h|h)⟩
+    <;> (cases u₁; cases u₂; cases u₃; cases u₄; cases u₅; cases u₆)
+  · rcases h with ⟨rfl,(h|h)⟩
+    · rcases h with ⟨rfl,(⟨hne,h⟩|⟨rfl,rfl,rfl⟩)⟩
+      · rcases h with (⟨hle,rfl⟩|⟨hlt,rfl⟩)
+        · simp [SignedRay.toRat_le_toRat_of_val_le_val_inl hle]
+        · simp only [SierraBool_toBool_inr, SierraBool_toBool_inl, Bool.xor_false,
+            Bool.toSierraBool_true, Bool.toSierraBool_decide_inr']
+          apply lt_of_le_of_ne
+          · apply SignedRay.toRat_le_toRat_of_val_le_val_inl
+            simp [Ray.toZMod, le_of_lt hlt]
+          · intro he
+            exact hne (SignedRay.val_eq_of_toRat_eq _ _ he)
+      · simp only [lt_self_iff_false, decide_False, Bool.toSierraBool_false]
+    · rcases h with ⟨rfl,(⟨_,rfl,rfl⟩|⟨rfl,(⟨_,rfl,rfl⟩|⟨_,rfl,rfl⟩)⟩)⟩
+        <;> simp [SignedRay.toRat_inr_le_toRat_inl]
+  · rcases h with ⟨rfl,(h|h)⟩
+    · rcases h with ⟨h',(h|⟨rfl,rfl,rfl⟩)⟩ <;> rcases s₂ with (_|s₂); · simp at h'
+      · simp at h'
+        rcases h with ⟨hne,(⟨hle,rfl⟩|⟨h,rfl⟩)⟩
+        · simp at *
+          · cases s₂
+            apply lt_of_le_of_ne
+            · apply SignedRay.toRat_le_toRat_of_val_ge_val_inr hle
+            · intro he
+              exact hne (SignedRay.val_eq_of_toRat_eq _ _ he)
+        · simp at *
+          apply SignedRay.toRat_le_toRat_of_val_ge_val_inr (le_of_lt h)
+      · simp at *
+      · simp at *
+    · rcases h with ⟨h',h⟩
+      rcases s₂ with (s₂|s₂) <;> cases s₂
+      · rcases h with (⟨hne,rfl,rfl⟩|⟨rfl,h⟩)
+        · simp
+          apply lt_of_le_of_ne
+          · apply SignedRay.toRat_inr_le_toRat_inl
+          · intro he
+            exact hne (SignedRay.val_eq_of_toRat_eq _ _ he)
+        · rcases h with (⟨h,rfl,rfl⟩|⟨h,rfl,rfl⟩)
+          · simp at *
+            apply lt_of_lt_of_le (b := 0)
+            · apply lt_of_le_of_ne
+              · simp [SignedRay.toRat, Ray.toRat_nonneg]
+              · exact h
+            · simp [SignedRay.toRat, Ray.toRat_nonneg]
+          · simp only [Nat.cast_pos, SierraBool_toBool_inl, Bool.not_false, Bool.toSierraBool_true,
+              SignedRay.toRat, SierraBool_toBool_inr, ite_true, neg_eq_zero,
+              Bool.toSierraBool_decide_inr', ite_false, neg_lt_self_iff,
+              Bool.toSierraBool_decide_inl', not_lt] at *
+            simp [h]
+      · simp at h'
+
+aegis_spec "wadray::wadray_signed::SignedRayPartialOrd::ge" :=
+  fun _ _ (a b : SignedRay) _ ρ =>
+  ρ = Bool.toSierraBool (b.toRat ≤ a.toRat)
+
+aegis_prove "wadray::wadray_signed::SignedRayPartialOrd::ge" :=
+  fun _ _ (a b : SignedRay) _ ρ => by
+  unfold «spec_wadray::wadray_signed::SignedRayPartialOrd::ge»
+  rintro rfl
+  simp only [← not_lt]
+  rw [decide_not]
+  simp only [Bool.coe_toSierraBool, Bool.toSierraBool_not]
+
+aegis_spec "wadray::wadray_signed::SignedRayPartialOrd::le" :=
+  fun _ _ (a b : SignedRay) _ ρ =>
+  ρ = Bool.toSierraBool (a.toRat ≤ b.toRat)
+
+aegis_prove "wadray::wadray_signed::SignedRayPartialOrd::le" :=
+  fun _ _ (a b : SignedRay) _ ρ => by
+  unfold «spec_wadray::wadray_signed::SignedRayPartialOrd::le»
+  rintro rfl
+  simp only [← not_lt]
+  rw [decide_not]
+  simp only [Bool.coe_toSierraBool, Bool.toSierraBool_not]
