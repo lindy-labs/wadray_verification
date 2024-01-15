@@ -29,6 +29,22 @@ theorem ZMod.cast_rat_of_cast_nat {m : ℕ} [NeZero m] (n : ℕ) : ((n : ZMod m)
 
 attribute [simp] ZMod.cast_rat_eq_zero_iff
 
+theorem ZMod.cast_rat_le_cast_rat_of_val_le_val {m : ℕ} [NeZero m] {a b : ZMod m}
+    (h : a.val ≤ b.val) : (a : ℚ) ≤ b := by
+  cases m; cases NeZero.ne 0 rfl
+  rcases a with ⟨a, ha⟩
+  rcases b with ⟨b, hb⟩
+  simp [cast, val] at *
+  assumption
+
+theorem ZMod.cast_rat_lt_cast_rat_of_val_lt_val {m : ℕ} [NeZero m] {a b : ZMod m}
+    (h : a.val < b.val) : (a : ℚ) < b := by
+  cases m; cases NeZero.ne 0 rfl
+  rcases a with ⟨a, ha⟩
+  rcases b with ⟨b, hb⟩
+  simp [cast, val] at *
+  assumption
+
 def Wad : Type := UInt128
 
 namespace Wad
@@ -340,6 +356,22 @@ theorem val_eq_zero_of_toRat_neg' (x : Wad) (p q : Unit)
     neg_eq_self_iff] at h
   rw [← Wad.toRat_zero] at h
   exact Wad.toRat_injective h
+
+theorem toRat_le_toRat_of_val_le_val_inl {x y : Wad} (h : x.toZMod.val ≤ y.toZMod.val) :
+    SignedWad.toRat (x, .inl ()) ≤ SignedWad.toRat (y, .inl ()) := by
+  simp only [Wad.toZMod] at h
+  simp [SignedWad.toRat, Wad.toRat_le_toRat_of_val_le_val _ _ h]
+
+theorem toRat_le_toRat_of_val_ge_val_inr {x y : Wad} (h : y.toZMod.val ≤ x.toZMod.val) :
+    SignedWad.toRat (x, .inr ()) ≤ SignedWad.toRat (y, .inr ()) := by
+  simp only [Wad.toZMod] at h
+  simp [SignedWad.toRat, Wad.toRat_le_toRat_of_val_le_val _ _ h]
+
+theorem toRat_inr_le_toRat_inl {x y : Wad} :
+    SignedWad.toRat (x, .inr ()) ≤ SignedWad.toRat (y, .inl ()) := by
+  apply le_trans (b := 0)
+  · simp [toRat, Wad.toRat_nonneg]
+  · apply Wad.toRat_nonneg
 
 end SignedWad
 

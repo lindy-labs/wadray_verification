@@ -791,3 +791,73 @@ aegis_prove "wadray::wadray_signed::BoundedSignedRay::min" :=
   fun _ ρ => by
   rintro rfl
   rfl
+
+aegis_info "wadray::wadray_signed::SignedWadPartialOrd::gt"
+
+aegis_spec "wadray::wadray_signed::SignedWadPartialOrd::gt" :=
+  fun _ _ (a b : SignedWad) _ ρ =>
+  ρ = Bool.toSierraBool (b.toRat < a.toRat)
+
+aegis_prove "wadray::wadray_signed::SignedWadPartialOrd::gt" :=
+  fun _ _ (a b : SignedWad) _ ρ => by
+  unfold «spec_wadray::wadray_signed::SignedWadPartialOrd::gt»
+  have : 0 < (Wad.WAD_SCALE : ℚ)
+  · norm_num [Wad.WAD_SCALE]
+  rintro ⟨w₁,s₁,w₂,s₂,u₁,u₂,u₃,u₄,u₅,u₆,rfl,rfl,(h|h)⟩
+    <;> (cases u₁; cases u₂; cases u₃; cases u₄; cases u₅; cases u₆)
+  · rcases h with ⟨rfl,(h|h)⟩
+    · rcases h with ⟨rfl,(⟨hne,h⟩|⟨rfl,rfl,rfl⟩)⟩
+      · rcases h with (⟨hle,rfl⟩|⟨hlt,rfl⟩)
+        · simp [SignedWad.toRat_le_toRat_of_val_le_val_inl hle]
+        · simp only [SierraBool_toBool_inr, SierraBool_toBool_inl, Bool.xor_false,
+            Bool.toSierraBool_true, Bool.toSierraBool_decide_inr']
+          apply lt_of_le_of_ne
+          · apply SignedWad.toRat_le_toRat_of_val_le_val_inl
+            simp [Wad.toZMod, le_of_lt hlt]
+          · intro he
+            have := SignedWad.val_eq_of_toRat_eq _ _ he
+            dsimp only at this; rw [eq_comm] at this
+            contradiction
+      · simp only [lt_self_iff_false, decide_False, Bool.toSierraBool_false]
+    · rcases h with ⟨rfl,(⟨hne,rfl,rfl⟩|h)⟩
+      · simp only [SierraBool_toBool_inl, Bool.not_false, Bool.toSierraBool_true,
+          Bool.toSierraBool_decide_inr']
+        apply lt_of_le_of_ne
+        · simp [SignedWad.toRat_inr_le_toRat_inl]
+        · intro he
+          have := SignedWad.val_eq_of_toRat_eq _ _ he
+          dsimp only at this; rw [eq_comm] at this
+          contradiction
+      · rcases h with ⟨rfl,(⟨h,rfl,rfl⟩|⟨h,rfl,rfl⟩)⟩
+        · simp only [Nat.cast_pos, Bool.toSierraBool_decide_inl', SierraBool_toBool_inl,
+            Bool.not_false, Bool.toSierraBool_true, Bool.toSierraBool_decide_inr'] at *
+          apply lt_of_lt_of_le (b := 0)
+          · apply lt_of_le_of_ne
+            · simp [SignedWad.toRat, Wad.toRat_nonneg]
+            · simpa [SignedWad.toRat]
+          · simp [SignedWad.toRat, Wad.toRat_nonneg]
+        · simp only [Nat.cast_pos, SignedWad.toRat, SierraBool_toBool_inl, ite_false,
+            Bool.toSierraBool_decide_inr', SierraBool_toBool_inr, ite_true, neg_lt_self_iff,
+            Bool.toSierraBool_decide_inl', not_lt] at *
+          apply le_of_eq h
+  · rcases h with ⟨rfl,(h|h)⟩
+    · rcases h with ⟨h',(h|⟨rfl,rfl,rfl⟩)⟩ <;> rcases s₂ with (_|s₂); · simp at h'
+      · simp at h'
+        rcases h with ⟨hne,(⟨hle,rfl⟩|⟨h,rfl⟩)⟩
+        · simp at *
+          · cases s₂
+            apply lt_of_le_of_ne
+            · apply SignedWad.toRat_le_toRat_of_val_ge_val_inr hle
+            · intro he
+              have := SignedWad.val_eq_of_toRat_eq _ _ he
+              dsimp only at this; rw [eq_comm] at this
+              contradiction
+        · simp at *
+          apply SignedWad.toRat_le_toRat_of_val_ge_val_inr (le_of_lt h)
+      · simp at *
+      · simp at *
+    · rcases h with ⟨h',h⟩
+      rcases s₂ with (s₂|s₂) <;> cases s₂
+      · rcases h with (⟨_,rfl,rfl⟩|⟨rfl,(⟨_,rfl,rfl⟩|⟨_,rfl,rfl⟩)⟩)
+          <;> simp [SignedWad.toRat_inr_le_toRat_inl]
+      · simp at h'
