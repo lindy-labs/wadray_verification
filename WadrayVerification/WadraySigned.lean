@@ -914,3 +914,15 @@ aegis_prove "wadray::wadray_signed::SignedWadPartialOrd::lt" :=
               Bool.toSierraBool_decide_inl', not_lt] at *
             simp [h]
       · simp at h'
+
+aegis_spec "wadray::wadray_signed::SignedWadPartialOrd::ge" :=
+  fun _ _ (a b : SignedWad) _ ρ =>
+  ρ = Bool.toSierraBool (b.toRat ≤ a.toRat)
+
+aegis_prove "wadray::wadray_signed::SignedWadPartialOrd::ge" :=
+  fun _ _ (a b : SignedWad) _ ρ => by
+  unfold «spec_wadray::wadray_signed::SignedWadPartialOrd::ge»
+  rintro rfl
+  simp only [← not_lt]
+  rw [decide_not]
+  simp only [Bool.coe_toSierraBool, Bool.toSierraBool_not]
