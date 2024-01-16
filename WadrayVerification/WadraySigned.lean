@@ -1085,3 +1085,21 @@ aegis_prove "wadray::wadray_signed::SignedRayPartialOrd::le" :=
   simp only [← not_lt]
   rw [decide_not]
   simp only [Bool.coe_toSierraBool, Bool.toSierraBool_not]
+
+aegis_spec "wadray::wadray_signed::SignedWadTryIntoWad::try_into" :=
+  fun _ (a : SignedWad) (ρ : Wad ⊕ _) =>
+  ρ = if SierraBool.toBool a.2 then .inr () else .inl a.1
+
+aegis_prove "wadray::wadray_signed::SignedWadTryIntoWad::try_into" :=
+  fun _ (a : SignedWad) (ρ : Wad ⊕ _) => by
+  unfold «spec_wadray::wadray_signed::SignedWadTryIntoWad::try_into»
+  aesop
+
+aegis_spec "wadray::wadray_signed::SignedRayTryIntoRay::try_into" :=
+  fun _ (a : SignedRay) (ρ : Ray ⊕ _) =>
+  ρ = if SierraBool.toBool a.2 then .inr () else .inl a.1
+
+aegis_prove "wadray::wadray_signed::SignedRayTryIntoRay::try_into" :=
+  fun _ (a : SignedRay) (ρ : Ray ⊕ _) => by
+  unfold «spec_wadray::wadray_signed::SignedRayTryIntoRay::try_into»
+  aesop
