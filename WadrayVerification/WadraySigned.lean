@@ -1114,7 +1114,18 @@ aegis_prove "wadray::wadray_signed::_felt_sign" :=
   rintro ⟨x : UInt256, y : UInt256, h₁, h₂, rfl⟩
   have : (1809251394333065606848661391547535052811553607665798349986546028067936010240 : F).val
           = PRIME / 2 := rfl
-  simp at h₂
+  simp only [Int.ofNat_eq_coe, Nat.cast_ofNat, Int.int_cast_ofNat] at h₂
   simp only [UInt256.val, h₂, h₁, ← not_le (b := a.valMinAbs) (a := 0), ZMod.valMinAbs_nonneg_iff]
   congr; apply propext
   rw [not_le, this]
+
+aegis_spec "wadray::wadray_signed::_felt_abs" :=
+  fun _ _ a _ ρ =>
+  ρ = a.valMinAbs.natAbs
+
+aegis_prove "wadray::wadray_signed::_felt_abs" :=
+  fun _ _ a _ ρ => by
+  unfold «spec_wadray::wadray_signed::_felt_abs»
+  sierra_simp'
+  rw [← not_le, ZMod.valMinAbs_nonneg_iff, not_le, not_lt, ZMod.nat_cast_natAbs_valMinAbs a]
+  aesop
