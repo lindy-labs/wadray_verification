@@ -1103,3 +1103,18 @@ aegis_prove "wadray::wadray_signed::SignedRayTryIntoRay::try_into" :=
   fun _ (a : SignedRay) (ρ : Ray ⊕ _) => by
   unfold «spec_wadray::wadray_signed::SignedRayTryIntoRay::try_into»
   aesop
+
+aegis_spec "wadray::wadray_signed::_felt_sign" :=
+  fun _ _ a _ ρ =>
+  ρ = Bool.toSierraBool (a.valMinAbs < 0)
+
+aegis_prove "wadray::wadray_signed::_felt_sign" :=
+  fun _ _ a _ ρ => by
+  unfold «spec_wadray::wadray_signed::_felt_sign»
+  rintro ⟨x : UInt256, y : UInt256, h₁, h₂, rfl⟩
+  have : (1809251394333065606848661391547535052811553607665798349986546028067936010240 : F).val
+          = PRIME / 2 := rfl
+  simp at h₂
+  simp only [UInt256.val, h₂, h₁, ← not_le (b := a.valMinAbs) (a := 0), ZMod.valMinAbs_nonneg_iff]
+  congr; apply propext
+  rw [not_le, this]
