@@ -1129,3 +1129,12 @@ aegis_prove "wadray::wadray_signed::_felt_abs" :=
   sierra_simp'
   rw [← not_le, ZMod.valMinAbs_nonneg_iff, not_le, not_lt, ZMod.nat_cast_natAbs_valMinAbs a]
   aesop
+
+aegis_spec "wadray::wadray_signed::sign_from_mul" :=
+  fun _ a b ρ =>
+  ρ = Bool.toSierraBool (xor (SierraBool.toBool a) (SierraBool.toBool b))
+
+aegis_prove "wadray::wadray_signed::sign_from_mul" :=
+  fun _ a b ρ => by
+  unfold «spec_wadray::wadray_signed::sign_from_mul»
+  aesop
