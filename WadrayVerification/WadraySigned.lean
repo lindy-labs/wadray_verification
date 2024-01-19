@@ -1172,3 +1172,37 @@ aegis_prove "wadray::wadray_signed::signed_wad_from_felt" :=
   · cases h₂
     rw [ZMod.val_nat_cast_of_lt hlt, ← not_lt] at h₁
     simp [h₁]
+
+aegis_spec "wadray::wadray_signed::signed_ray_from_felt" :=
+  fun _ _ a _ (ρ : SignedRay ⊕ _) =>
+  if a.valMinAbs.natAbs < U128_MOD
+  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat = a.valMinAbs / Ray.RAY_SCALE
+  else ρ.isRight
+
+aegis_prove "wadray::wadray_signed::signed_ray_from_felt" :=
+  fun _ _ a _ (ρ : SignedRay ⊕ _) => by
+  have hlt : a.valMinAbs.natAbs < PRIME
+  · apply lt_of_le_of_lt (ZMod.natAbs_valMinAbs_le a)
+    norm_num [PRIME]
+  unfold «spec_wadray::wadray_signed::signed_ray_from_felt»
+  rintro ⟨_,_,_,(⟨h₁,rfl⟩|⟨h₁,rfl⟩),(⟨h₂,rfl⟩|⟨h₂,rfl⟩)⟩
+  · cases h₂
+    rw [ZMod.val_nat_cast_of_lt hlt] at h₁
+    simp only [SignedRay.toRat]
+    split_ifs with h₃
+    · simp_all [Option.get!, Ray.toRat, Ray.toZMod, neg_div',
+        ZMod.cast_nat_cast_of_lt hlt, ZMod.cast_nat_cast_of_lt h₁]
+      congr
+      rw [Nat.cast_natAbs, Int.cast_abs, neg_eq_iff_eq_neg]
+      simp only [abs_eq_neg_self, Int.cast_nonpos]
+      exact le_of_lt h₃
+    · simp_all only [Option.get!, Sum.getLeft?_inl, Bool.coe_toSierraBool, decide_eq_true_eq,
+        not_lt, Sum.isLeft_inl, Ray.toRat, Ray.toZMod, ZMod.nat_cast_val, true_and,
+        ZMod.cast_nat_cast_of_lt hlt, ZMod.cast_nat_cast_of_lt h₁]
+      congr
+      aesop
+  · simp at h₂
+  · simp at h₂
+  · cases h₂
+    rw [ZMod.val_nat_cast_of_lt hlt, ← not_lt] at h₁
+    simp [h₁]

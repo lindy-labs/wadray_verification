@@ -387,6 +387,8 @@ def SignedRay := UInt128 × (Unit ⊕ Unit)
 
 namespace SignedRay
 
+instance : Inhabited SignedRay := ⟨default, default⟩
+
 variable (w w₁ w₂ : SignedRay)
 
 def sign := SierraBool.toBool w.2
