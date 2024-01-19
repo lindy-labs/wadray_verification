@@ -45,6 +45,12 @@ theorem ZMod.cast_rat_lt_cast_rat_of_val_lt_val {m : ℕ} [NeZero m] {a b : ZMod
   simp [cast, val] at *
   assumption
 
+theorem ZMod.cast_nat_cast_of_lt {m k : ℕ} [NeZero m] {R : Type u_1} [Ring R] (h : k < m) :
+    ((k : ZMod m) : R) = k := by
+  cases m; cases NeZero.ne 0 rfl
+  simp only [cast, Nat.cast, NatCast.natCast, val, Nat.add_eq, Nat.add_zero, Fin.ofNat_eq_val,
+    Fin.coe_ofNat_eq_mod, Nat.mod_eq_of_lt h]
+
 def Wad : Type := UInt128
 
 namespace Wad
@@ -257,6 +263,8 @@ def Wad.MAX_CONVERTIBLE_WAD : ℕ := 340282366920938463463374607431
 def SignedWad := UInt128 × (Unit ⊕ Unit)
 
 namespace SignedWad
+
+instance : Inhabited SignedWad := ⟨default, default⟩
 
 variable (w w₁ w₂ : SignedWad)
 
