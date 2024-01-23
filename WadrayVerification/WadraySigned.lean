@@ -1466,3 +1466,17 @@ aegis_prove "wadray::wadray_signed::SignedRayDiv::div" :=
         simp [SignedRay.toRat, h₁]
       · simp only [Ray.toZMod] at h₁
         simp [h₁]
+
+aegis_spec "wadray::wadray_signed::SignedWadDivEq::div_eq" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit ⊕ _) =>
+  if a.1.val * Wad.WAD_SCALE / b.1.val < U128_MOD ∧ b.1.val ≠ 0
+  then ρ.isLeft ∧ ρ.getLeft?.get!.1.toRat =
+    if (xor (SierraBool.toBool a.2) (SierraBool.toBool b.2))
+    then - ((a.1.val * Wad.WAD_SCALE / b.1.val : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
+    else ((a.1.val * Wad.WAD_SCALE / b.1.val : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
+  else ρ.isRight
+
+aegis_prove "wadray::wadray_signed::SignedWadDivEq::div_eq" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit ⊕ _) => by
+  unfold «spec_wadray::wadray_signed::SignedWadDivEq::div_eq»
+  aesop
