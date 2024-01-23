@@ -1516,3 +1516,15 @@ aegis_prove "wadray::wadray_signed::RayIntoSignedRay::into" :=
   fun _ (a : Ray) (ρ : SignedRay) => by
   rintro rfl
   rfl
+
+aegis_spec "wadray::wadray_signed::WadIntoSignedRay::into" :=
+  fun _ _ (a : Wad) _ (ρ : SignedRay ⊕ _) =>
+  if a.toZMod.val * Ray.DIFF < U128_MOD
+  then ρ = .inl ⟨a.toZMod * Ray.DIFF, Bool.toSierraBool .false⟩
+  else ρ.isRight
+
+aegis_prove "wadray::wadray_signed::WadIntoSignedRay::into" :=
+  fun _ _ (a : Wad) _ (ρ : SignedRay ⊕ _) => by
+  unfold «spec_wadray::wadray_signed::WadIntoSignedRay::into»
+  rintro ⟨_,_,_,h₁,h₂⟩
+  aesop
