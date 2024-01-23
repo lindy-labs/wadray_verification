@@ -1480,3 +1480,12 @@ aegis_prove "wadray::wadray_signed::SignedWadDivEq::div_eq" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit ⊕ _) => by
   unfold «spec_wadray::wadray_signed::SignedWadDivEq::div_eq»
   aesop
+
+aegis_spec "wadray::wadray_signed::U128IntoSignedWad::into" :=
+  fun _ a (ρ : SignedWad) =>
+  ρ = ⟨a, Bool.toSierraBool .false⟩
+
+aegis_prove "wadray::wadray_signed::U128IntoSignedWad::into" :=
+  fun _ a (ρ : SignedWad) => by
+  rintro rfl
+  rfl
