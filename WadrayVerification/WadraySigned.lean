@@ -1206,3 +1206,39 @@ aegis_prove "wadray::wadray_signed::signed_ray_from_felt" :=
   · cases h₂
     rw [ZMod.val_nat_cast_of_lt hlt, ← not_lt] at h₁
     simp [h₁]
+
+aegis_spec "wadray::wadray_signed::SignedWadIntoFelt252::into" :=
+  fun _ (a : SignedWad) ρ =>
+  ρ = if SierraBool.toBool a.2 then -a.1.cast else a.1.cast
+
+aegis_prove "wadray::wadray_signed::SignedWadIntoFelt252::into" :=
+  fun _ (a : SignedWad) ρ => by
+  unfold «spec_wadray::wadray_signed::SignedWadIntoFelt252::into»
+  aesop
+
+aegis_spec "wadray::wadray_signed::SignedRayIntoFelt252::into" :=
+  fun _ (a : SignedRay) ρ =>
+  ρ = if SierraBool.toBool a.2 then -a.1.cast else a.1.cast
+
+aegis_prove "wadray::wadray_signed::SignedRayIntoFelt252::into" :=
+  fun _ (a : SignedRay) ρ => by
+  unfold «spec_wadray::wadray_signed::SignedRayIntoFelt252::into»
+  aesop
+
+aegis_spec "wadray::wadray_signed::SignedWadAdd::add" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) =>
+  let a' : F := if SierraBool.toBool a.2 then -a.1 else a.1
+  let b' : F := if SierraBool.toBool b.2 then -b.1 else b.1
+  if (a' + b').valMinAbs.natAbs < U128_MOD
+  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat = (a' + b').valMinAbs / Wad.WAD_SCALE
+  else ρ.isRight
+
+aegis_prove "wadray::wadray_signed::SignedWadAdd::add" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) => by
+  unfold «spec_wadray::wadray_signed::SignedWadAdd::add»
+  rcases a with ⟨va,sa⟩
+  rcases b with ⟨vb,sb⟩
+  rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩
+    <;> dsimp only at h₁
+    <;> · simp [ite_prop_iff_or] at h₁ ⊢
+          rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb <;> simpa

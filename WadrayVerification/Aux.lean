@@ -51,6 +51,35 @@ theorem ZMod.cast_nat_cast_of_lt {m k : ℕ} [NeZero m] {R : Type u_1} [Ring R] 
   simp only [cast, Nat.cast, NatCast.natCast, val, Nat.add_eq, Nat.add_zero, Fin.ofNat_eq_val,
     Fin.coe_ofNat_eq_mod, Nat.mod_eq_of_lt h]
 
+theorem ZMod.cast_add_of_lt_half' {m n : ℕ} [NeZero m] [NeZero n] (a b : ZMod m)
+    (h: a.val + b.val < m) : (a : ZMod n) + (b : ZMod n) = ↑(a + b) := by
+  cases m; cases NeZero.ne 0 rfl
+  rcases a with ⟨a, ha⟩
+  rcases b with ⟨b, hb⟩
+  simp only [cast, val, Nat.add_eq, Nat.add_zero]
+  simp only [val] at h
+  rw [Fin.val_add, Nat.mod_eq_of_lt h, Nat.cast_add]
+
+theorem ZMod.valMinAbs_cast_of_lt_of_le [NeZero m] (hm : m < n) {a : ZMod m}
+    (ham : a.val ≤ m / 2) : (a : ZMod n).valMinAbs = a.valMinAbs := by
+  rcases m with (⟨⟩|⟨m⟩); · cases NeZero.ne 0 rfl
+  rcases n with (⟨⟩|⟨n⟩); · simp at hm
+  rcases a with ⟨a, ha⟩
+  simp [valMinAbs, val, cast]
+  simp only [Nat.cast, NatCast.natCast, Fin.ofNat_eq_val, Fin.coe_ofNat_eq_mod,
+    Int.ofNat_eq_coe, ha, ite_true]
+  rw [Nat.mod_eq_of_lt (lt_trans ha hm)]
+  have : a ≤ n.succ / 2
+  · apply le_trans ham
+    apply Nat.div_le_div_right (le_of_lt hm)
+  simp_all [val]
+
+@[simp]
+theorem Option.get!_some [Inhabited α] (a : α) : (Option.some a).get! = a := by rfl
+
+@[simp]
+theorem Option.get!_none [Inhabited α] : (.none : Option α).get! = default := by rfl
+
 def Wad : Type := UInt128
 
 namespace Wad
