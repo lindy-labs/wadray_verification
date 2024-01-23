@@ -1498,3 +1498,12 @@ aegis_prove "wadray::wadray_signed::U128IntoSignedRay::into" :=
   fun _ a (ρ : SignedRay) => by
   rintro rfl
   rfl
+
+aegis_spec "wadray::wadray_signed::WadIntoSignedWad::into" :=
+  fun _ (a : Wad) (ρ : SignedWad) =>
+  ρ = ⟨a, Bool.toSierraBool .false⟩
+
+aegis_prove "wadray::wadray_signed::WadIntoSignedWad::into" :=
+  fun _ (a : Wad) (ρ : SignedWad) => by
+  rintro rfl
+  rfl
