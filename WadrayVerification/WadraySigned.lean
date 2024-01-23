@@ -1322,3 +1322,33 @@ aegis_prove "wadray::wadray_signed::SignedRaySub::sub" :=
     <;> dsimp only at h₁
     <;> · simp [ite_prop_iff_or] at h₁ ⊢
           rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb <;> exact h₁
+
+aegis_spec "wadray::wadray_signed::SignedWadMul::mul" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) =>
+  if a.1.val * b.1.val / Wad.WAD_SCALE < U128_MOD
+  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat =
+    if (xor (SierraBool.toBool a.2) (SierraBool.toBool b.2))
+    then - ((a.1.val * b.1.val / Wad.WAD_SCALE : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
+    else ((a.1.val * b.1.val / Wad.WAD_SCALE : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
+  else ρ.isRight
+
+aegis_prove "wadray::wadray_signed::SignedWadMul::mul" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) => by
+  unfold «spec_wadray::wadray_signed::SignedWadMul::mul»
+  rintro ⟨va,sa,vb,sb,_,_,_,rfl,rfl,h₁,h₂⟩
+  rcases h₁ with (⟨h₁,rfl⟩|⟨h₁,h₁'⟩)
+  · simp only [Sum.inl.injEq, false_and, or_false] at h₂
+    rcases h₂ with ⟨rfl,rfl⟩
+    simp only [h₁, Sum.isLeft_inl, SignedWad.toRat, Sum.getLeft?_inl, Option.get!_some,
+      Bool.coe_toSierraBool, bne_iff_ne, ne_eq, ite_not, true_and, Sum.isRight_inl, ite_true,
+      ite_false, SierraBool_toBool_inr]
+    rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb
+      <;> simp only [SierraBool_toBool_inl, Wad.toRat, Wad.toZMod, ite_true]
+    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
+    · simp [SierraBool_toBool_inr, ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
+    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
+    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
+  · rcases h₂ with (⟨rfl,rfl⟩|⟨rfl,rfl⟩)
+    · simp at h₁'
+    · rw [← not_lt] at h₁
+      simp [SignedWad.toRat, h₁]
