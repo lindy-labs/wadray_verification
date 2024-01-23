@@ -1242,3 +1242,34 @@ aegis_prove "wadray::wadray_signed::SignedWadAdd::add" :=
     <;> dsimp only at h₁
     <;> · simp [ite_prop_iff_or] at h₁ ⊢
           rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb <;> simpa
+
+aegis_spec "wadray::wadray_signed::SignedWadAddEq::add_eq" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit  ⊕ _) =>
+  let a' : F := if SierraBool.toBool a.2 then -a.1 else a.1
+  let b' : F := if SierraBool.toBool b.2 then -b.1 else b.1
+  if (a' + b').valMinAbs.natAbs < U128_MOD
+  then ρ.isLeft ∧ ρ.getLeft?.get!.1.toRat = (a' + b').valMinAbs / Wad.WAD_SCALE
+  else ρ.isRight
+
+aegis_prove "wadray::wadray_signed::SignedWadAddEq::add_eq" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit  ⊕ _) => by
+  unfold «spec_wadray::wadray_signed::SignedWadAddEq::add_eq»
+  aesop
+
+aegis_spec "wadray::wadray_signed::SignedRayAdd::add" :=
+  fun _ _ (a b : SignedRay) _ (ρ : SignedRay ⊕ _) =>
+  let a' : F := if SierraBool.toBool a.2 then -a.1 else a.1
+  let b' : F := if SierraBool.toBool b.2 then -b.1 else b.1
+  if (a' + b').valMinAbs.natAbs < U128_MOD
+  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat = (a' + b').valMinAbs / Ray.RAY_SCALE
+  else ρ.isRight
+
+aegis_prove "wadray::wadray_signed::SignedRayAdd::add" :=
+  fun _ _ (a b : SignedRay) _ (ρ : SignedRay ⊕ _) => by
+  unfold «spec_wadray::wadray_signed::SignedRayAdd::add»
+  rcases a with ⟨va,sa⟩
+  rcases b with ⟨vb,sb⟩
+  rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩
+    <;> dsimp only at h₁
+    <;> · simp [ite_prop_iff_or] at h₁ ⊢
+          rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb <;> simpa
