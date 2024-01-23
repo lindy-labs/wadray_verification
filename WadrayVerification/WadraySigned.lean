@@ -1382,3 +1382,17 @@ aegis_prove "wadray::wadray_signed::SignedRayMul::mul" :=
     · simp at h₁'
     · rw [← not_lt] at h₁
       simp [SignedRay.toRat, h₁]
+
+aegis_spec "wadray::wadray_signed::SignedWadMulEq::mul_eq" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit ⊕ _) =>
+  if a.1.val * b.1.val / Wad.WAD_SCALE < U128_MOD
+  then ρ.isLeft ∧ ρ.getLeft?.get!.1.toRat =
+    if (xor (SierraBool.toBool a.2) (SierraBool.toBool b.2))
+    then - ((a.1.val * b.1.val / Wad.WAD_SCALE : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
+    else ((a.1.val * b.1.val / Wad.WAD_SCALE : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
+  else ρ.isRight
+
+aegis_prove "wadray::wadray_signed::SignedWadMulEq::mul_eq" :=
+  fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit ⊕ _) => by
+  unfold «spec_wadray::wadray_signed::SignedWadMulEq::mul_eq»
+  aesop
