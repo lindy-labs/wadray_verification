@@ -74,6 +74,30 @@ theorem ZMod.valMinAbs_cast_of_lt_of_le [NeZero m] (hm : m < n) {a : ZMod m}
     apply Nat.div_le_div_right (le_of_lt hm)
   simp_all [val]
 
+theorem ZMod.valMinAbs_add_of_two_lt [NeZero m] {a b : ZMod m}
+    (h : 2 * (a.valMinAbs.natAbs + b.valMinAbs.natAbs) < m) :
+    (a + b).valMinAbs = a.valMinAbs + b.valMinAbs := by
+  rcases m with (⟨⟩|⟨m⟩); · cases NeZero.ne 0 rfl
+  refine' (valMinAbs_spec _ _).2 ⟨_, _, _⟩
+  · simp [Int.cast_add]
+  · rw [← Nat.cast_lt (α := ℤ), ← neg_lt_neg_iff] at h
+    apply lt_of_lt_of_le h
+    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
+    rw [mul_comm, ← neg_mul, mul_le_mul_right two_pos, neg_add]
+    apply add_le_add (neg_abs_le_self (valMinAbs a)) (neg_abs_le_self (valMinAbs b))
+  · rw [← Nat.cast_lt (α := ℤ)] at h
+    apply le_of_lt (lt_of_le_of_lt _ h)
+    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
+    rw [mul_comm, mul_add, mul_add]
+    apply add_le_add <;> simp only [gt_iff_lt, zero_lt_two, mul_le_mul_left, le_abs_self]
+
+theorem Zmod.valMinAbs_add_of_four_lt [NeZero m] {a b : ZMod m}
+    (ha : 4 * a.valMinAbs.natAbs < m) (hb : 4 * b.valMinAbs.natAbs < m) :
+    (a + b).valMinAbs = a.valMinAbs + b.valMinAbs := by
+  apply ZMod.valMinAbs_add_of_two_lt
+  rw [← mul_lt_mul_left two_pos, ← mul_assoc, mul_add, two_mul m]
+  exact add_lt_add ha hb
+
 @[simp]
 theorem Option.get!_some [Inhabited α] (a : α) : (Option.some a).get! = a := by rfl
 
