@@ -107,6 +107,30 @@ theorem ZMod.valMinAbs_add_of_four_lt [NeZero m] {a b : ZMod m}
   rw [← mul_lt_mul_left two_pos, ← mul_assoc, mul_add, two_mul m]
   exact add_lt_add ha hb
 
+theorem ZMod.valMinAbs_sub_of_two_lt [NeZero m] {a b : ZMod m}
+    (h : 2 * (a.valMinAbs.natAbs + b.valMinAbs.natAbs) < m) :
+    (a - b).valMinAbs = a.valMinAbs - b.valMinAbs := by
+  rcases m with (⟨⟩|⟨m⟩); · cases NeZero.ne 0 rfl
+  refine' (valMinAbs_spec _ _).2 ⟨_, _, _⟩
+  · simp [Int.cast_add]
+  · rw [← Nat.cast_lt (α := ℤ), ← neg_lt_neg_iff] at h
+    apply lt_of_lt_of_le h
+    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
+    rw [mul_comm, ← neg_mul, mul_le_mul_right two_pos, neg_add, ← sub_eq_add_neg]
+    apply sub_le_sub (neg_abs_le_self (valMinAbs a)) (le_abs_self (valMinAbs b))
+  · rw [← Nat.cast_lt (α := ℤ)] at h
+    apply le_of_lt (lt_of_le_of_lt _ h)
+    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
+    rw [mul_comm, mul_le_mul_left two_pos, sub_eq_add_neg]
+    apply add_le_add (le_abs_self (valMinAbs a)) (neg_le_abs_self (valMinAbs b))
+
+theorem ZMod.valMinAbs_sub_of_four_lt [NeZero m] {a b : ZMod m}
+    (ha : 4 * a.valMinAbs.natAbs < m) (hb : 4 * b.valMinAbs.natAbs < m) :
+    (a - b).valMinAbs = a.valMinAbs - b.valMinAbs := by
+  apply valMinAbs_sub_of_two_lt
+  rw [← mul_lt_mul_left two_pos, ← mul_assoc, mul_add, two_mul m]
+  exact add_lt_add ha hb
+
 theorem ZMod.val_cast_lt [NeZero m] (n : ℕ) [NeZero n] (a : ZMod m) : (a : ZMod n).val < m := by
   rcases m with (⟨⟩|⟨m⟩); · cases NeZero.ne 0 rfl
   by_cases h : m < n
