@@ -1227,28 +1227,101 @@ aegis_prove "wadray::wadray_signed::SignedRayIntoFelt252::into" :=
 
 aegis_spec "wadray::wadray_signed::SignedWadAdd::add" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) =>
-  let a' : F := if SierraBool.toBool a.2 then -a.1 else a.1
-  let b' : F := if SierraBool.toBool b.2 then -b.1 else b.1
-  if (a' + b').valMinAbs.natAbs < U128_MOD
-  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat = (a' + b').valMinAbs / Wad.WAD_SCALE
+  if |a.toRat + b.toRat| < U128_MOD / Wad.WAD_SCALE
+  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat = a.toRat + b.toRat
   else ρ.isRight
+
+theorem two_U128_MOD_lt_PRIME : 2 * U128_MOD < PRIME := by norm_num [U128_MOD, PRIME]
+
+theorem four_U128_MOD_lt_PRIME : 4 * U128_MOD < PRIME := by norm_num [U128_MOD, PRIME]
+
+theorem four_U128_MOD_le_PRIME : 4 * U128_MOD ≤ PRIME := le_of_lt four_U128_MOD_lt_PRIME
+
+theorem add_aux1 (x : UInt128) : 4 * (x : F).valMinAbs.natAbs < PRIME := by
+  rw [ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME, Int.natAbs_ofNat]
+  apply lt_of_lt_of_le _ four_U128_MOD_le_PRIME
+  apply Nat.mul_lt_mul_of_pos_left (ZMod.val_lt _) (by norm_num)
 
 aegis_prove "wadray::wadray_signed::SignedWadAdd::add" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) => by
   unfold «spec_wadray::wadray_signed::SignedWadAdd::add»
   rcases a with ⟨va,sa⟩
   rcases b with ⟨vb,sb⟩
-  rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩
-    <;> dsimp only at h₁
-    <;> · simp [ite_prop_iff_or] at h₁ ⊢
-          rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb <;> simpa
+  have hS : 0 < (Wad.WAD_SCALE : ℚ)
+  · norm_num [Wad.WAD_SCALE]
+  have hane : 2 * (va : ZMod PRIME).val ≠ PRIME
+  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
+      two_U128_MOD_lt_PRIME)
+  have hbne : 2 * (vb : ZMod PRIME).val ≠ PRIME
+  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
+      two_U128_MOD_lt_PRIME)
+  have ha : 4 * (va : F).valMinAbs.natAbs < PRIME := add_aux1 va
+  have hb : 4 * (vb : F).valMinAbs.natAbs < PRIME := add_aux1 vb
+  have ha' : 4 * (- (va : F)).valMinAbs.natAbs < PRIME
+  · rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
+  have hb' : 4 * (- (vb : F)).valMinAbs.natAbs < PRIME
+  · rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
+  rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩ <;> dsimp only at h₁
+  · simp only [Sum.isLeft_inl, Sum.getLeft?_inl, Option.get!_some, true_and, Sum.isRight_inl,
+      ite_prop_iff_or, not_lt, and_false, or_false] at h₁ ⊢
+    rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb
+      <;> simp only [SierraBool_toBool_inl, SierraBool_toBool_inr, ite_false, ite_true] at h₁
+      <;> rcases h₁ with ⟨h₁,h₂⟩
+    · simp only [ZMod.valMinAbs_add_of_four_lt ha hb, Int.natAbs_ofNat,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME, ← Nat.cast_add] at h₁ h₂
+      push_cast at h₂; rw [h₂]
+      simp only [SignedWad.toRat, SierraBool_toBool_inl, Wad.toRat, Wad.toZMod,
+        ite_false, and_true, add_div]
+      rw [← add_div, ← Nat.cast_add, abs_div, Nat.abs_cast]
+      apply div_lt_div_of_lt hS
+      rwa [Nat.cast_lt]
+    · simp only [ZMod.valMinAbs_add_of_four_lt ha hb', ZMod.valMinAbs_neg_of_ne_half hbne,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME] at h₁ h₂
+      push_cast at h₂; rw [h₂]
+      simp only [SignedWad.toRat, SierraBool_toBool_inl, Wad.toRat, Wad.toZMod,
+        ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
+      rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
+      apply div_lt_div_of_lt hS
+      simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
+        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+      assumption
+    · simp only [ZMod.valMinAbs_add_of_four_lt ha' hb, ZMod.valMinAbs_neg_of_ne_half hane,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME] at h₁ h₂
+      push_cast at h₂; rw [h₂]
+      simp only [SignedWad.toRat, SierraBool_toBool_inl, Wad.toRat, Wad.toZMod,
+        ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
+      rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
+      apply div_lt_div_of_lt hS
+      simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
+        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+      assumption
+    · simp only [ZMod.valMinAbs_add_of_four_lt ha' hb',
+         ZMod.valMinAbs_neg_of_ne_half hbne,  ZMod.valMinAbs_neg_of_ne_half hane,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME, neg_add] at h₁ h₂
+      push_cast at h₂; rw [h₂]
+      simp only [SignedWad.toRat, SierraBool_toBool_inr, Wad.toRat, Wad.toZMod,
+        ite_true, add_div, neg_div, and_true]
+      rw [← neg_div, ← neg_div, ← add_div, abs_div, Nat.abs_cast]
+      apply div_lt_div_of_lt hS
+      rw [← neg_add, abs_neg, ← Nat.cast_add, Nat.abs_cast, Nat.cast_lt]
+      rwa [← neg_add, ← Nat.cast_add, Int.natAbs_neg, Int.natAbs_ofNat] at h₁
+  · simp only [Sum.isLeft_inr, Sum.getLeft?_inr, Option.get!_none, false_and, Sum.isRight_inr,
+      ite_prop_iff_or, and_false, not_lt, and_true, false_or] at h₁ ⊢
+    rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb
+      <;> simp only [SierraBool_toBool_inl, SierraBool_toBool_inr, ite_false, ite_true,
+        ZMod.valMinAbs_add_of_four_lt ha hb, ZMod.valMinAbs_add_of_four_lt ha' hb,
+        ZMod.valMinAbs_add_of_four_lt ha hb', ZMod.valMinAbs_add_of_four_lt ha' hb',
+        ZMod.valMinAbs_neg_of_ne_half hane, ZMod.valMinAbs_neg_of_ne_half hbne,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME,
+        ← Nat.cast_le (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
+        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁
+      <;> simpa [SignedWad.toRat, Wad.toRat, Wad.toZMod, ← neg_div, ← add_div, abs_div,
+        div_le_div_right hS]
 
 aegis_spec "wadray::wadray_signed::SignedWadAddEq::add_eq" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit  ⊕ _) =>
-  let a' : F := if SierraBool.toBool a.2 then -a.1 else a.1
-  let b' : F := if SierraBool.toBool b.2 then -b.1 else b.1
-  if (a' + b').valMinAbs.natAbs < U128_MOD
-  then ρ.isLeft ∧ ρ.getLeft?.get!.1.toRat = (a' + b').valMinAbs / Wad.WAD_SCALE
+  if |a.toRat + b.toRat| < U128_MOD / Wad.WAD_SCALE
+  then ρ.isLeft ∧ ρ.getLeft?.get!.1.toRat = a.toRat + b.toRat
   else ρ.isRight
 
 aegis_prove "wadray::wadray_signed::SignedWadAddEq::add_eq" :=
@@ -1258,10 +1331,8 @@ aegis_prove "wadray::wadray_signed::SignedWadAddEq::add_eq" :=
 
 aegis_spec "wadray::wadray_signed::SignedRayAdd::add" :=
   fun _ _ (a b : SignedRay) _ (ρ : SignedRay ⊕ _) =>
-  let a' : F := if SierraBool.toBool a.2 then -a.1 else a.1
-  let b' : F := if SierraBool.toBool b.2 then -b.1 else b.1
-  if (a' + b').valMinAbs.natAbs < U128_MOD
-  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat = (a' + b').valMinAbs / Ray.RAY_SCALE
+  if |a.toRat + b.toRat| < U128_MOD / Ray.RAY_SCALE
+  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat = a.toRat + b.toRat
   else ρ.isRight
 
 aegis_prove "wadray::wadray_signed::SignedRayAdd::add" :=
@@ -1269,10 +1340,76 @@ aegis_prove "wadray::wadray_signed::SignedRayAdd::add" :=
   unfold «spec_wadray::wadray_signed::SignedRayAdd::add»
   rcases a with ⟨va,sa⟩
   rcases b with ⟨vb,sb⟩
-  rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩
-    <;> dsimp only at h₁
-    <;> · simp [ite_prop_iff_or] at h₁ ⊢
-          rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb <;> exact h₁
+  have hS : 0 < (Ray.RAY_SCALE : ℚ)
+  · norm_num [Ray.RAY_SCALE]
+  have hane : 2 * (va : ZMod PRIME).val ≠ PRIME
+  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
+      two_U128_MOD_lt_PRIME)
+  have hbne : 2 * (vb : ZMod PRIME).val ≠ PRIME
+  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
+      two_U128_MOD_lt_PRIME)
+  have ha : 4 * (va : F).valMinAbs.natAbs < PRIME := add_aux1 va
+  have hb : 4 * (vb : F).valMinAbs.natAbs < PRIME := add_aux1 vb
+  have ha' : 4 * (- (va : F)).valMinAbs.natAbs < PRIME
+  · rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
+  have hb' : 4 * (- (vb : F)).valMinAbs.natAbs < PRIME
+  · rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
+  rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩ <;> dsimp only at h₁
+  · simp only [Sum.isLeft_inl, Sum.getLeft?_inl, Option.get!_some, true_and, Sum.isRight_inl,
+      ite_prop_iff_or, not_lt, and_false, or_false] at h₁ ⊢
+    rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb
+      <;> simp only [SierraBool_toBool_inl, SierraBool_toBool_inr, ite_false, ite_true] at h₁
+      <;> rcases h₁ with ⟨h₁,h₂⟩
+    · simp only [ZMod.valMinAbs_add_of_four_lt ha hb, Int.natAbs_ofNat,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME, ← Nat.cast_add] at h₁ h₂
+      push_cast at h₂; rw [h₂]
+      simp only [SignedRay.toRat, SierraBool_toBool_inl, Ray.toRat, Ray.toZMod,
+        ite_false, and_true, add_div]
+      rw [← add_div, ← Nat.cast_add, abs_div, Nat.abs_cast]
+      apply div_lt_div_of_lt hS
+      rwa [Nat.cast_lt]
+    · simp only [ZMod.valMinAbs_add_of_four_lt ha hb', ZMod.valMinAbs_neg_of_ne_half hbne,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME] at h₁ h₂
+      push_cast at h₂; rw [h₂]
+      simp only [SignedRay.toRat, SierraBool_toBool_inl, Ray.toRat, Ray.toZMod,
+        ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
+      rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
+      apply div_lt_div_of_lt hS
+      simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
+        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+      assumption
+    · simp only [ZMod.valMinAbs_add_of_four_lt ha' hb, ZMod.valMinAbs_neg_of_ne_half hane,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME] at h₁ h₂
+      push_cast at h₂; rw [h₂]
+      simp only [SignedRay.toRat, SierraBool_toBool_inl, Ray.toRat, Ray.toZMod,
+        ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
+      rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
+      apply div_lt_div_of_lt hS
+      simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
+        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+      assumption
+    · simp only [ZMod.valMinAbs_add_of_four_lt ha' hb',
+         ZMod.valMinAbs_neg_of_ne_half hbne,  ZMod.valMinAbs_neg_of_ne_half hane,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME, neg_add] at h₁ h₂
+      push_cast at h₂; rw [h₂]
+      simp only [SignedRay.toRat, SierraBool_toBool_inr, Ray.toRat, Ray.toZMod,
+        ite_true, add_div, neg_div, and_true]
+      rw [← neg_div, ← neg_div, ← add_div, abs_div, Nat.abs_cast]
+      apply div_lt_div_of_lt hS
+      rw [← neg_add, abs_neg, ← Nat.cast_add, Nat.abs_cast, Nat.cast_lt]
+      rwa [← neg_add, ← Nat.cast_add, Int.natAbs_neg, Int.natAbs_ofNat] at h₁
+  · simp only [Sum.isLeft_inr, Sum.getLeft?_inr, Option.get!_none, false_and, Sum.isRight_inr,
+      ite_prop_iff_or, and_false, not_lt, and_true, false_or] at h₁ ⊢
+    rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb
+      <;> simp only [SierraBool_toBool_inl, SierraBool_toBool_inr, ite_false, ite_true,
+        ZMod.valMinAbs_add_of_four_lt ha hb, ZMod.valMinAbs_add_of_four_lt ha' hb,
+        ZMod.valMinAbs_add_of_four_lt ha hb', ZMod.valMinAbs_add_of_four_lt ha' hb',
+        ZMod.valMinAbs_neg_of_ne_half hane, ZMod.valMinAbs_neg_of_ne_half hbne,
+        ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME,
+        ← Nat.cast_le (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
+        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁
+      <;> simpa [SignedRay.toRat, Ray.toRat, Ray.toZMod, ← neg_div, ← add_div, abs_div,
+        div_le_div_right hS]
 
 aegis_spec "wadray::wadray_signed::SignedWadSub::sub" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) =>
