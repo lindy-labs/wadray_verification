@@ -242,7 +242,38 @@ aegis_prove "wadray::tests::test_wadray::test_comparisons2" :=
   have : (1000000000000000000000000000 : UInt128).val + (1 : UInt128).val < U128_MOD
   · erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
     norm_num [U128_MOD]
-  aesop
+  rename_i x x_1 x_2 this_1
+  intro h_auto
+  simp_all only [Int.ofNat_eq_coe, Nat.cast_ofNat, Int.int_cast_ofNat, Nat.cast_one, Int.cast_one, true_and, ne_eq,
+    decide_not, Bool.toSierraBool_not, List.nil_append, not_true_eq_false, decide_False, Bool.toSierraBool_false,
+    SierraBool_toBool_inl, Bool.not_false, Bool.toSierraBool_true, false_and, false_or, exists_const, exists_and_left,
+    Prod.exists, Sum.exists, Sum.inl.injEq, Sum.isRight_inl, and_false, or_false, Sum.isRight_inr, and_true,
+    Sum.inr.injEq, Prod.mk.injEq, exists_eq_or_imp, or_self, exists_eq_left]
+  unhygienic aesop_cases h_auto
+  · unhygienic with_reducible aesop_destruct_products
+    unhygienic aesop_cases h_1
+    · unhygienic with_reducible aesop_destruct_products
+      aesop_subst left
+      simp_all only [self_eq_add_right, one_ne_zero, decide_False, Bool.toSierraBool_false, Sum.swap_inl, false_and,
+        true_and, false_or]
+      unhygienic with_reducible aesop_destruct_products
+      aesop_subst [left_1, left]
+      simp_all only [self_eq_add_right, one_ne_zero, decide_False, Bool.toSierraBool_false, Sum.swap_inl, false_and,
+        true_and, false_or]
+    · unhygienic with_reducible aesop_destruct_products
+      aesop_subst left
+      simp_all only [self_eq_add_right, one_ne_zero, decide_False, Bool.toSierraBool_false, Sum.swap_inl, false_and,
+        true_and, false_or]
+      unhygienic with_reducible aesop_destruct_products
+      aesop_subst [right_1, left_1]
+      simp_all only
+      (have fwd : False := Nat.lt_le_asymm this left)
+      simp_all only
+  · unhygienic with_reducible aesop_destruct_products
+    aesop_subst h_1
+    simp_all only
+    (have fwd : False := Nat.lt_le_asymm this_1 left)
+    simp_all only
 
 aegis_spec "wadray::tests::test_wadray::test_comparisons1" :=
   fun _ _ _ ρ =>
@@ -252,7 +283,7 @@ set_option maxHeartbeats 800000
 aegis_prove "wadray::tests::test_wadray::test_comparisons1" :=
   fun _ _ _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_comparisons1»
-  sierra_simp'
+  /-sierra_simp'
   have uone : (((1000000000000000000000000000 : ℕ) : ℤ) : UInt128) = 1
   · sorry
   have uone' : (((1000000000000000000 : ℕ) : ℤ) : UInt128) = 1
@@ -267,8 +298,8 @@ aegis_prove "wadray::tests::test_wadray::test_comparisons1" :=
   · sorry
   have : (1 : UInt128).val + (1 : UInt128).val < U128_MOD
   · sorry
-  have : (1 : ℚ) < 2 := by norm_num
-  aesop (add simp [uone, uone', wone, rone], safe forward [not_le_of_lt])
+  have : (1 : ℚ) < 2 := by norm_num-/
+  sorry
 
 aegis_spec "wadray::tests::test_wadray::test_conversions" :=
   fun _ _ _ ρ =>
@@ -276,7 +307,7 @@ aegis_spec "wadray::tests::test_wadray::test_conversions" :=
 
 aegis_prove "wadray::tests::test_wadray::test_conversions" :=
   fun _ _ _ ρ => by
-  unfold «spec_wadray::tests::test_wadray::test_conversions»
+  /-unfold «spec_wadray::tests::test_wadray::test_conversions»
   have : Wad.toRay (1000000000000000000 : UInt128) = (1000000000000000000000000000 : UInt128)
   · sorry
   have : Wad.toRay (340282366920938463463374607431 : UInt128) = (340282366920938463463374607431 : UInt128) * (1000000000 : UInt128)
@@ -293,4 +324,37 @@ aegis_prove "wadray::tests::test_wadray::test_conversions" :=
   · sorry
   have : Wad.MAX_CONVERTIBLE_WAD < ZMod.val (Wad.toZMod ((340282366920938463463374607431 : UInt128) + (1 : UInt128)))
   · sorry
-  aesop (add safe forward [not_le_of_lt])
+  aesop (add safe forward [not_le_of_lt])-/
+  sorry
+
+aegis_spec "wadray::tests::test_wadray::test_add" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_add" :=
+  fun _ _ _ ρ => by
+  sorry
+
+aegis_spec "wadray::tests::test_wadray::test_sub" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_sub" :=
+  fun _ _ _ ρ => by
+  sorry
+
+aegis_spec "wadray::tests::test_wadray::test_mul" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_mul" :=
+  fun _ _ _ ρ => by
+  sorry
+
+aegis_spec "wadray::tests::test_wadray::test_div" :=
+  fun _ _ _ ρ =>
+  ρ = .inl ()
+
+aegis_prove "wadray::tests::test_wadray::test_div" :=
+  fun _ _ _ ρ => by
+  sorry
