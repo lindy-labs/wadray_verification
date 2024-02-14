@@ -153,6 +153,8 @@ def Wad : Type := UInt128
 
 namespace Wad
 
+instance : Inhabited Wad := ⟨default (α := UInt128)⟩
+
 def WAD_SCALE : ℕ := 1000000000000000000
 
 theorem WAD_SCALE_pos : 0 < WAD_SCALE := by norm_num[WAD_SCALE]
@@ -251,6 +253,8 @@ end Wad
 def Ray : Type := UInt128
 
 namespace Ray
+
+instance : Inhabited Ray := ⟨default (α := UInt128)⟩
 
 def RAY_SCALE : ℕ := 1000000000000000000000000000
 
