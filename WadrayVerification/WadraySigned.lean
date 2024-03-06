@@ -652,8 +652,8 @@ aegis_spec "wadray::wadray_signed::SignedWadZeroable::is_zero" :=
 aegis_prove "wadray::wadray_signed::SignedWadZeroable::is_zero" :=
   fun _ (a : SignedWad) ρ => by
   unfold «spec_wadray::wadray_signed::SignedWadZeroable::is_zero»
-  have : ¬ (Wad.WAD_SCALE = 0)
-  · norm_num [Wad.WAD_SCALE]
+  have : ¬ (Wad.WAD_SCALE = 0) := by
+    norm_num [Wad.WAD_SCALE]
   aesop (add simp [SignedWad.toRat, Wad.toRat])
 
 aegis_spec "wadray::wadray_signed::SignedRayZeroable::is_zero" :=
@@ -663,8 +663,8 @@ aegis_spec "wadray::wadray_signed::SignedRayZeroable::is_zero" :=
 aegis_prove "wadray::wadray_signed::SignedRayZeroable::is_zero" :=
   fun _ (a : SignedRay) ρ => by
   unfold «spec_wadray::wadray_signed::SignedRayZeroable::is_zero»
-  have : ¬ (Ray.RAY_SCALE = 0)
-  · norm_num [Ray.RAY_SCALE]
+  have : ¬ (Ray.RAY_SCALE = 0) := by
+    norm_num [Ray.RAY_SCALE]
   aesop (add simp [SignedRay.toRat, Ray.toRat])
 
 aegis_spec "wadray::wadray_signed::SignedWadZeroable::is_non_zero" :=
@@ -693,12 +693,12 @@ aegis_prove "wadray::wadray_signed::SignedWadOneable::is_one" :=
   fun _ (a : SignedWad) ρ => by
   unfold «spec_wadray::wadray_signed::SignedWadOneable::is_one»
   rintro ⟨w,s,h⟩
-  have : 1000000000000000000 = ((1000000000000000000 : Sierra.UInt128) : ℚ)
-  · rw [ZMod.cast_eq_val]; aesop
-  have : (1000000000000000000 : ℚ) ≠ 0
-  · norm_num
-  have : ¬ (-(w : ℚ) = 1000000000000000000)
-  · apply ne_of_lt (lt_of_le_of_lt (b := 0) _ (by norm_num))
+  have : 1000000000000000000 = ((1000000000000000000 : Sierra.UInt128).cast : ℚ) := by
+    rw [ZMod.cast_eq_val]; aesop
+  have : (1000000000000000000 : ℚ) ≠ 0 := by
+    norm_num
+  have : ¬ (-(w.cast : ℚ) = 1000000000000000000) := by
+    apply ne_of_lt (lt_of_le_of_lt (b := 0) _ (by norm_num))
     simp only [Left.neg_nonpos_iff, ZMod.cast_rat_nonneg]
   aesop (add simp [SignedWad.toRat, Wad.toRat, Wad.toZMod, Wad.WAD_SCALE,
     div_eq_iff, neg_div'], safe forward [ZMod.cast_rat_injective])
@@ -711,12 +711,12 @@ aegis_prove "wadray::wadray_signed::SignedRayOneable::is_one" :=
   fun _ (a : SignedWad) ρ => by
   unfold «spec_wadray::wadray_signed::SignedRayOneable::is_one»
   rintro ⟨w,s,h⟩
-  have : 1000000000000000000000000000 = ((1000000000000000000000000000 : Sierra.UInt128) : ℚ)
-  · rw [ZMod.cast_eq_val]; aesop
-  have : (1000000000000000000000000000 : ℚ) ≠ 0
-  · norm_num
-  have : ¬ (-(w : ℚ) = 1000000000000000000000000000)
-  · apply ne_of_lt (lt_of_le_of_lt (b := 0) _ (by norm_num))
+  have : 1000000000000000000000000000 = ((1000000000000000000000000000 : Sierra.UInt128).cast : ℚ) := by
+    rw [ZMod.cast_eq_val]; aesop
+  have : (1000000000000000000000000000 : ℚ) ≠ 0 := by
+    norm_num
+  have : ¬ (-(w.cast : ℚ) = 1000000000000000000000000000) := by
+    apply ne_of_lt (lt_of_le_of_lt (b := 0) _ (by norm_num))
     simp only [Left.neg_nonpos_iff, ZMod.cast_rat_nonneg]
   aesop (add simp [SignedRay.toRat, Ray.toRat, Ray.toZMod, Ray.RAY_SCALE,
     div_eq_iff, neg_div'], safe forward [ZMod.cast_rat_injective])
@@ -729,12 +729,12 @@ aegis_prove "wadray::wadray_signed::SignedWadOneable::is_non_one" :=
   fun _ (a : SignedWad) ρ => by
   unfold «spec_wadray::wadray_signed::SignedWadOneable::is_non_one»
   rintro ⟨w,s,rfl,h⟩
-  have : ¬ (-(w : ℚ) = 1000000000000000000)
-  · apply ne_of_lt (lt_of_le_of_lt (b := 0) _ (by norm_num))
+  have : ¬ (-(w.cast : ℚ) = 1000000000000000000) := by
+    apply ne_of_lt (lt_of_le_of_lt (b := 0) _ (by norm_num))
     simp only [Left.neg_nonpos_iff, ZMod.cast_rat_nonneg]
-  have : ¬w = 1000000000000000000 → ¬(w : ℚ) = 1000000000000000000
-  · have hn : 1000000000000000000 = ((1000000000000000000 : Sierra.UInt128) : ℚ)
-    · rw [ZMod.cast_eq_val]; aesop
+  have : ¬w = 1000000000000000000 → ¬(w.cast : ℚ) = 1000000000000000000 := by
+    have hn : 1000000000000000000 = ((1000000000000000000 : Sierra.UInt128).cast : ℚ) := by
+      rw [ZMod.cast_eq_val]; aesop
     intros he hee; rw [hn] at hee; have := ZMod.cast_rat_injective hee; contradiction
   aesop (add simp [SignedWad.toRat, Wad.toRat, Wad.toZMod, Wad.WAD_SCALE,
     div_eq_iff, neg_div'], safe forward [ZMod.cast_rat_injective])
@@ -747,12 +747,12 @@ aegis_prove "wadray::wadray_signed::SignedRayOneable::is_non_one" :=
   fun _ (a : SignedRay) ρ => by
   unfold «spec_wadray::wadray_signed::SignedRayOneable::is_non_one»
   rintro ⟨w,s,rfl,h⟩
-  have : ¬ (-(w : ℚ) = 1000000000000000000000000000)
-  · apply ne_of_lt (lt_of_le_of_lt (b := 0) _ (by norm_num))
+  have : ¬ (-(w.cast : ℚ) = 1000000000000000000000000000) := by
+    apply ne_of_lt (lt_of_le_of_lt (b := 0) _ (by norm_num))
     simp only [Left.neg_nonpos_iff, ZMod.cast_rat_nonneg]
-  have : ¬w = 1000000000000000000000000000 → ¬(w : ℚ) = 1000000000000000000000000000
-  · have hn : 1000000000000000000000000000 = ((1000000000000000000000000000 : Sierra.UInt128) : ℚ)
-    · rw [ZMod.cast_eq_val]; aesop
+  have : ¬w = 1000000000000000000000000000 → ¬(w.cast : ℚ) = 1000000000000000000000000000 := by
+    have hn : 1000000000000000000000000000 = ((1000000000000000000000000000 : Sierra.UInt128).cast : ℚ) := by
+      rw [ZMod.cast_eq_val]; aesop
     intros he hee; rw [hn] at hee; have := ZMod.cast_rat_injective hee; contradiction
   aesop (add simp [SignedRay.toRat, Ray.toRat, Ray.toZMod, Ray.RAY_SCALE,
     div_eq_iff, neg_div'], safe forward [ZMod.cast_rat_injective])
@@ -799,8 +799,8 @@ aegis_spec "wadray::wadray_signed::SignedWadPartialOrd::gt" :=
 aegis_prove "wadray::wadray_signed::SignedWadPartialOrd::gt" :=
   fun _ _ (a b : SignedWad) _ ρ => by
   unfold «spec_wadray::wadray_signed::SignedWadPartialOrd::gt»
-  have : 0 < (Wad.WAD_SCALE : ℚ)
-  · norm_num [Wad.WAD_SCALE]
+  have : 0 < (Wad.WAD_SCALE : ℚ) := by
+    norm_num [Wad.WAD_SCALE]
   rintro ⟨w₁,s₁,w₂,s₂,u₁,u₂,u₃,u₄,u₅,u₆,rfl,rfl,(h|h)⟩
     <;> (cases u₁; cases u₂; cases u₃; cases u₄; cases u₅; cases u₆)
   · rcases h with ⟨rfl,(h|h)⟩
@@ -861,8 +861,8 @@ aegis_spec "wadray::wadray_signed::SignedWadPartialOrd::lt" :=
 aegis_prove "wadray::wadray_signed::SignedWadPartialOrd::lt" :=
   fun _ _ (a b : SignedWad) _ ρ => by
   unfold «spec_wadray::wadray_signed::SignedWadPartialOrd::lt»
-  have : 0 < (Wad.WAD_SCALE : ℚ)
-  · norm_num [Wad.WAD_SCALE]
+  have : 0 < (Wad.WAD_SCALE : ℚ) := by
+    norm_num [Wad.WAD_SCALE]
   rintro ⟨w₁,s₁,w₂,s₂,u₁,u₂,u₃,u₄,u₅,u₆,rfl,rfl,(h|h)⟩
     <;> (cases u₁; cases u₂; cases u₃; cases u₄; cases u₅; cases u₆)
   · rcases h with ⟨rfl,(h|h)⟩
@@ -946,8 +946,8 @@ aegis_spec "wadray::wadray_signed::SignedRayPartialOrd::gt" :=
 aegis_prove "wadray::wadray_signed::SignedRayPartialOrd::gt" :=
   fun _ _ (a b : SignedRay) _ ρ => by
   unfold «spec_wadray::wadray_signed::SignedRayPartialOrd::gt»
-  have : 0 < (Ray.RAY_SCALE : ℚ)
-  · norm_num [Ray.RAY_SCALE]
+  have : 0 < (Ray.RAY_SCALE : ℚ) := by
+    norm_num [Ray.RAY_SCALE]
   rintro ⟨w₁,s₁,w₂,s₂,u₁,u₂,u₃,u₄,u₅,u₆,rfl,rfl,(h|h)⟩
     <;> (cases u₁; cases u₂; cases u₃; cases u₄; cases u₅; cases u₆)
   · rcases h with ⟨rfl,(h|h)⟩
@@ -1008,8 +1008,8 @@ aegis_spec "wadray::wadray_signed::SignedRayPartialOrd::lt" :=
 aegis_prove "wadray::wadray_signed::SignedRayPartialOrd::lt" :=
   fun _ _ (a b : SignedRay) _ ρ => by
   unfold «spec_wadray::wadray_signed::SignedRayPartialOrd::lt»
-  have : 0 < (Ray.RAY_SCALE : ℚ)
-  · norm_num [Ray.RAY_SCALE]
+  have : 0 < (Ray.RAY_SCALE : ℚ) := by
+    norm_num [Ray.RAY_SCALE]
   rintro ⟨w₁,s₁,w₂,s₂,u₁,u₂,u₃,u₄,u₅,u₆,rfl,rfl,(h|h)⟩
     <;> (cases u₁; cases u₂; cases u₃; cases u₄; cases u₅; cases u₆)
   · rcases h with ⟨rfl,(h|h)⟩
@@ -1147,8 +1147,8 @@ aegis_spec "wadray::wadray_signed::signed_wad_from_felt" :=
 
 aegis_prove "wadray::wadray_signed::signed_wad_from_felt" :=
   fun _ _ a _ (ρ : SignedWad ⊕ _) => by
-  have hlt : a.valMinAbs.natAbs < PRIME
-  · apply lt_of_le_of_lt (ZMod.natAbs_valMinAbs_le a)
+  have hlt : a.valMinAbs.natAbs < PRIME := by
+    apply lt_of_le_of_lt (ZMod.natAbs_valMinAbs_le a)
     norm_num [PRIME]
   unfold «spec_wadray::wadray_signed::signed_wad_from_felt»
   rintro ⟨_,_,_,(⟨h₁,rfl⟩|⟨h₁,rfl⟩),(⟨h₂,rfl⟩|⟨h₂,rfl⟩)⟩
@@ -1156,8 +1156,9 @@ aegis_prove "wadray::wadray_signed::signed_wad_from_felt" :=
     rw [ZMod.val_nat_cast_of_lt hlt] at h₁
     simp only [SignedWad.toRat]
     split_ifs with h₃
-    · simp_all [Option.get!, Wad.toRat, Wad.toZMod, neg_div',
-        ZMod.cast_nat_cast_of_lt hlt, ZMod.cast_nat_cast_of_lt h₁]
+    · simp_all only [Option.get!, ZMod.cast_nat_cast_of_lt hlt, Sum.getLeft?_inl,
+        Bool.coe_toSierraBool, decide_eq_true_eq, decide_True, Bool.toSierraBool_true, Sum.isLeft_inl,
+        Wad.toRat, Wad.toZMod, ZMod.val_nat_cast, Nat.mod_eq_of_lt h₁, neg_div', true_and]
       congr
       rw [Nat.cast_natAbs, Int.cast_abs, neg_eq_iff_eq_neg]
       simp only [abs_eq_neg_self, Int.cast_nonpos]
@@ -1166,6 +1167,7 @@ aegis_prove "wadray::wadray_signed::signed_wad_from_felt" :=
         not_lt, Sum.isLeft_inl, Wad.toRat, Wad.toZMod, ZMod.nat_cast_val, true_and,
         ZMod.cast_nat_cast_of_lt hlt, ZMod.cast_nat_cast_of_lt h₁]
       congr
+      rw [Nat.cast_natAbs]
       aesop
   · simp at h₂
   · simp at h₂
@@ -1181,8 +1183,8 @@ aegis_spec "wadray::wadray_signed::signed_ray_from_felt" :=
 
 aegis_prove "wadray::wadray_signed::signed_ray_from_felt" :=
   fun _ _ a _ (ρ : SignedRay ⊕ _) => by
-  have hlt : a.valMinAbs.natAbs < PRIME
-  · apply lt_of_le_of_lt (ZMod.natAbs_valMinAbs_le a)
+  have hlt : a.valMinAbs.natAbs < PRIME := by
+    apply lt_of_le_of_lt (ZMod.natAbs_valMinAbs_le a)
     norm_num [PRIME]
   unfold «spec_wadray::wadray_signed::signed_ray_from_felt»
   rintro ⟨_,_,_,(⟨h₁,rfl⟩|⟨h₁,rfl⟩),(⟨h₂,rfl⟩|⟨h₂,rfl⟩)⟩
@@ -1190,8 +1192,9 @@ aegis_prove "wadray::wadray_signed::signed_ray_from_felt" :=
     rw [ZMod.val_nat_cast_of_lt hlt] at h₁
     simp only [SignedRay.toRat]
     split_ifs with h₃
-    · simp_all [Option.get!, Ray.toRat, Ray.toZMod, neg_div',
-        ZMod.cast_nat_cast_of_lt hlt, ZMod.cast_nat_cast_of_lt h₁]
+    · simp_all only [Option.get!, ZMod.cast_nat_cast_of_lt hlt, Sum.getLeft?_inl,
+        Bool.coe_toSierraBool, decide_eq_true_eq, decide_True, Bool.toSierraBool_true, Sum.isLeft_inl,
+        Ray.toRat, Ray.toZMod, ZMod.val_nat_cast, Nat.mod_eq_of_lt h₁, neg_div', true_and]
       congr
       rw [Nat.cast_natAbs, Int.cast_abs, neg_eq_iff_eq_neg]
       simp only [abs_eq_neg_self, Int.cast_nonpos]
@@ -1200,6 +1203,7 @@ aegis_prove "wadray::wadray_signed::signed_ray_from_felt" :=
         not_lt, Sum.isLeft_inl, Ray.toRat, Ray.toZMod, ZMod.nat_cast_val, true_and,
         ZMod.cast_nat_cast_of_lt hlt, ZMod.cast_nat_cast_of_lt h₁]
       congr
+      rw [Nat.cast_natAbs]
       aesop
   · simp at h₂
   · simp at h₂
@@ -1237,7 +1241,7 @@ theorem four_U128_MOD_lt_PRIME : 4 * U128_MOD < PRIME := by norm_num [U128_MOD, 
 
 theorem four_U128_MOD_le_PRIME : 4 * U128_MOD ≤ PRIME := le_of_lt four_U128_MOD_lt_PRIME
 
-theorem add_aux1 (x : UInt128) : 4 * (x : F).valMinAbs.natAbs < PRIME := by
+theorem add_aux1 (x : UInt128) : 4 * (x.cast : F).valMinAbs.natAbs < PRIME := by
   rw [ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME, Int.natAbs_ofNat]
   apply lt_of_lt_of_le _ four_U128_MOD_le_PRIME
   apply Nat.mul_lt_mul_of_pos_left (ZMod.val_lt _) (by norm_num)
@@ -1247,20 +1251,20 @@ aegis_prove "wadray::wadray_signed::SignedWadAdd::add" :=
   unfold «spec_wadray::wadray_signed::SignedWadAdd::add»
   rcases a with ⟨va,sa⟩
   rcases b with ⟨vb,sb⟩
-  have hS : 0 < (Wad.WAD_SCALE : ℚ)
-  · norm_num [Wad.WAD_SCALE]
-  have hane : 2 * (va : ZMod PRIME).val ≠ PRIME
-  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
+  have hS : 0 < (Wad.WAD_SCALE : ℚ) := by
+    norm_num [Wad.WAD_SCALE]
+  have hane : 2 * (va.cast : ZMod PRIME).val ≠ PRIME := by
+    apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
       two_U128_MOD_lt_PRIME)
-  have hbne : 2 * (vb : ZMod PRIME).val ≠ PRIME
-  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
+  have hbne : 2 * (vb.cast : ZMod PRIME).val ≠ PRIME := by
+    apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
       two_U128_MOD_lt_PRIME)
-  have ha : 4 * (va : F).valMinAbs.natAbs < PRIME := add_aux1 va
-  have hb : 4 * (vb : F).valMinAbs.natAbs < PRIME := add_aux1 vb
-  have ha' : 4 * (- (va : F)).valMinAbs.natAbs < PRIME
-  · rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
-  have hb' : 4 * (- (vb : F)).valMinAbs.natAbs < PRIME
-  · rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
+  have ha : 4 * (va.cast : F).valMinAbs.natAbs < PRIME := add_aux1 va
+  have hb : 4 * (vb.cast : F).valMinAbs.natAbs < PRIME := add_aux1 vb
+  have ha' : 4 * (- (va.cast : F)).valMinAbs.natAbs < PRIME := by
+    rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
+  have hb' : 4 * (- (vb.cast : F)).valMinAbs.natAbs < PRIME := by
+    rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
   rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩ <;> dsimp only at h₁
   · simp only [Sum.isLeft_inl, Sum.getLeft?_inl, Option.get!_some, true_and, Sum.isRight_inl,
       ite_prop_iff_or, not_lt, and_false, or_false] at h₁ ⊢
@@ -1340,20 +1344,20 @@ aegis_prove "wadray::wadray_signed::SignedRayAdd::add" :=
   unfold «spec_wadray::wadray_signed::SignedRayAdd::add»
   rcases a with ⟨va,sa⟩
   rcases b with ⟨vb,sb⟩
-  have hS : 0 < (Ray.RAY_SCALE : ℚ)
-  · norm_num [Ray.RAY_SCALE]
-  have hane : 2 * (va : ZMod PRIME).val ≠ PRIME
-  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
+  have hS : 0 < (Ray.RAY_SCALE : ℚ) := by
+    norm_num [Ray.RAY_SCALE]
+  have hane : 2 * (va.cast : ZMod PRIME).val ≠ PRIME := by
+    apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
       two_U128_MOD_lt_PRIME)
-  have hbne : 2 * (vb : ZMod PRIME).val ≠ PRIME
-  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
+  have hbne : 2 * (vb.cast : ZMod PRIME).val ≠ PRIME := by
+    apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
       two_U128_MOD_lt_PRIME)
-  have ha : 4 * (va : F).valMinAbs.natAbs < PRIME := add_aux1 va
-  have hb : 4 * (vb : F).valMinAbs.natAbs < PRIME := add_aux1 vb
-  have ha' : 4 * (- (va : F)).valMinAbs.natAbs < PRIME
-  · rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
-  have hb' : 4 * (- (vb : F)).valMinAbs.natAbs < PRIME
-  · rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
+  have ha : 4 * (va.cast : F).valMinAbs.natAbs < PRIME := add_aux1 va
+  have hb : 4 * (vb.cast : F).valMinAbs.natAbs < PRIME := add_aux1 vb
+  have ha' : 4 * (-(va.cast : F)).valMinAbs.natAbs < PRIME := by
+    rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
+  have hb' : 4 * (-(vb.cast : F)).valMinAbs.natAbs < PRIME := by
+    rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
   rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩ <;> dsimp only at h₁
   · simp only [Sum.isLeft_inl, Sum.getLeft?_inl, Option.get!_some, true_and, Sum.isRight_inl,
       ite_prop_iff_or, not_lt, and_false, or_false] at h₁ ⊢
@@ -1423,20 +1427,19 @@ aegis_prove "wadray::wadray_signed::SignedWadSub::sub" :=
   unfold «spec_wadray::wadray_signed::SignedWadSub::sub»
   rcases a with ⟨va,sa⟩
   rcases b with ⟨vb,sb⟩
-  have hS : 0 < (Wad.WAD_SCALE : ℚ)
-  · norm_num [Wad.WAD_SCALE]
-  have hane : 2 * (va : ZMod PRIME).val ≠ PRIME
-  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
+  have hS : 0 < (Wad.WAD_SCALE : ℚ) := by norm_num [Wad.WAD_SCALE]
+  have hane : 2 * (va.cast : ZMod PRIME).val ≠ PRIME := by
+    apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
       two_U128_MOD_lt_PRIME)
-  have hbne : 2 * (vb : ZMod PRIME).val ≠ PRIME
-  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
+  have hbne : 2 * (vb.cast : ZMod PRIME).val ≠ PRIME := by
+    apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
       two_U128_MOD_lt_PRIME)
-  have ha : 4 * (va : F).valMinAbs.natAbs < PRIME := add_aux1 va
-  have hb : 4 * (vb : F).valMinAbs.natAbs < PRIME := add_aux1 vb
-  have ha' : 4 * (- (va : F)).valMinAbs.natAbs < PRIME
-  · rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
-  have hb' : 4 * (- (vb : F)).valMinAbs.natAbs < PRIME
-  · rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
+  have ha : 4 * (va.cast : F).valMinAbs.natAbs < PRIME := add_aux1 va
+  have hb : 4 * (vb.cast : F).valMinAbs.natAbs < PRIME := add_aux1 vb
+  have ha' : 4 * (- (va.cast : F)).valMinAbs.natAbs < PRIME := by
+    rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
+  have hb' : 4 * (- (vb.cast : F)).valMinAbs.natAbs < PRIME := by
+    rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
   rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩ <;> dsimp only at h₁
   · simp only [Sum.isLeft_inl, Sum.getLeft?_inl, Option.get!_some, true_and, Sum.isRight_inl,
       ite_prop_iff_or, not_lt, and_false, or_false] at h₁ ⊢
@@ -1521,20 +1524,20 @@ aegis_prove "wadray::wadray_signed::SignedRaySub::sub" :=
   unfold «spec_wadray::wadray_signed::SignedRaySub::sub»
   rcases a with ⟨va,sa⟩
   rcases b with ⟨vb,sb⟩
-  have hS : 0 < (Ray.RAY_SCALE : ℚ)
-  · norm_num [Ray.RAY_SCALE]
-  have hane : 2 * (va : ZMod PRIME).val ≠ PRIME
-  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
+  have hS : 0 < (Ray.RAY_SCALE : ℚ) := by
+    norm_num [Ray.RAY_SCALE]
+  have hane : 2 * (va.cast : ZMod PRIME).val ≠ PRIME := by
+    apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME va) two_pos)
       two_U128_MOD_lt_PRIME)
-  have hbne : 2 * (vb : ZMod PRIME).val ≠ PRIME
-  · apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
+  have hbne : 2 * (vb.cast : ZMod PRIME).val ≠ PRIME := by
+    apply ne_of_lt (lt_trans (Nat.mul_lt_mul_of_pos_left (ZMod.val_cast_lt PRIME vb) two_pos)
       two_U128_MOD_lt_PRIME)
-  have ha : 4 * (va : F).valMinAbs.natAbs < PRIME := add_aux1 va
-  have hb : 4 * (vb : F).valMinAbs.natAbs < PRIME := add_aux1 vb
-  have ha' : 4 * (- (va : F)).valMinAbs.natAbs < PRIME
-  · rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
-  have hb' : 4 * (- (vb : F)).valMinAbs.natAbs < PRIME
-  · rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
+  have ha : 4 * (va.cast : F).valMinAbs.natAbs < PRIME := add_aux1 va
+  have hb : 4 * (vb.cast : F).valMinAbs.natAbs < PRIME := add_aux1 vb
+  have ha' : 4 * (- (va.cast : F)).valMinAbs.natAbs < PRIME := by
+    rwa [ZMod.valMinAbs_neg_of_ne_half hane, Int.natAbs_neg]
+  have hb' : 4 * (- (vb.cast : F)).valMinAbs.natAbs < PRIME := by
+    rwa [ZMod.valMinAbs_neg_of_ne_half hbne, Int.natAbs_neg]
   rintro ⟨x,y,z,h₁,(⟨rfl,rfl⟩|⟨rfl,rfl⟩)⟩ <;> dsimp only at h₁
   · simp only [Sum.isLeft_inl, Sum.getLeft?_inl, Option.get!_some, true_and, Sum.isRight_inl,
       ite_prop_iff_or, not_lt, and_false, or_false] at h₁ ⊢

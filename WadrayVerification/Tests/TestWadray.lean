@@ -52,8 +52,8 @@ aegis_spec "wadray::tests::test_wadray::test_add_eq" :=
 aegis_prove "wadray::tests::test_wadray::test_add_eq" :=
   fun _ _ _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_add_eq»
-  have : ZMod.val (Wad.toZMod (5 : UInt128)) + ZMod.val (Wad.toZMod (3 : UInt128)) < U128_MOD
-  · simp only [Wad.toZMod]
+  have : ZMod.val (Wad.toZMod (5 : UInt128)) + ZMod.val (Wad.toZMod (3 : UInt128)) < U128_MOD := by
+    simp only [Wad.toZMod]
     erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
     norm_num [U128_MOD]
   aesop
@@ -65,8 +65,8 @@ aegis_spec "wadray::tests::test_wadray::test_sub_eq" :=
 aegis_prove "wadray::tests::test_wadray::test_sub_eq" :=
   fun _ _ _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_sub_eq»
-  have : Wad.toRat (3 : UInt128) ≤ Wad.toRat (5 : UInt128)
-  · simp [Wad.toRat]
+  have : Wad.toRat (3 : UInt128) ≤ Wad.toRat (5 : UInt128) := by
+    simp [Wad.toRat]
     apply div_le_div_of_le (by norm_num [Wad.WAD_SCALE])
     norm_cast
   sierra_simp'
@@ -79,8 +79,8 @@ aegis_spec "wadray::tests::test_wadray::test_mul_eq" :=
 aegis_prove "wadray::tests::test_wadray::test_mul_eq" :=
   fun _ _ _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_mul_eq»
-  have : (Wad.toZMod (5 : UInt128)).val * (Wad.toZMod (3 : UInt128)).val / Wad.WAD_SCALE < U128_MOD
-  · simp only [Wad.toZMod]
+  have : (Wad.toZMod (5 : UInt128)).val * (Wad.toZMod (3 : UInt128)).val / Wad.WAD_SCALE < U128_MOD := by
+    simp only [Wad.toZMod]
     erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
     norm_num [U128_MOD, Wad.WAD_SCALE]
   aesop
@@ -92,12 +92,12 @@ aegis_spec "wadray::tests::test_wadray::test_div_eq" :=
 aegis_prove "wadray::tests::test_wadray::test_div_eq" :=
   fun _ _ _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_div_eq»
-  have : (Wad.toZMod (15 : UInt128)).val * Wad.WAD_SCALE / (Wad.toZMod (3 : UInt128)).val < U128_MOD
-  · simp only [Wad.toZMod]
+  have : (Wad.toZMod (15 : UInt128)).val * Wad.WAD_SCALE / (Wad.toZMod (3 : UInt128)).val < U128_MOD := by
+    simp only [Wad.toZMod]
     erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
     norm_num [U128_MOD, Wad.WAD_SCALE]
-  have : Wad.toZMod (3 : UInt128) ≠ 0
-  · simp only [Wad.toZMod]
+  have : Wad.toZMod (3 : UInt128) ≠ 0 := by
+    simp only [Wad.toZMod]
     intro he
     have := congr_arg ZMod.val he
     erw [ZMod.val_nat_cast, ZMod.val_nat_cast] at this
@@ -112,17 +112,17 @@ aegis_prove "wadray::tests::test_wadray::test_div_of_0" :=
   fun _ _ _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_div_of_0»
   sierra_simp'
-  have : U128_MOD ≠ 0
-  · norm_num [U128_MOD]
-  have : (42 : UInt128) ≠ 0
-  · intro he
+  have : U128_MOD ≠ 0 := by
+    norm_num [U128_MOD]
+  have : (42 : UInt128) ≠ 0 := by
+    intro he
     have := congr_arg ZMod.val he
     erw [ZMod.val_nat_cast, ZMod.val_nat_cast] at this
     norm_num [U128_MOD] at this
-  have : @HDiv.hDiv Wad Wad Wad instHDiv (0 : UInt128) (42 : UInt128) = (0 : Wad)
-  · simp [Wad.div_def, Wad.zero_toZMod]
-  have : @HDiv.hDiv Ray Ray Ray instHDiv (0 : UInt128) (42 : UInt128) = (0 : Ray)
-  · simp [Ray.div_def, Ray.zero_toZMod]
+  have : @HDiv.hDiv Wad Wad Wad instHDiv (0 : UInt128) (42 : UInt128) = (0 : Wad) := by
+    simp [Wad.div_def, Wad.zero_toZMod]
+  have : @HDiv.hDiv Ray Ray Ray instHDiv (0 : UInt128) (42 : UInt128) = (0 : Ray) := by
+    simp [Ray.div_def, Ray.zero_toZMod]
   aesop (add simp [Ray.toZMod, Ray.ofZMod, Wad.toZMod, Wad.ofZMod])
 
 
@@ -163,12 +163,9 @@ aegis_spec "wadray::tests::test_wadray::test_zeroable" :=
 aegis_prove "wadray::tests::test_wadray::test_zeroable" :=
   fun _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_zeroable»
-  have : Wad.WAD_SCALE ≠ 0
-  · norm_num [Wad.WAD_SCALE]
-  have : Ray.RAY_SCALE ≠ 0
-  · norm_num [Ray.RAY_SCALE]
-  have : ((1 : UInt128) : Rat) = 1
-  · aesop
+  have : Wad.WAD_SCALE ≠ 0 := by norm_num [Wad.WAD_SCALE]
+  have : Ray.RAY_SCALE ≠ 0 := by norm_num [Ray.RAY_SCALE]
+  have : ((1 : UInt128).cast : Rat) = 1 := by aesop
   aesop (add simp [Wad.toRat, Ray.toRat, Wad.toZMod, Ray.toZMod, ZMod.cast_one'])
 
 aegis_spec "wadray::tests::test_wadray::test_bounded" :=
@@ -178,8 +175,8 @@ aegis_spec "wadray::tests::test_wadray::test_bounded" :=
 aegis_prove "wadray::tests::test_wadray::test_bounded" :=
   fun _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_bounded»
-  have : (340282366920938463463374607431768211455 : UInt128) = -1
-  · apply ZMod.val_injective
+  have : (340282366920938463463374607431768211455 : UInt128) = -1 := by
+    apply ZMod.val_injective
     erw [ZMod.val_nat_cast]
   aesop
 
@@ -190,14 +187,10 @@ aegis_spec "wadray::tests::test_wadray::test_conversions_from_primitive_types" :
 aegis_prove "wadray::tests::test_wadray::test_conversions_from_primitive_types" :=
   fun _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_conversions_from_primitive_types»
-  have : ((1 : Sierra.UInt8) : UInt128) = (1 : UInt128)
-  · aesop
-  have : ((1 : Sierra.UInt16) : UInt128) = (1 : UInt128)
-  · aesop
-  have : ((1 : Sierra.UInt32) : UInt128) = (1 : UInt128)
-  · aesop
-  have : ((1 : Sierra.UInt64) : UInt128) = (1 : UInt128)
-  · aesop
+  have : ((1 : Sierra.UInt8).cast : UInt128) = (1 : UInt128) := by aesop
+  have : ((1 : Sierra.UInt16).cast : UInt128) = (1 : UInt128) := by aesop
+  have : ((1 : Sierra.UInt32).cast : UInt128) = (1 : UInt128) := by aesop
+  have : ((1 : Sierra.UInt64).cast : UInt128) = (1 : UInt128) := by aesop
   aesop
 
 aegis_spec "wadray::tests::test_wadray::test_u256_try_into_wadray" :=
@@ -207,8 +200,7 @@ aegis_spec "wadray::tests::test_wadray::test_u256_try_into_wadray" :=
 aegis_prove "wadray::tests::test_wadray::test_u256_try_into_wadray" :=
   fun _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_u256_try_into_wadray»
-  have : (5 : UInt128).val < U128_MOD
-  · apply ZMod.val_lt
+  have : (5 : UInt128).val < U128_MOD := by apply ZMod.val_lt
   aesop (add simp [UInt256.val])
 
 aegis_spec "wadray::tests::test_wadray::test_wadray_into_u256" :=
@@ -236,11 +228,11 @@ aegis_spec "wadray::tests::test_wadray::test_comparisons2" :=
 aegis_prove "wadray::tests::test_wadray::test_comparisons2" :=
   fun _ _ _ ρ => by
   unfold «spec_wadray::tests::test_wadray::test_comparisons2»
-  have : (1000000000000000000 : UInt128).val + (1 : UInt128).val < U128_MOD
-  · erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
+  have : (1000000000000000000 : UInt128).val + (1 : UInt128).val < U128_MOD := by
+    erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
     norm_num [U128_MOD]
-  have : (1000000000000000000000000000 : UInt128).val + (1 : UInt128).val < U128_MOD
-  · erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
+  have : (1000000000000000000000000000 : UInt128).val + (1 : UInt128).val < U128_MOD := by
+    erw [ZMod.val_nat_cast, ZMod.val_nat_cast]
     norm_num [U128_MOD]
   rename_i x x_1 x_2 this_1
   intro h_auto

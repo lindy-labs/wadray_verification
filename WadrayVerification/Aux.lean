@@ -23,14 +23,14 @@ theorem ZMod.cast_rat_injective [NeZero n] : Function.Injective (ZMod.cast : ZMo
   rintro rfl
   rfl
 
-theorem ZMod.cast_rat_of_cast_nat {m : ℕ} [NeZero m] (n : ℕ) : ((n : ZMod m) : ℚ) = n % m := by
+theorem ZMod.cast_rat_of_cast_nat {m : ℕ} [NeZero m] (n : ℕ) : ((n : ZMod m).cast : ℚ) = ↑(n % m) := by
   cases m; cases NeZero.ne 0 rfl
   rfl
 
 attribute [simp] ZMod.cast_rat_eq_zero_iff
 
 theorem ZMod.cast_rat_le_cast_rat_of_val_le_val {m : ℕ} [NeZero m] {a b : ZMod m}
-    (h : a.val ≤ b.val) : (a : ℚ) ≤ b := by
+    (h : a.val ≤ b.val) : (a.cast : ℚ) ≤ b.cast := by
   cases m; cases NeZero.ne 0 rfl
   rcases a with ⟨a, ha⟩
   rcases b with ⟨b, hb⟩
@@ -38,7 +38,7 @@ theorem ZMod.cast_rat_le_cast_rat_of_val_le_val {m : ℕ} [NeZero m] {a b : ZMod
   assumption
 
 theorem ZMod.cast_rat_lt_cast_rat_of_val_lt_val {m : ℕ} [NeZero m] {a b : ZMod m}
-    (h : a.val < b.val) : (a : ℚ) < b := by
+    (h : a.val < b.val) : (a.cast : ℚ) < b.cast := by
   cases m; cases NeZero.ne 0 rfl
   rcases a with ⟨a, ha⟩
   rcases b with ⟨b, hb⟩
@@ -46,13 +46,13 @@ theorem ZMod.cast_rat_lt_cast_rat_of_val_lt_val {m : ℕ} [NeZero m] {a b : ZMod
   assumption
 
 theorem ZMod.cast_nat_cast_of_lt {m k : ℕ} [NeZero m] {R : Type u_1} [Ring R] (h : k < m) :
-    ((k : ZMod m) : R) = k := by
+    ((k : ZMod m).cast : R) = k := by
   cases m; cases NeZero.ne 0 rfl
-  simp only [cast, Nat.cast, NatCast.natCast, val, Nat.add_eq, Nat.add_zero, Fin.ofNat_eq_val,
-    Fin.coe_ofNat_eq_mod, Nat.mod_eq_of_lt h]
+  simp only [cast, Nat.cast, NatCast.natCast, val, Nat.add_eq, Nat.add_zero,
+    Fin.coe_ofNat_eq_mod, Nat.mod_eq_of_lt h, Fin.ofNat'']
 
 theorem ZMod.cast_add_of_lt_half' {m n : ℕ} [NeZero m] [NeZero n] (a b : ZMod m)
-    (h: a.val + b.val < m) : (a : ZMod n) + (b : ZMod n) = ↑(a + b) := by
+    (h: a.val + b.val < m) : (a.cast : ZMod n) + (b.cast : ZMod n) = (a + b).cast := by
   cases m; cases NeZero.ne 0 rfl
   rcases a with ⟨a, ha⟩
   rcases b with ⟨b, hb⟩
@@ -61,21 +61,20 @@ theorem ZMod.cast_add_of_lt_half' {m n : ℕ} [NeZero m] [NeZero n] (a b : ZMod 
   rw [Fin.val_add, Nat.mod_eq_of_lt h, Nat.cast_add]
 
 theorem ZMod.valMinAbs_cast_of_lt_of_le [NeZero m] (hm : m < n) {a : ZMod m}
-    (ham : a.val ≤ m / 2) : (a : ZMod n).valMinAbs = a.valMinAbs := by
+    (ham : a.val ≤ m / 2) : (a.cast : ZMod n).valMinAbs = a.valMinAbs := by
   rcases m with (⟨⟩|⟨m⟩); · cases NeZero.ne 0 rfl
   rcases n with (⟨⟩|⟨n⟩); · simp at hm
   rcases a with ⟨a, ha⟩
-  simp [valMinAbs, val, cast]
-  simp only [Nat.cast, NatCast.natCast, Fin.ofNat_eq_val, Fin.coe_ofNat_eq_mod,
-    Int.ofNat_eq_coe, ha, ite_true]
-  rw [Nat.mod_eq_of_lt (lt_trans ha hm)]
-  have : a ≤ n.succ / 2
-  · apply le_trans ham
+  simp only [val] at ham
+  simp only [valMinAbs, val, Nat.add_eq, Nat.add_zero, cast, Nat.cast_succ, ham, ↓reduceIte]
+  have : a ≤ n.succ / 2 := by
+    apply le_trans ham
     apply Nat.div_le_div_right (le_of_lt hm)
-  simp_all [val]
+  rw [Fin.val_cast_of_lt (lt_trans ha hm)]
+  simp [this]
 
 theorem ZMod.valMinAbs_cast_of_lt_half [NeZero m] (hm : 2 * m < n) (a : ZMod m) :
-  (a : ZMod n).valMinAbs = a.val := by
+  (a.cast : ZMod n).valMinAbs = a.val := by
   rcases m with (⟨⟩|⟨m⟩); · cases NeZero.ne 0 rfl
   rcases n with (⟨⟩|⟨n⟩); · simp at hm
   rcases a with ⟨a, ha⟩
@@ -93,7 +92,7 @@ theorem ZMod.valMinAbs_add_of_two_lt [NeZero m] {a b : ZMod m}
     apply lt_of_lt_of_le h
     simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
     rw [mul_comm, ← neg_mul, mul_le_mul_right two_pos, neg_add]
-    apply add_le_add (neg_abs_le_self (valMinAbs a)) (neg_abs_le_self (valMinAbs b))
+    apply add_le_add (neg_abs_le (valMinAbs a)) (neg_abs_le (valMinAbs b))
   · rw [← Nat.cast_lt (α := ℤ)] at h
     apply le_of_lt (lt_of_le_of_lt _ h)
     simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
@@ -117,12 +116,12 @@ theorem ZMod.valMinAbs_sub_of_two_lt [NeZero m] {a b : ZMod m}
     apply lt_of_lt_of_le h
     simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
     rw [mul_comm, ← neg_mul, mul_le_mul_right two_pos, neg_add, ← sub_eq_add_neg]
-    apply sub_le_sub (neg_abs_le_self (valMinAbs a)) (le_abs_self (valMinAbs b))
+    apply sub_le_sub (neg_abs_le (valMinAbs a)) (le_abs_self (valMinAbs b))
   · rw [← Nat.cast_lt (α := ℤ)] at h
     apply le_of_lt (lt_of_le_of_lt _ h)
     simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
     rw [mul_comm, mul_le_mul_left two_pos, sub_eq_add_neg]
-    apply add_le_add (le_abs_self (valMinAbs a)) (neg_le_abs_self (valMinAbs b))
+    apply add_le_add (le_abs_self (valMinAbs a)) (neg_le_abs (valMinAbs b))
 
 theorem ZMod.valMinAbs_sub_of_four_lt [NeZero m] {a b : ZMod m}
     (ha : 4 * a.valMinAbs.natAbs < m) (hb : 4 * b.valMinAbs.natAbs < m) :
@@ -131,7 +130,7 @@ theorem ZMod.valMinAbs_sub_of_four_lt [NeZero m] {a b : ZMod m}
   rw [← mul_lt_mul_left two_pos, ← mul_assoc, mul_add, two_mul m]
   exact add_lt_add ha hb
 
-theorem ZMod.val_cast_lt [NeZero m] (n : ℕ) [NeZero n] (a : ZMod m) : (a : ZMod n).val < m := by
+theorem ZMod.val_cast_lt [NeZero m] (n : ℕ) [NeZero n] (a : ZMod m) : (a.cast : ZMod n).val < m := by
   rcases m with (⟨⟩|⟨m⟩); · cases NeZero.ne 0 rfl
   by_cases h : m < n
   · rcases n with (⟨⟩|⟨n⟩); · simp at h
@@ -190,10 +189,10 @@ theorem toRat_lt_toRat_of_val_lt_val (h : @ZMod.val U128_MOD w < @ZMod.val U128_
 theorem toRat_injective : Function.Injective Wad.toRat := by
   intro a b h
   by_contra hne
-  have : a.toZMod.val ≠ b.toZMod.val
-  · intro h'; have := ZMod.val_injective _ h'; simp_all [Wad.toZMod]
-  have : a.toZMod.val < b.toZMod.val ∨ b.toZMod.val < a.toZMod.val
-  · aesop
+  have : a.toZMod.val ≠ b.toZMod.val := by
+    intro h'; have := ZMod.val_injective _ h'; simp_all [Wad.toZMod]
+  have : a.toZMod.val < b.toZMod.val ∨ b.toZMod.val < a.toZMod.val := by
+    aesop
   rcases this with (h'|h')
   <;> · have := toRat_lt_toRat_of_val_lt_val _ _ h'
         simp only [toZMod._eq_1] at this
@@ -327,10 +326,10 @@ theorem toRat_lt_toRat_of_val_lt_val (h : @ZMod.val U128_MOD r < @ZMod.val U128_
 theorem toRat_injective : Function.Injective Ray.toRat := by
   intro a b h
   by_contra hne
-  have : a.toZMod.val ≠ b.toZMod.val
-  · intro h'; have := ZMod.val_injective _ h'; simp_all [Ray.toZMod]
-  have : a.toZMod.val < b.toZMod.val ∨ b.toZMod.val < a.toZMod.val
-  · aesop
+  have : a.toZMod.val ≠ b.toZMod.val := by
+    intro h'; have := ZMod.val_injective _ h'; simp_all [Ray.toZMod]
+  have : a.toZMod.val < b.toZMod.val ∨ b.toZMod.val < a.toZMod.val := by
+    aesop
   rcases this with (h'|h')
   <;> · have := toRat_lt_toRat_of_val_lt_val _ _ h'
         simp only [toZMod._eq_1] at this
@@ -411,8 +410,8 @@ theorem toRat_zero_val : SignedWad.toRat ((0, s) : SignedWad) = 0 := by
 
 @[simp]
 theorem toRat_one : (1 : SignedWad).toRat = 1 := by
-  have : (Wad.WAD_SCALE : ℚ) ≠ 0
-  · norm_num [Wad.WAD_SCALE]
+  have : (Wad.WAD_SCALE : ℚ) ≠ 0 := by
+    norm_num [Wad.WAD_SCALE]
   simp_all [toRat, Wad.toRat, Wad.toZMod, ZMod.cast_rat_of_cast_nat,
     Nat.mod_eq_of_lt Wad.WAD_SCALE_lt_U128_MOD]
 
@@ -425,8 +424,8 @@ theorem val_eq_of_toRat_eq : w₁.toRat = w₂.toRat → w₁.1 = w₂.1 := by
     cases this
     rfl
   · simp only [toRat, SierraBool_toBool_inl, ite_false, SierraBool_toBool_inr, ite_true] at *
-    have h' : Wad.toRat w₁ = 0
-    · apply Rat.le_antisymm _ _
+    have h' : Wad.toRat w₁ = 0 := by
+      apply Rat.le_antisymm _ _
       · rw [h, Left.neg_nonpos_iff]
         apply Wad.toRat_nonneg
       · apply Wad.toRat_nonneg
@@ -436,8 +435,8 @@ theorem val_eq_of_toRat_eq : w₁.toRat = w₂.toRat → w₁.1 = w₂.1 := by
     have := Wad.toRat_injective h'; cases this
     rfl
   · simp only [toRat, SierraBool_toBool_inr, ite_true, SierraBool_toBool_inl, ite_false] at *
-    have h' : Wad.toRat w₂ = 0
-    · apply Rat.le_antisymm _ _
+    have h' : Wad.toRat w₂ = 0 := by
+      apply Rat.le_antisymm _ _
       · rw [← h, Left.neg_nonpos_iff]
         apply Wad.toRat_nonneg
       · apply Wad.toRat_nonneg
@@ -534,8 +533,8 @@ theorem toRat_zero_val : SignedRay.toRat ((0, s) : SignedRay) = 0 := by
 
 @[simp]
 theorem toRat_one : (1 : SignedRay).toRat = 1 := by
-  have : (Ray.RAY_SCALE : ℚ) ≠ 0
-  · norm_num [Ray.RAY_SCALE]
+  have : (Ray.RAY_SCALE : ℚ) ≠ 0 := by
+    norm_num [Ray.RAY_SCALE]
   simp_all [toRat, Ray.toRat, Ray.toZMod, ZMod.cast_rat_of_cast_nat,
     Nat.mod_eq_of_lt Ray.RAY_SCALE_lt_U128_MOD]
 
@@ -548,8 +547,8 @@ theorem val_eq_of_toRat_eq : w₁.toRat = w₂.toRat → w₁.1 = w₂.1 := by
     cases this
     rfl
   · simp only [toRat, SierraBool_toBool_inl, ite_false, SierraBool_toBool_inr, ite_true] at *
-    have h' : Ray.toRat w₁ = 0
-    · apply Rat.le_antisymm _ _
+    have h' : Ray.toRat w₁ = 0 := by
+      apply Rat.le_antisymm _ _
       · rw [h, Left.neg_nonpos_iff]
         apply Ray.toRat_nonneg
       · apply Ray.toRat_nonneg
@@ -559,8 +558,8 @@ theorem val_eq_of_toRat_eq : w₁.toRat = w₂.toRat → w₁.1 = w₂.1 := by
     have := Ray.toRat_injective h'; cases this
     rfl
   · simp only [toRat, SierraBool_toBool_inr, ite_true, SierraBool_toBool_inl, ite_false] at *
-    have h' : Ray.toRat w₂ = 0
-    · apply Rat.le_antisymm _ _
+    have h' : Ray.toRat w₂ = 0 := by
+      apply Rat.le_antisymm _ _
       · rw [← h, Left.neg_nonpos_iff]
         apply Ray.toRat_nonneg
       · apply Ray.toRat_nonneg
