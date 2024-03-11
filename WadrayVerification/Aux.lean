@@ -369,7 +369,7 @@ instance : Inhabited SignedWad := ⟨default, default⟩
 
 variable (w w₁ w₂ : SignedWad)
 
-def sign := SierraBool.toBool w.2
+def sign : ℤ := if SierraBool.toBool w.2 then -1 else 1
 
 instance : Zero SignedWad := ⟨(0, false.toSierraBool)⟩
 
@@ -482,6 +482,10 @@ theorem toRat_inr_le_toRat_inl {x y : Wad} :
   · simp [toRat, Wad.toRat_nonneg]
   · apply Wad.toRat_nonneg
 
+theorem toRat_eq_sign_mul : w.toRat = (w.sign : ℚ) * Wad.toRat w.1 := by
+  rcases w with ⟨w, s⟩
+  simp [toRat, sign, Wad.toRat]
+
 end SignedWad
 
 def SignedRay := UInt128 × (Unit ⊕ Unit)
@@ -492,7 +496,7 @@ instance : Inhabited SignedRay := ⟨default, default⟩
 
 variable (w w₁ w₂ : SignedRay)
 
-def sign := SierraBool.toBool w.2
+def sign : ℤ := if SierraBool.toBool w.2 then -1 else 1
 
 instance : Zero SignedRay := ⟨(0, false.toSierraBool)⟩
 
@@ -604,5 +608,9 @@ theorem toRat_inr_le_toRat_inl {x y : Ray} :
   apply le_trans (b := 0)
   · simp [toRat, Ray.toRat_nonneg]
   · apply Ray.toRat_nonneg
+
+theorem toRat_eq_sign_mul : w.toRat = (w.sign : ℚ) * Ray.toRat w.1 := by
+  rcases w with ⟨w, s⟩
+  simp [toRat, sign, Ray.toRat]
 
 end SignedRay
