@@ -148,6 +148,14 @@ theorem Option.get!_some [Inhabited α] (a : α) : (Option.some a).get! = a := b
 @[simp]
 theorem Option.get!_none [Inhabited α] : (.none : Option α).get! = default := by rfl
 
+theorem Rat.nat_cast_div_eq {a b : ℕ} :
+    ↑(a / b) = (a : ℚ) / (b : ℚ) - ↑(a % b) / (b : ℚ) := by
+  by_cases hb : b = 0
+  · subst hb; simp
+  · rw [Nat.div_eq_sub_mod_div, Nat.cast_div (Nat.dvd_sub_mod a) (Nat.cast_ne_zero.mpr hb),
+      Nat.cast_sub (Nat.mod_le a b), sub_div]
+
+
 def Wad : Type := UInt128
 
 namespace Wad
@@ -486,6 +494,33 @@ theorem toRat_eq_sign_mul : w.toRat = (w.sign : ℚ) * Wad.toRat w.1 := by
   rcases w with ⟨w, s⟩
   simp [toRat, sign, Wad.toRat]
 
+protected def mul : SignedWad :=
+⟨Wad.mul (w₁.1 : Wad) (w₂.1 : Wad), Bool.toSierraBool (Bool.xor (SierraBool.toBool w₁.2) (SierraBool.toBool w₂.2))⟩
+
+instance : Mul SignedWad := ⟨SignedWad.mul⟩
+
+theorem mul_def :
+    w₁ * w₂ = ⟨Wad.mul (w₁.1 : Wad) (w₂.1 : Wad), Bool.toSierraBool (Bool.xor (SierraBool.toBool w₁.2) (SierraBool.toBool w₂.2))⟩ :=
+rfl
+
+theorem toRat_mul (h₁ : w₁.1.val * w₂.1.val / Wad.WAD_SCALE < U128_MOD ):
+    |SignedWad.toRat (w₁ * w₂) - SignedWad.toRat w₁ * SignedWad.toRat w₂| < 1 / Wad.WAD_SCALE := by
+  rcases w₁ with ⟨w₁, s₁⟩
+  rcases w₂ with ⟨w₂, s₂⟩
+  rcases s₁ with (⟨⟨⟩⟩|⟨⟨⟩⟩) <;> rcases s₂ with (⟨⟨⟩⟩|⟨⟨⟩⟩)
+    <;> dsimp only at h₁
+    <;> simp [mul_def, toRat, Wad.mul, Wad.toRat, Wad.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
+    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, mul_div_assoc,
+      sub_div, div_mul_eq_mul_div]
+    <;> [rw [sub_right_comm, sub_self, zero_sub, abs_neg];
+       rw [neg_sub, sub_add_cancel];
+       rw [neg_sub, sub_add_cancel];
+       rw [sub_right_comm, sub_self, zero_sub, abs_neg]]
+    <;> rw [abs_div,
+      Nat.abs_cast, div_lt_div_right (by norm_num [Wad.WAD_SCALE]), abs_div, Nat.abs_cast,
+      Nat.abs_cast, div_lt_one (by norm_num [Wad.WAD_SCALE]), Nat.cast_lt]
+    <;> apply Nat.mod_lt _ Wad.WAD_SCALE_pos
+
 end SignedWad
 
 def SignedRay := UInt128 × (Unit ⊕ Unit)
@@ -612,5 +647,32 @@ theorem toRat_inr_le_toRat_inl {x y : Ray} :
 theorem toRat_eq_sign_mul : w.toRat = (w.sign : ℚ) * Ray.toRat w.1 := by
   rcases w with ⟨w, s⟩
   simp [toRat, sign, Ray.toRat]
+
+protected def mul : SignedRay :=
+⟨Ray.mul w₁.1 w₂.1, Bool.toSierraBool (Bool.xor (SierraBool.toBool w₁.2) (SierraBool.toBool w₂.2))⟩
+
+instance : Mul SignedRay := ⟨SignedRay.mul⟩
+
+theorem mul_def :
+    w₁ * w₂ = ⟨Ray.mul w₁.1 w₂.1, Bool.toSierraBool (Bool.xor (SierraBool.toBool w₁.2) (SierraBool.toBool w₂.2))⟩ :=
+rfl
+
+theorem toRat_mul (h₁ : w₁.1.val * w₂.1.val / Ray.RAY_SCALE < U128_MOD ):
+    |SignedRay.toRat (w₁ * w₂) - SignedRay.toRat w₁ * SignedRay.toRat w₂| < 1 / Ray.RAY_SCALE := by
+  rcases w₁ with ⟨w₁, s₁⟩
+  rcases w₂ with ⟨w₂, s₂⟩
+  rcases s₁ with (⟨⟨⟩⟩|⟨⟨⟩⟩) <;> rcases s₂ with (⟨⟨⟩⟩|⟨⟨⟩⟩)
+    <;> dsimp only at h₁
+    <;> simp [mul_def, toRat, Ray.mul, Ray.toRat, Ray.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
+    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, mul_div_assoc,
+      sub_div, div_mul_eq_mul_div]
+    <;> [rw [sub_right_comm, sub_self, zero_sub, abs_neg];
+       rw [neg_sub, sub_add_cancel];
+       rw [neg_sub, sub_add_cancel];
+       rw [sub_right_comm, sub_self, zero_sub, abs_neg]]
+    <;> rw [abs_div,
+      Nat.abs_cast, div_lt_div_right (by norm_num [Ray.RAY_SCALE]), abs_div, Nat.abs_cast,
+      Nat.abs_cast, div_lt_one (by norm_num [Ray.RAY_SCALE]), Nat.cast_lt]
+    <;> apply Nat.mod_lt _ Ray.RAY_SCALE_pos
 
 end SignedRay
