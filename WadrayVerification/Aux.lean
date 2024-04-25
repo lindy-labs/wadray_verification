@@ -521,6 +521,39 @@ theorem toRat_mul (h₁ : w₁.1.val * w₂.1.val / Wad.WAD_SCALE < U128_MOD ):
       Nat.abs_cast, div_lt_one (by norm_num [Wad.WAD_SCALE]), Nat.cast_lt]
     <;> apply Nat.mod_lt _ Wad.WAD_SCALE_pos
 
+protected def div : SignedWad :=
+⟨Wad.div (w₁.1 : Wad) (w₂.1 : Wad), Bool.toSierraBool (Bool.xor (SierraBool.toBool w₁.2) (SierraBool.toBool w₂.2))⟩
+
+instance : Div SignedWad := ⟨SignedWad.div⟩
+
+theorem div_def :
+    w₁ / w₂ = ⟨Wad.div (w₁.1 : Wad) (w₂.1 : Wad), Bool.toSierraBool (Bool.xor (SierraBool.toBool w₁.2) (SierraBool.toBool w₂.2))⟩ :=
+rfl
+
+theorem toRat_div (h₁ : w₁.1.val * Wad.WAD_SCALE / w₂.1.val < U128_MOD)
+    (h₂ : w₂.1.val ≠ 0):
+    |SignedWad.toRat (w₁ / w₂) - SignedWad.toRat w₁ / SignedWad.toRat w₂| < 1 / Wad.WAD_SCALE := by
+  rcases w₁ with ⟨w₁, s₁⟩
+  rcases w₂ with ⟨w₂, s₂⟩
+  rcases s₁ with (⟨⟨⟩⟩|⟨⟨⟩⟩) <;> rcases s₂ with (⟨⟨⟩⟩|⟨⟨⟩⟩)
+    <;> dsimp only at h₁ h₂
+    <;> simp [div_def, toRat, Wad.div, Wad.toRat, Wad.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
+    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, sub_div]
+    <;> [rw [div_div_div_cancel_right _ (by norm_num [Wad.WAD_SCALE]), div_div,
+         mul_div_mul_right _ _ (by norm_num [Wad.WAD_SCALE]),
+         sub_right_comm, sub_self, zero_sub, abs_neg];
+       rw [neg_sub, div_neg, sub_neg_eq_add, div_div_div_cancel_right _ (by norm_num [Wad.WAD_SCALE]),
+         div_div (w₁.cast * _), mul_div_mul_right _ _ (by norm_num [Wad.WAD_SCALE]), sub_add_cancel];
+       rw [neg_sub, neg_div, sub_neg_eq_add, div_div_div_cancel_right _ (by norm_num [Wad.WAD_SCALE]),
+         div_div (w₁.cast * _), mul_div_mul_right _ _ (by norm_num [Wad.WAD_SCALE]), sub_add_cancel];
+       rw [div_div_div_cancel_right _ (by norm_num [Wad.WAD_SCALE]), div_div,
+         mul_div_mul_right _ _ (by norm_num [Wad.WAD_SCALE]),
+         sub_right_comm, sub_self, zero_sub, abs_neg]]
+    <;> rw [abs_div,
+      Nat.abs_cast, div_lt_div_right (by norm_num [Wad.WAD_SCALE]), abs_div, ← ZMod.nat_cast_val, Nat.abs_cast,
+      Nat.abs_cast, div_lt_one (by rw [← Nat.cast_zero, Nat.cast_lt]; apply Nat.pos_of_ne_zero h₂), Nat.cast_lt]
+    <;> apply Nat.mod_lt _ (Nat.pos_of_ne_zero h₂)
+
 end SignedWad
 
 def SignedRay := UInt128 × (Unit ⊕ Unit)
@@ -674,5 +707,38 @@ theorem toRat_mul (h₁ : w₁.1.val * w₂.1.val / Ray.RAY_SCALE < U128_MOD ):
       Nat.abs_cast, div_lt_div_right (by norm_num [Ray.RAY_SCALE]), abs_div, Nat.abs_cast,
       Nat.abs_cast, div_lt_one (by norm_num [Ray.RAY_SCALE]), Nat.cast_lt]
     <;> apply Nat.mod_lt _ Ray.RAY_SCALE_pos
+
+protected def div : SignedRay :=
+⟨Ray.div (w₁.1 : Ray) (w₂.1 : Ray), Bool.toSierraBool (Bool.xor (SierraBool.toBool w₁.2) (SierraBool.toBool w₂.2))⟩
+
+instance : Div SignedRay := ⟨SignedRay.div⟩
+
+theorem div_def :
+    w₁ / w₂ = ⟨Ray.div (w₁.1 : Ray) (w₂.1 : Ray), Bool.toSierraBool (Bool.xor (SierraBool.toBool w₁.2) (SierraBool.toBool w₂.2))⟩ :=
+rfl
+
+theorem toRat_div (h₁ : w₁.1.val * Ray.RAY_SCALE / w₂.1.val < U128_MOD)
+    (h₂ : w₂.1.val ≠ 0):
+    |SignedRay.toRat (w₁ / w₂) - SignedRay.toRat w₁ / SignedRay.toRat w₂| < 1 / Ray.RAY_SCALE := by
+  rcases w₁ with ⟨w₁, s₁⟩
+  rcases w₂ with ⟨w₂, s₂⟩
+  rcases s₁ with (⟨⟨⟩⟩|⟨⟨⟩⟩) <;> rcases s₂ with (⟨⟨⟩⟩|⟨⟨⟩⟩)
+    <;> dsimp only at h₁ h₂
+    <;> simp [div_def, toRat, Ray.div, Ray.toRat, Ray.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
+    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, sub_div]
+    <;> [rw [div_div_div_cancel_right _ (by norm_num [Ray.RAY_SCALE]), div_div,
+         mul_div_mul_right _ _ (by norm_num [Ray.RAY_SCALE]),
+         sub_right_comm, sub_self, zero_sub, abs_neg];
+       rw [neg_sub, div_neg, sub_neg_eq_add, div_div_div_cancel_right _ (by norm_num [Ray.RAY_SCALE]),
+         div_div (w₁.cast * _), mul_div_mul_right _ _ (by norm_num [Ray.RAY_SCALE]), sub_add_cancel];
+       rw [neg_sub, neg_div, sub_neg_eq_add, div_div_div_cancel_right _ (by norm_num [Ray.RAY_SCALE]),
+         div_div (w₁.cast * _), mul_div_mul_right _ _ (by norm_num [Ray.RAY_SCALE]), sub_add_cancel];
+       rw [div_div_div_cancel_right _ (by norm_num [Ray.RAY_SCALE]), div_div,
+         mul_div_mul_right _ _ (by norm_num [Ray.RAY_SCALE]),
+         sub_right_comm, sub_self, zero_sub, abs_neg]]
+    <;> rw [abs_div,
+      Nat.abs_cast, div_lt_div_right (by norm_num [Ray.RAY_SCALE]), abs_div, ← ZMod.nat_cast_val, Nat.abs_cast,
+      Nat.abs_cast, div_lt_one (by rw [← Nat.cast_zero, Nat.cast_lt]; apply Nat.pos_of_ne_zero h₂), Nat.cast_lt]
+    <;> apply Nat.mod_lt _ (Nat.pos_of_ne_zero h₂)
 
 end SignedRay
