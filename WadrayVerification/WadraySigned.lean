@@ -1602,12 +1602,8 @@ aegis_prove "wadray::wadray_signed::SignedRaySub::sub" :=
 
 aegis_spec "wadray::wadray_signed::SignedWadMul::mul" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) =>
-  if a.1.val * b.1.val / Wad.WAD_SCALE < U128_MOD
-  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat =
-    if (xor (SierraBool.toBool a.2) (SierraBool.toBool b.2))
-    then - ((a.1.val * b.1.val / Wad.WAD_SCALE : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
-    else ((a.1.val * b.1.val / Wad.WAD_SCALE : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
-  else ρ.isRight
+  a.1.val * b.1.val / Wad.WAD_SCALE < U128_MOD ∧ ρ = .inl (a * b)
+  ∨ U128_MOD ≤ a.1.val * b.1.val / Wad.WAD_SCALE ∧ ρ.isRight
 
 aegis_prove "wadray::wadray_signed::SignedWadMul::mul" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) => by
@@ -1616,28 +1612,15 @@ aegis_prove "wadray::wadray_signed::SignedWadMul::mul" :=
   rcases h₁ with (⟨h₁,rfl⟩|⟨h₁,h₁'⟩)
   · simp only [Sum.inl.injEq, false_and, or_false] at h₂
     rcases h₂ with ⟨rfl,rfl⟩
-    simp only [h₁, Sum.isLeft_inl, SignedWad.toRat, Sum.getLeft?_inl, Option.get!_some,
-      Bool.coe_toSierraBool, bne_iff_ne, ne_eq, ite_not, true_and, Sum.isRight_inl, ite_true,
-      ite_false, SierraBool_toBool_inr]
-    rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb
-      <;> simp only [SierraBool_toBool_inl, Wad.toRat, Wad.toZMod, ite_true]
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
-    · simp [SierraBool_toBool_inr, ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
+    simp [h₁, SignedWad.mul_def, Wad.mul, Wad.toZMod]
   · rcases h₂ with (⟨rfl,rfl⟩|⟨rfl,rfl⟩)
     · simp at h₁'
-    · rw [← not_lt] at h₁
-      simp [SignedWad.toRat, h₁]
+    · simp [h₁]
 
 aegis_spec "wadray::wadray_signed::SignedRayMul::mul" :=
   fun _ _ (a b : SignedRay) _ (ρ : SignedRay ⊕ _) =>
-  if a.1.val * b.1.val / Ray.RAY_SCALE < U128_MOD
-  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat =
-    if (xor (SierraBool.toBool a.2) (SierraBool.toBool b.2))
-    then - ((a.1.val * b.1.val / Ray.RAY_SCALE : ℕ) : ℚ) / (Ray.RAY_SCALE : ℚ)
-    else ((a.1.val * b.1.val / Ray.RAY_SCALE : ℕ) : ℚ) / (Ray.RAY_SCALE : ℚ)
-  else ρ.isRight
+  a.1.val * b.1.val / Ray.RAY_SCALE < U128_MOD ∧ ρ = .inl (a * b)
+  ∨ U128_MOD ≤ a.1.val * b.1.val / Ray.RAY_SCALE ∧ ρ.isRight
 
 aegis_prove "wadray::wadray_signed::SignedRayMul::mul" :=
   fun _ _ (a b : SignedRay) _ (ρ : SignedRay ⊕ _) => by
@@ -1646,42 +1629,48 @@ aegis_prove "wadray::wadray_signed::SignedRayMul::mul" :=
   rcases h₁ with (⟨h₁,rfl⟩|⟨h₁,h₁'⟩)
   · simp only [Sum.inl.injEq, false_and, or_false] at h₂
     rcases h₂ with ⟨rfl,rfl⟩
-    simp only [h₁, Sum.isLeft_inl, SignedRay.toRat, Sum.getLeft?_inl, Option.get!_some,
-      Bool.coe_toSierraBool, bne_iff_ne, ne_eq, ite_not, true_and, Sum.isRight_inl, ite_true,
-      ite_false, SierraBool_toBool_inr]
-    rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb
-      <;> simp only [SierraBool_toBool_inl, Ray.toRat, Ray.toZMod, ite_true]
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
-    · simp [SierraBool_toBool_inr, ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
+    simp [h₁, SignedRay.mul_def, Ray.mul, Ray.toZMod]
   · rcases h₂ with (⟨rfl,rfl⟩|⟨rfl,rfl⟩)
     · simp at h₁'
-    · rw [← not_lt] at h₁
-      simp [SignedRay.toRat, h₁]
+    · simp [h₁]
 
 aegis_spec "wadray::wadray_signed::SignedWadMulEq::mul_eq" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit ⊕ _) =>
-  if a.1.val * b.1.val / Wad.WAD_SCALE < U128_MOD
-  then ρ.isLeft ∧ ρ.getLeft?.get!.1.toRat =
-    if (xor (SierraBool.toBool a.2) (SierraBool.toBool b.2))
-    then - ((a.1.val * b.1.val / Wad.WAD_SCALE : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
-    else ((a.1.val * b.1.val / Wad.WAD_SCALE : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
-  else ρ.isRight
+  a.1.val * b.1.val / Wad.WAD_SCALE < U128_MOD ∧ ρ = .inl (a * b, ())
+  ∨ U128_MOD ≤ a.1.val * b.1.val / Wad.WAD_SCALE ∧ ρ.isRight
 
 aegis_prove "wadray::wadray_signed::SignedWadMulEq::mul_eq" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit ⊕ _) => by
   unfold «spec_wadray::wadray_signed::SignedWadMulEq::mul_eq»
-  aesop
+  rename_i x x_1 x_2
+  intro h_auto
+  simp_all only [exists_and_left, Prod.exists, Sum.exists, Sum.inl.injEq, Sum.isRight_inl, and_false, or_false,
+    false_and, exists_const, Prod.mk.injEq, and_true, exists_eq_left, exists_and_right, false_or, Sum.isRight_inr,
+    Sum.inr.injEq, or_self, true_and]
+  unhygienic aesop_cases h_auto
+  · unhygienic with_reducible aesop_destruct_products
+    unhygienic aesop_cases h_1
+    · simp_all only [true_and]
+      unhygienic with_reducible aesop_destruct_products
+      aesop_subst h
+      simp_all only [Sum.inl.injEq, Prod.mk.injEq, and_true, Sum.isRight_inl, and_false, or_false]
+      exact h_1
+    · simp_all only [true_and]
+      unhygienic with_reducible aesop_destruct_products
+      aesop_subst h
+      simp_all only [Sum.inl.injEq, Prod.mk.injEq, and_true, Sum.isRight_inl, and_false, or_false]
+      exact h_1
+  · simp_all only [true_and]
+    unhygienic with_reducible aesop_destruct_products
+    aesop_subst h_1
+    simp_all only [and_false, Sum.isRight_inr, or_true]
 
 aegis_spec "wadray::wadray_signed::SignedWadDiv::div" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) =>
-  if a.1.val * Wad.WAD_SCALE / b.1.val < U128_MOD ∧ b.1.val ≠ 0
-  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat =
-    if (xor (SierraBool.toBool a.2) (SierraBool.toBool b.2))
-    then - ((a.1.val * Wad.WAD_SCALE / b.1.val : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
-    else ((a.1.val * Wad.WAD_SCALE / b.1.val : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
-  else ρ.isRight
+  a.1.val * Wad.WAD_SCALE / b.1.val < U128_MOD ∧ b.1.val ≠ 0
+    ∧ ρ = .inl (a / b)
+  ∨ (U128_MOD ≤ a.1.val * Wad.WAD_SCALE / b.1.val ∨ b.1.val = 0)
+    ∧ ρ.isRight
 
 aegis_prove "wadray::wadray_signed::SignedWadDiv::div" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) => by
@@ -1690,33 +1679,17 @@ aegis_prove "wadray::wadray_signed::SignedWadDiv::div" :=
   rcases h₁ with (⟨h₁,hne,rfl⟩|⟨h₁,h₁'⟩)
   · simp only [Sum.inl.injEq, false_and, or_false] at h₂
     rcases h₂ with ⟨rfl,rfl⟩
-    simp only [Wad.toZMod] at *
-    simp only [h₁, Sum.isLeft_inl, SignedWad.toRat, Sum.getLeft?_inl, Option.get!_some,
-      Bool.coe_toSierraBool, bne_iff_ne, ne_eq, ite_not, Nat.cast_mul,
-      Nat.cast_eq_zero, true_and, Sum.isRight_inl, ite_true]
-    rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb
-      <;> simp only [SierraBool_toBool_inl, Wad.toRat, Wad.toZMod, Wad.div_def, ite_true]
-      <;> simp only [hne, ite_false]
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
-    · simp [SierraBool_toBool_inr, ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
+    simp_all [h₁, Wad.toZMod, SignedWad.div_def, Wad.div, Wad.div_def]
   · rcases h₂ with (⟨rfl,rfl⟩|⟨rfl,rfl⟩)
     · simp at h₁'
-    · rcases h₁ with (h₁|h₁)
-      · simp only [← not_lt, Wad.toZMod] at h₁
-        simp [SignedRay.toRat, h₁]
-      · simp only [Wad.toZMod] at h₁
-        simp [h₁]
+    · simp_all [Wad.toZMod]
 
 aegis_spec "wadray::wadray_signed::SignedRayDiv::div" :=
   fun _ _ (a b : SignedRay) _ (ρ : SignedRay ⊕ _) =>
-  if a.1.val * Ray.RAY_SCALE / b.1.val < U128_MOD ∧ b.1.val ≠ 0
-  then ρ.isLeft ∧ ρ.getLeft?.get!.toRat =
-    if (xor (SierraBool.toBool a.2) (SierraBool.toBool b.2))
-    then - ((a.1.val * Ray.RAY_SCALE / b.1.val : ℕ) : ℚ) / (Ray.RAY_SCALE : ℚ)
-    else ((a.1.val * Ray.RAY_SCALE / b.1.val : ℕ) : ℚ) / (Ray.RAY_SCALE : ℚ)
-  else ρ.isRight
+  a.1.val * Ray.RAY_SCALE / b.1.val < U128_MOD ∧ b.1.val ≠ 0
+    ∧ ρ = .inl (a / b)
+  ∨ (U128_MOD ≤ a.1.val * Ray.RAY_SCALE / b.1.val ∨ b.1.val = 0)
+    ∧ ρ.isRight
 
 aegis_prove "wadray::wadray_signed::SignedRayDiv::div" :=
   fun _ _ (a b : SignedRay) _ (ρ : SignedRay ⊕ _) => by
@@ -1725,38 +1698,43 @@ aegis_prove "wadray::wadray_signed::SignedRayDiv::div" :=
   rcases h₁ with (⟨h₁,hne,rfl⟩|⟨h₁,h₁'⟩)
   · simp only [Sum.inl.injEq, false_and, or_false] at h₂
     rcases h₂ with ⟨rfl,rfl⟩
-    simp only [Ray.toZMod] at *
-    simp only [h₁, Sum.isLeft_inl, SignedRay.toRat, Sum.getLeft?_inl, Option.get!_some,
-      Bool.coe_toSierraBool, bne_iff_ne, ne_eq, ite_not, Nat.cast_mul,
-      Nat.cast_eq_zero, true_and, Sum.isRight_inl, ite_true]
-    rcases sa with (sa|sa) <;> cases sa <;> rcases sb with (sb|sb) <;> cases sb
-      <;> simp only [SierraBool_toBool_inl, Ray.toRat, Ray.toZMod, Ray.div_def, ite_true]
-      <;> simp only [hne, ite_false]
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
-    · simp [SierraBool_toBool_inr, ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁, neg_div']
-    · simp [ZMod.cast_rat_of_cast_nat, Nat.mod_eq_of_lt h₁]
+    simp_all [h₁, Ray.toZMod, SignedRay.div_def, Ray.div, Ray.div_def]
   · rcases h₂ with (⟨rfl,rfl⟩|⟨rfl,rfl⟩)
     · simp at h₁'
-    · rcases h₁ with (h₁|h₁)
-      · simp only [← not_lt, Ray.toZMod] at h₁
-        simp [SignedRay.toRat, h₁]
-      · simp only [Ray.toZMod] at h₁
-        simp [h₁]
+    · simp_all [Ray.toZMod]
 
 aegis_spec "wadray::wadray_signed::SignedWadDivEq::div_eq" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit ⊕ _) =>
-  if a.1.val * Wad.WAD_SCALE / b.1.val < U128_MOD ∧ b.1.val ≠ 0
-  then ρ.isLeft ∧ ρ.getLeft?.get!.1.toRat =
-    if (xor (SierraBool.toBool a.2) (SierraBool.toBool b.2))
-    then - ((a.1.val * Wad.WAD_SCALE / b.1.val : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
-    else ((a.1.val * Wad.WAD_SCALE / b.1.val : ℕ) : ℚ) / (Wad.WAD_SCALE : ℚ)
-  else ρ.isRight
+  a.1.val * Wad.WAD_SCALE / b.1.val < U128_MOD ∧ b.1.val ≠ 0
+    ∧ ρ = .inl (a / b, ())
+  ∨ (U128_MOD ≤ a.1.val * Wad.WAD_SCALE / b.1.val ∨ b.1.val = 0)
+    ∧ ρ.isRight
 
 aegis_prove "wadray::wadray_signed::SignedWadDivEq::div_eq" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad × Unit ⊕ _) => by
   unfold «spec_wadray::wadray_signed::SignedWadDivEq::div_eq»
-  aesop
+  rename_i x x_1 x_2
+  intro h_auto
+  simp_all only [ne_eq, ZMod.val_eq_zero, exists_and_left, Prod.exists, Sum.exists, Sum.inl.injEq, Sum.isRight_inl,
+    and_false, or_false, false_and, exists_const, Prod.mk.injEq, and_true, exists_eq_left, exists_and_right, false_or,
+    Sum.isRight_inr, Sum.inr.injEq, or_self, true_and]
+  unhygienic aesop_cases h_auto
+  · unhygienic with_reducible aesop_destruct_products
+    unhygienic aesop_cases h_1
+    · simp_all only [not_false_eq_true, true_and, or_false]
+      unhygienic with_reducible aesop_destruct_products
+      aesop_subst h
+      simp_all only [Sum.inl.injEq, Prod.mk.injEq, and_true, Sum.isRight_inl, and_false, or_false]
+      exact h_1
+    · simp_all only [not_false_eq_true, true_and, or_false]
+      unhygienic with_reducible aesop_destruct_products
+      aesop_subst h
+      simp_all only [Sum.inl.injEq, Prod.mk.injEq, and_true, Sum.isRight_inl, and_false, or_false]
+      exact h_1
+  · simp_all only [true_and]
+    unhygienic with_reducible aesop_destruct_products
+    aesop_subst h_1
+    simp_all only [and_false, Sum.isRight_inr, or_true]
 
 aegis_spec "wadray::wadray_signed::U128IntoSignedWad::into" :=
   fun _ a (ρ : SignedWad) =>
