@@ -284,6 +284,21 @@ protected theorem zero_toZMod :
 @[simp]
 theorem toRat_zero : (0 : Wad).toRat = 0 := by simp [Wad.toRat]
 
+protected def one : Wad := (1000000000000000000 : UInt128)
+
+instance : One Wad := ⟨Wad.one⟩
+
+@[simp]
+protected theorem one_toZMod :
+    (1 : Wad).toZMod = 1000000000000000000 :=
+  rfl
+
+@[simp]
+theorem one_val : (1 : Wad).toZMod.val = WAD_SCALE := by
+  rfl
+
+theorem one_def : (1 : Wad) = (1000000000000000000 : UInt128) := rfl
+
 end Wad
 
 def Ray : Type := UInt128
@@ -418,6 +433,20 @@ protected theorem zero_toZMod :
  @[simp]
 theorem toRat_zero : (0 : Ray).toRat = 0 := by simp [Ray.toRat]
 
+protected def one : Wad := (1000000000000000000000000000 : UInt128)
+
+instance : One Ray := ⟨Ray.one⟩
+
+@[simp]
+protected theorem one_toZMod :
+    (1 : Ray).toZMod = 1000000000000000000000000000 :=
+  rfl
+
+@[simp]
+theorem one_val : (1 : Ray).toZMod.val = RAY_SCALE := by
+  rfl
+
+theorem one_def : (1 : Ray) = (1000000000000000000000000000 : UInt128) := rfl
 
 end Ray
 
