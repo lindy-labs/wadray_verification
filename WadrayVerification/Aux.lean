@@ -164,7 +164,11 @@ instance : Inhabited Wad := ⟨default (α := UInt128)⟩
 
 def WAD_SCALE : ℕ := 1000000000000000000
 
-theorem WAD_SCALE_pos : 0 < WAD_SCALE := by norm_num[WAD_SCALE]
+theorem WAD_SCALE_pos : 0 < WAD_SCALE := by norm_num [WAD_SCALE]
+
+theorem WAD_SCALE_rat_pos : 0 < (WAD_SCALE : ℚ) := by norm_num [WAD_SCALE]
+
+theorem WAD_SCALE_rat_ne_zero : (WAD_SCALE : ℚ) ≠ 0 := by norm_num [WAD_SCALE]
 
 theorem WAD_SCALE_lt_U128_MOD : WAD_SCALE < U128_MOD := by norm_num [WAD_SCALE, U128_MOD]
 
@@ -182,7 +186,7 @@ theorem toRat_le_toRat_of_val_le_val (h : @ZMod.val U128_MOD w ≤ @ZMod.val U12
   apply div_le_div
   · exact Nat.cast_nonneg (ZMod.val (Wad.toZMod w'))
   · rwa [Nat.cast_le]
-  · norm_num[WAD_SCALE]
+  · exact WAD_SCALE_rat_pos
   · apply le_of_eq; rfl
 
 theorem toRat_lt_toRat_of_val_lt_val (h : @ZMod.val U128_MOD w < @ZMod.val U128_MOD w') :
@@ -192,7 +196,7 @@ theorem toRat_lt_toRat_of_val_lt_val (h : @ZMod.val U128_MOD w < @ZMod.val U128_
   · rwa [Nat.cast_lt, Wad.toZMod, Wad.toZMod]
   · apply le_of_eq; rfl
   · apply Nat.cast_nonneg
-  · norm_num[WAD_SCALE]
+  · exact WAD_SCALE_rat_pos
 
 theorem toRat_injective : Function.Injective Wad.toRat := by
   intro a b h
@@ -208,16 +212,27 @@ theorem toRat_injective : Function.Injective Wad.toRat := by
 
 theorem toRat_nonneg : 0 ≤ w.toRat := by
   simp [Wad.toRat]
-  rw [le_div_iff (by norm_num [WAD_SCALE]), zero_mul]
+  rw [le_div_iff WAD_SCALE_rat_pos, zero_mul]
   exact ZMod.cast_rat_nonneg (Wad.toZMod w)
 
-protected def mul : Wad := (w.toZMod.val * w'.toZMod.val / WAD_SCALE  : UInt128)
+protected def mul : Wad := (w.toZMod.val * w'.toZMod.val / WAD_SCALE : UInt128)
 
 instance : Mul Wad := ⟨Wad.mul⟩
 
 protected theorem mul_def :
     w * w' = (w.toZMod.val * w'.toZMod.val / WAD_SCALE  : UInt128) :=
   rfl
+
+-- TODO use this lemma to clean up proofs downstream
+theorem toRat_mul (h : w.toZMod.val * w'.toZMod.val / WAD_SCALE < U128_MOD) :
+    |(w * w').toRat - w.toRat * w'.toRat| < 1 / WAD_SCALE := by
+  simp only [Wad.toRat, Wad.toZMod, Wad.mul_def, ZMod.val_nat_cast] at *
+  rw [Nat.mod_eq_of_lt h, div_mul_div_comm, ← div_div, ← sub_div, abs_div,
+    Nat.abs_cast, div_lt_div_right WAD_SCALE_rat_pos, Rat.nat_cast_div_eq]
+  simp only [Nat.cast_mul, ZMod.nat_cast_val, sub_sub_cancel_left, abs_neg]
+  rw [abs_div, Nat.abs_cast, Nat.abs_cast, div_lt_one WAD_SCALE_rat_pos,
+    Nat.cast_lt]
+  apply Nat.mod_lt _ WAD_SCALE_pos
 
 protected def div : Wad := (w.toZMod.val * WAD_SCALE / w'.toZMod.val : UInt128)
 
@@ -226,6 +241,20 @@ instance : Div Wad := ⟨Wad.div⟩
 protected theorem div_def :
     w / w' = (w.toZMod.val * WAD_SCALE / w'.toZMod.val : UInt128) :=
   rfl
+
+-- TODO use this lemma to clean up proofs downstream
+theorem toRat_div (h : w.toZMod.val * WAD_SCALE / w'.toZMod.val < U128_MOD)
+    (h' : w'.toZMod.val ≠ 0) :
+    |(w / w').toRat - w.toRat / w'.toRat| < 1 / WAD_SCALE := by
+  have h'' : 0 < w'.toZMod.val := Nat.pos_of_ne_zero h'
+  have h''' : (0 : ℚ) < w'.toZMod.val := Nat.cast_pos.mpr h''
+  simp only [Wad.toRat, Wad.toZMod, Wad.div_def, ZMod.val_nat_cast] at *
+  rw [Nat.mod_eq_of_lt h, Rat.nat_cast_div_eq, sub_div, Nat.cast_mul,
+    div_div, mul_div_mul_right _ _ WAD_SCALE_rat_ne_zero,
+    div_div_div_cancel_right _ WAD_SCALE_rat_ne_zero, sub_sub_cancel_left,
+    abs_neg, abs_div, Nat.abs_cast, div_lt_div_right WAD_SCALE_rat_pos,
+    abs_div, Nat.abs_cast, Nat.abs_cast, div_lt_one h''', Nat.cast_lt]
+  apply Nat.mod_lt _ h''
 
 protected def sub : Wad := w.toZMod - w'.toZMod
 
@@ -267,6 +296,10 @@ def RAY_SCALE : ℕ := 1000000000000000000000000000
 
 theorem RAY_SCALE_pos : 0 < RAY_SCALE := by norm_num[RAY_SCALE]
 
+theorem RAY_SCALE_rat_pos : 0 < (RAY_SCALE : ℚ) := by norm_num [RAY_SCALE]
+
+theorem RAY_SCALE_rat_ne_zero : (RAY_SCALE : ℚ) ≠ 0 := by norm_num [RAY_SCALE]
+
 theorem RAY_SCALE_lt_U128_MOD : RAY_SCALE < U128_MOD := by norm_num [RAY_SCALE, U128_MOD]
 
 variable (r r' : Ray)
@@ -285,6 +318,17 @@ protected theorem mul_def :
     r * r' = (r.toZMod.val * r'.toZMod.val / RAY_SCALE  : UInt128) :=
   rfl
 
+theorem toRat_mul (h : r.toZMod.val * r'.toZMod.val / RAY_SCALE < U128_MOD) :
+    |(r * r').toRat - r.toRat * r'.toRat| < 1 / RAY_SCALE := by
+  simp only [Ray.toRat, Ray.toZMod, Ray.mul_def] at *
+  simp only [ZMod.val_nat_cast]
+  rw [Nat.mod_eq_of_lt h, div_mul_div_comm, ← div_div, ← sub_div, abs_div,
+    Nat.abs_cast, div_lt_div_right RAY_SCALE_rat_pos, Rat.nat_cast_div_eq]
+  simp only [Nat.cast_mul, ZMod.nat_cast_val, sub_sub_cancel_left, abs_neg]
+  rw [abs_div, Nat.abs_cast, Nat.abs_cast, div_lt_one RAY_SCALE_rat_pos,
+    Nat.cast_lt]
+  apply Nat.mod_lt _ RAY_SCALE_pos
+
 protected def div : Ray := (r.toZMod.val * RAY_SCALE / r'.toZMod.val : UInt128)
 
 instance : Div Ray := ⟨Ray.div⟩
@@ -292,6 +336,20 @@ instance : Div Ray := ⟨Ray.div⟩
 protected theorem div_def :
     r / r' = (r.toZMod.val * RAY_SCALE / r'.toZMod.val : UInt128) :=
   rfl
+
+-- TODO use this lemma to clean up proofs downstream
+theorem toRat_div (h : r.toZMod.val * RAY_SCALE / r'.toZMod.val < U128_MOD)
+    (h' : r'.toZMod.val ≠ 0) :
+    |(r / r').toRat - r.toRat / r'.toRat| < 1 / RAY_SCALE := by
+  have h'' : 0 < r'.toZMod.val := Nat.pos_of_ne_zero h'
+  have h''' : (0 : ℚ) < r'.toZMod.val := Nat.cast_pos.mpr h''
+  simp only [Ray.toRat, Ray.toZMod, Ray.div_def, ZMod.val_nat_cast] at *
+  rw [Nat.mod_eq_of_lt h, Rat.nat_cast_div_eq, sub_div, Nat.cast_mul,
+    div_div, mul_div_mul_right _ _ RAY_SCALE_rat_ne_zero,
+    div_div_div_cancel_right _ RAY_SCALE_rat_ne_zero, sub_sub_cancel_left,
+    abs_neg, abs_div, Nat.abs_cast, div_lt_div_right RAY_SCALE_rat_pos,
+    abs_div, Nat.abs_cast, Nat.abs_cast, div_lt_one h''', Nat.cast_lt]
+  apply Nat.mod_lt _ h''
 
 def DIFF : ℕ := 1000000000
 
@@ -319,7 +377,7 @@ theorem toRat_le_toRat_of_val_le_val (h : @ZMod.val U128_MOD r ≤ @ZMod.val U12
   apply div_le_div
   · exact Nat.cast_nonneg (ZMod.val (Wad.toZMod r'))
   · rwa [Nat.cast_le]
-  · norm_num[RAY_SCALE]
+  · exact RAY_SCALE_rat_pos
   · apply le_of_eq; rfl
 
 theorem toRat_lt_toRat_of_val_lt_val (h : @ZMod.val U128_MOD r < @ZMod.val U128_MOD r') :
@@ -329,7 +387,7 @@ theorem toRat_lt_toRat_of_val_lt_val (h : @ZMod.val U128_MOD r < @ZMod.val U128_
   · rwa [Nat.cast_lt, Ray.toZMod, Ray.toZMod]
   · apply le_of_eq; rfl
   · apply Nat.cast_nonneg
-  · norm_num[RAY_SCALE]
+  · exact RAY_SCALE_rat_pos
 
 theorem toRat_injective : Function.Injective Ray.toRat := by
   intro a b h
@@ -345,7 +403,7 @@ theorem toRat_injective : Function.Injective Ray.toRat := by
 
 theorem toRat_nonneg : 0 ≤ r.toRat := by
   simp [Ray.toRat]
-  rw [le_div_iff (by norm_num [RAY_SCALE]), zero_mul]
+  rw [le_div_iff RAY_SCALE_rat_pos, zero_mul]
   exact ZMod.cast_rat_nonneg (Ray.toZMod r)
 
 protected def zero : Ray := (0 : UInt128)
@@ -418,8 +476,7 @@ theorem toRat_zero_val : SignedWad.toRat ((0, s) : SignedWad) = 0 := by
 
 @[simp]
 theorem toRat_one : (1 : SignedWad).toRat = 1 := by
-  have : (Wad.WAD_SCALE : ℚ) ≠ 0 := by
-    norm_num [Wad.WAD_SCALE]
+  have := Wad.WAD_SCALE_rat_ne_zero
   simp_all [toRat, Wad.toRat, Wad.toZMod, ZMod.cast_rat_of_cast_nat,
     Nat.mod_eq_of_lt Wad.WAD_SCALE_lt_U128_MOD]
 
@@ -517,8 +574,8 @@ theorem toRat_mul (h₁ : w₁.1.val * w₂.1.val / Wad.WAD_SCALE < U128_MOD ):
        rw [neg_sub, sub_add_cancel];
        rw [sub_right_comm, sub_self, zero_sub, abs_neg]]
     <;> rw [abs_div,
-      Nat.abs_cast, div_lt_div_right (by norm_num [Wad.WAD_SCALE]), abs_div, Nat.abs_cast,
-      Nat.abs_cast, div_lt_one (by norm_num [Wad.WAD_SCALE]), Nat.cast_lt]
+      Nat.abs_cast, div_lt_div_right Wad.WAD_SCALE_rat_pos, abs_div, Nat.abs_cast,
+      Nat.abs_cast, div_lt_one Wad.WAD_SCALE_rat_pos, Nat.cast_lt]
     <;> apply Nat.mod_lt _ Wad.WAD_SCALE_pos
 
 protected def div : SignedWad :=
@@ -539,18 +596,18 @@ theorem toRat_div (h₁ : w₁.1.val * Wad.WAD_SCALE / w₂.1.val < U128_MOD)
     <;> dsimp only at h₁ h₂
     <;> simp [div_def, toRat, Wad.div, Wad.toRat, Wad.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
     <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, sub_div]
-    <;> [rw [div_div_div_cancel_right _ (by norm_num [Wad.WAD_SCALE]), div_div,
-         mul_div_mul_right _ _ (by norm_num [Wad.WAD_SCALE]),
+    <;> [rw [div_div_div_cancel_right _ Wad.WAD_SCALE_rat_ne_zero, div_div,
+         mul_div_mul_right _ _ Wad.WAD_SCALE_rat_ne_zero,
          sub_right_comm, sub_self, zero_sub, abs_neg];
-       rw [neg_sub, div_neg, sub_neg_eq_add, div_div_div_cancel_right _ (by norm_num [Wad.WAD_SCALE]),
-         div_div (w₁.cast * _), mul_div_mul_right _ _ (by norm_num [Wad.WAD_SCALE]), sub_add_cancel];
-       rw [neg_sub, neg_div, sub_neg_eq_add, div_div_div_cancel_right _ (by norm_num [Wad.WAD_SCALE]),
-         div_div (w₁.cast * _), mul_div_mul_right _ _ (by norm_num [Wad.WAD_SCALE]), sub_add_cancel];
-       rw [div_div_div_cancel_right _ (by norm_num [Wad.WAD_SCALE]), div_div,
-         mul_div_mul_right _ _ (by norm_num [Wad.WAD_SCALE]),
+       rw [neg_sub, div_neg, sub_neg_eq_add, div_div_div_cancel_right _ Wad.WAD_SCALE_rat_ne_zero,
+         div_div (w₁.cast * _), mul_div_mul_right _ _ Wad.WAD_SCALE_rat_ne_zero, sub_add_cancel];
+       rw [neg_sub, neg_div, sub_neg_eq_add, div_div_div_cancel_right _ Wad.WAD_SCALE_rat_ne_zero,
+         div_div (w₁.cast * _), mul_div_mul_right _ _ Wad.WAD_SCALE_rat_ne_zero, sub_add_cancel];
+       rw [div_div_div_cancel_right _ Wad.WAD_SCALE_rat_ne_zero, div_div,
+         mul_div_mul_right _ _ Wad.WAD_SCALE_rat_ne_zero,
          sub_right_comm, sub_self, zero_sub, abs_neg]]
     <;> rw [abs_div,
-      Nat.abs_cast, div_lt_div_right (by norm_num [Wad.WAD_SCALE]), abs_div, ← ZMod.nat_cast_val, Nat.abs_cast,
+      Nat.abs_cast, div_lt_div_right Wad.WAD_SCALE_rat_pos, abs_div, ← ZMod.nat_cast_val, Nat.abs_cast,
       Nat.abs_cast, div_lt_one (by rw [← Nat.cast_zero, Nat.cast_lt]; apply Nat.pos_of_ne_zero h₂), Nat.cast_lt]
     <;> apply Nat.mod_lt _ (Nat.pos_of_ne_zero h₂)
 
@@ -605,8 +662,7 @@ theorem toRat_zero_val : SignedRay.toRat ((0, s) : SignedRay) = 0 := by
 
 @[simp]
 theorem toRat_one : (1 : SignedRay).toRat = 1 := by
-  have : (Ray.RAY_SCALE : ℚ) ≠ 0 := by
-    norm_num [Ray.RAY_SCALE]
+  have := Ray.RAY_SCALE_rat_ne_zero
   simp_all [toRat, Ray.toRat, Ray.toZMod, ZMod.cast_rat_of_cast_nat,
     Nat.mod_eq_of_lt Ray.RAY_SCALE_lt_U128_MOD]
 
@@ -704,8 +760,8 @@ theorem toRat_mul (h₁ : w₁.1.val * w₂.1.val / Ray.RAY_SCALE < U128_MOD ):
        rw [neg_sub, sub_add_cancel];
        rw [sub_right_comm, sub_self, zero_sub, abs_neg]]
     <;> rw [abs_div,
-      Nat.abs_cast, div_lt_div_right (by norm_num [Ray.RAY_SCALE]), abs_div, Nat.abs_cast,
-      Nat.abs_cast, div_lt_one (by norm_num [Ray.RAY_SCALE]), Nat.cast_lt]
+      Nat.abs_cast, div_lt_div_right Ray.RAY_SCALE_rat_pos, abs_div, Nat.abs_cast,
+      Nat.abs_cast, div_lt_one Ray.RAY_SCALE_rat_pos, Nat.cast_lt]
     <;> apply Nat.mod_lt _ Ray.RAY_SCALE_pos
 
 protected def div : SignedRay :=
@@ -726,18 +782,18 @@ theorem toRat_div (h₁ : w₁.1.val * Ray.RAY_SCALE / w₂.1.val < U128_MOD)
     <;> dsimp only at h₁ h₂
     <;> simp [div_def, toRat, Ray.div, Ray.toRat, Ray.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
     <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, sub_div]
-    <;> [rw [div_div_div_cancel_right _ (by norm_num [Ray.RAY_SCALE]), div_div,
-         mul_div_mul_right _ _ (by norm_num [Ray.RAY_SCALE]),
+    <;> [rw [div_div_div_cancel_right _ Ray.RAY_SCALE_rat_ne_zero, div_div,
+         mul_div_mul_right _ _ Ray.RAY_SCALE_rat_ne_zero,
          sub_right_comm, sub_self, zero_sub, abs_neg];
-       rw [neg_sub, div_neg, sub_neg_eq_add, div_div_div_cancel_right _ (by norm_num [Ray.RAY_SCALE]),
-         div_div (w₁.cast * _), mul_div_mul_right _ _ (by norm_num [Ray.RAY_SCALE]), sub_add_cancel];
-       rw [neg_sub, neg_div, sub_neg_eq_add, div_div_div_cancel_right _ (by norm_num [Ray.RAY_SCALE]),
-         div_div (w₁.cast * _), mul_div_mul_right _ _ (by norm_num [Ray.RAY_SCALE]), sub_add_cancel];
-       rw [div_div_div_cancel_right _ (by norm_num [Ray.RAY_SCALE]), div_div,
-         mul_div_mul_right _ _ (by norm_num [Ray.RAY_SCALE]),
+       rw [neg_sub, div_neg, sub_neg_eq_add, div_div_div_cancel_right _ Ray.RAY_SCALE_rat_ne_zero,
+         div_div (w₁.cast * _), mul_div_mul_right _ _ Ray.RAY_SCALE_rat_ne_zero, sub_add_cancel];
+       rw [neg_sub, neg_div, sub_neg_eq_add, div_div_div_cancel_right _ Ray.RAY_SCALE_rat_ne_zero,
+         div_div (w₁.cast * _), mul_div_mul_right _ _ Ray.RAY_SCALE_rat_ne_zero, sub_add_cancel];
+       rw [div_div_div_cancel_right _ Ray.RAY_SCALE_rat_ne_zero, div_div,
+         mul_div_mul_right _ _ Ray.RAY_SCALE_rat_ne_zero,
          sub_right_comm, sub_self, zero_sub, abs_neg]]
     <;> rw [abs_div,
-      Nat.abs_cast, div_lt_div_right (by norm_num [Ray.RAY_SCALE]), abs_div, ← ZMod.nat_cast_val, Nat.abs_cast,
+      Nat.abs_cast, div_lt_div_right Ray.RAY_SCALE_rat_pos, abs_div, ← ZMod.nat_cast_val, Nat.abs_cast,
       Nat.abs_cast, div_lt_one (by rw [← Nat.cast_zero, Nat.cast_lt]; apply Nat.pos_of_ne_zero h₂), Nat.cast_lt]
     <;> apply Nat.mod_lt _ (Nat.pos_of_ne_zero h₂)
 
