@@ -90,12 +90,12 @@ theorem ZMod.valMinAbs_add_of_two_lt [NeZero m] {a b : ZMod m}
   · simp [Int.cast_add]
   · rw [← Nat.cast_lt (α := ℤ), ← neg_lt_neg_iff] at h
     apply lt_of_lt_of_le h
-    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
+    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.natCast_natAbs]
     rw [mul_comm, ← neg_mul, mul_le_mul_right two_pos, neg_add]
     apply add_le_add (neg_abs_le (valMinAbs a)) (neg_abs_le (valMinAbs b))
   · rw [← Nat.cast_lt (α := ℤ)] at h
     apply le_of_lt (lt_of_le_of_lt _ h)
-    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
+    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.natCast_natAbs]
     rw [mul_comm, mul_add, mul_add]
     apply add_le_add <;> simp only [gt_iff_lt, zero_lt_two, mul_le_mul_left, le_abs_self]
 
@@ -114,12 +114,12 @@ theorem ZMod.valMinAbs_sub_of_two_lt [NeZero m] {a b : ZMod m}
   · simp [Int.cast_add]
   · rw [← Nat.cast_lt (α := ℤ), ← neg_lt_neg_iff] at h
     apply lt_of_lt_of_le h
-    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
+    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.natCast_natAbs]
     rw [mul_comm, ← neg_mul, mul_le_mul_right two_pos, neg_add, ← sub_eq_add_neg]
     apply sub_le_sub (neg_abs_le (valMinAbs a)) (le_abs_self (valMinAbs b))
   · rw [← Nat.cast_lt (α := ℤ)] at h
     apply le_of_lt (lt_of_le_of_lt _ h)
-    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.coe_natAbs]
+    simp only [Nat.cast_mul, Nat.cast_ofNat, Nat.cast_add, Int.natCast_natAbs]
     rw [mul_comm, mul_le_mul_left two_pos, sub_eq_add_neg]
     apply add_le_add (le_abs_self (valMinAbs a)) (neg_le_abs (valMinAbs b))
 
@@ -206,9 +206,8 @@ theorem toRat_injective : Function.Injective Wad.toRat := by
   have : a.toZMod.val < b.toZMod.val ∨ b.toZMod.val < a.toZMod.val := by
     aesop
   rcases this with (h'|h')
-  <;> · have := toRat_lt_toRat_of_val_lt_val _ _ h'
-        simp only [toZMod._eq_1] at this
-        linarith
+  · apply ne_of_lt (toRat_lt_toRat_of_val_lt_val _ _ h') h
+  · apply ne_of_lt (toRat_lt_toRat_of_val_lt_val _ _ h') h.symm
 
 theorem toRat_nonneg : 0 ≤ w.toRat := by
   simp [Wad.toRat]
@@ -226,10 +225,11 @@ protected theorem mul_def :
 -- TODO use this lemma to clean up proofs downstream
 theorem toRat_mul (h : w.toZMod.val * w'.toZMod.val / WAD_SCALE < U128_MOD) :
     |(w * w').toRat - w.toRat * w'.toRat| < 1 / WAD_SCALE := by
-  simp only [Wad.toRat, Wad.toZMod, Wad.mul_def, ZMod.val_nat_cast] at *
+  simp only [Wad.toRat, Wad.toZMod, Wad.mul_def, Int.natCast_natAbs] at *
+  simp only [ZMod.val_natCast, ZMod.natCast_val] at *
   rw [Nat.mod_eq_of_lt h, div_mul_div_comm, ← div_div, ← sub_div, abs_div,
     Nat.abs_cast, div_lt_div_right WAD_SCALE_rat_pos, Rat.nat_cast_div_eq]
-  simp only [Nat.cast_mul, ZMod.nat_cast_val, sub_sub_cancel_left, abs_neg]
+  simp only [Nat.cast_mul, ZMod.natCast_val, sub_sub_cancel_left, abs_neg]
   rw [abs_div, Nat.abs_cast, Nat.abs_cast, div_lt_one WAD_SCALE_rat_pos,
     Nat.cast_lt]
   apply Nat.mod_lt _ WAD_SCALE_pos
@@ -248,7 +248,7 @@ theorem toRat_div (h : w.toZMod.val * WAD_SCALE / w'.toZMod.val < U128_MOD)
     |(w / w').toRat - w.toRat / w'.toRat| < 1 / WAD_SCALE := by
   have h'' : 0 < w'.toZMod.val := Nat.pos_of_ne_zero h'
   have h''' : (0 : ℚ) < w'.toZMod.val := Nat.cast_pos.mpr h''
-  simp only [Wad.toRat, Wad.toZMod, Wad.div_def, ZMod.val_nat_cast] at *
+  simp only [Wad.toRat, Wad.toZMod, Wad.div_def, ZMod.val_natCast] at *
   rw [Nat.mod_eq_of_lt h, Rat.nat_cast_div_eq, sub_div, Nat.cast_mul,
     div_div, mul_div_mul_right _ _ WAD_SCALE_rat_ne_zero,
     div_div_div_cancel_right _ WAD_SCALE_rat_ne_zero, sub_sub_cancel_left,
@@ -336,10 +336,10 @@ protected theorem mul_def :
 theorem toRat_mul (h : r.toZMod.val * r'.toZMod.val / RAY_SCALE < U128_MOD) :
     |(r * r').toRat - r.toRat * r'.toRat| < 1 / RAY_SCALE := by
   simp only [Ray.toRat, Ray.toZMod, Ray.mul_def] at *
-  simp only [ZMod.val_nat_cast]
+  simp only [ZMod.val_natCast]
   rw [Nat.mod_eq_of_lt h, div_mul_div_comm, ← div_div, ← sub_div, abs_div,
     Nat.abs_cast, div_lt_div_right RAY_SCALE_rat_pos, Rat.nat_cast_div_eq]
-  simp only [Nat.cast_mul, ZMod.nat_cast_val, sub_sub_cancel_left, abs_neg]
+  simp only [Nat.cast_mul, ZMod.val_natCast, sub_sub_cancel_left, abs_neg]
   rw [abs_div, Nat.abs_cast, Nat.abs_cast, div_lt_one RAY_SCALE_rat_pos,
     Nat.cast_lt]
   apply Nat.mod_lt _ RAY_SCALE_pos
@@ -358,7 +358,7 @@ theorem toRat_div (h : r.toZMod.val * RAY_SCALE / r'.toZMod.val < U128_MOD)
     |(r / r').toRat - r.toRat / r'.toRat| < 1 / RAY_SCALE := by
   have h'' : 0 < r'.toZMod.val := Nat.pos_of_ne_zero h'
   have h''' : (0 : ℚ) < r'.toZMod.val := Nat.cast_pos.mpr h''
-  simp only [Ray.toRat, Ray.toZMod, Ray.div_def, ZMod.val_nat_cast] at *
+  simp only [Ray.toRat, Ray.toZMod, Ray.div_def, ZMod.val_natCast] at *
   rw [Nat.mod_eq_of_lt h, Rat.nat_cast_div_eq, sub_div, Nat.cast_mul,
     div_div, mul_div_mul_right _ _ RAY_SCALE_rat_ne_zero,
     div_div_div_cancel_right _ RAY_SCALE_rat_ne_zero, sub_sub_cancel_left,
@@ -412,9 +412,8 @@ theorem toRat_injective : Function.Injective Ray.toRat := by
   have : a.toZMod.val < b.toZMod.val ∨ b.toZMod.val < a.toZMod.val := by
     aesop
   rcases this with (h'|h')
-  <;> · have := toRat_lt_toRat_of_val_lt_val _ _ h'
-        simp only [toZMod._eq_1] at this
-        linarith
+  · apply ne_of_lt (toRat_lt_toRat_of_val_lt_val _ _ h') h
+  · apply ne_of_lt (toRat_lt_toRat_of_val_lt_val _ _ h') h.symm
 
 theorem toRat_nonneg : 0 ≤ r.toRat := by
   simp [Ray.toRat]
@@ -519,7 +518,7 @@ theorem val_eq_of_toRat_eq : w₁.toRat = w₂.toRat → w₁.1 = w₂.1 := by
     rfl
   · simp only [toRat, SierraBool_toBool_inl, ite_false, SierraBool_toBool_inr, ite_true] at *
     have h' : Wad.toRat w₁ = 0 := by
-      apply Rat.le_antisymm _ _
+      apply le_antisymm _ _
       · rw [h, Left.neg_nonpos_iff]
         apply Wad.toRat_nonneg
       · apply Wad.toRat_nonneg
@@ -530,7 +529,7 @@ theorem val_eq_of_toRat_eq : w₁.toRat = w₂.toRat → w₁.1 = w₂.1 := by
     rfl
   · simp only [toRat, SierraBool_toBool_inr, ite_true, SierraBool_toBool_inl, ite_false] at *
     have h' : Wad.toRat w₂ = 0 := by
-      apply Rat.le_antisymm _ _
+      apply le_antisymm _ _
       · rw [← h, Left.neg_nonpos_iff]
         apply Wad.toRat_nonneg
       · apply Wad.toRat_nonneg
@@ -596,7 +595,7 @@ theorem toRat_mul (h₁ : w₁.1.val * w₂.1.val / Wad.WAD_SCALE < U128_MOD ):
   rcases s₁ with (⟨⟨⟩⟩|⟨⟨⟩⟩) <;> rcases s₂ with (⟨⟨⟩⟩|⟨⟨⟩⟩)
     <;> dsimp only at h₁
     <;> simp [mul_def, toRat, Wad.mul, Wad.toRat, Wad.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
-    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, mul_div_assoc,
+    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.natCast_val, ZMod.natCast_val, mul_div_assoc,
       sub_div, div_mul_eq_mul_div]
     <;> [rw [sub_right_comm, sub_self, zero_sub, abs_neg];
        rw [neg_sub, sub_add_cancel];
@@ -624,7 +623,7 @@ theorem toRat_div (h₁ : w₁.1.val * Wad.WAD_SCALE / w₂.1.val < U128_MOD)
   rcases s₁ with (⟨⟨⟩⟩|⟨⟨⟩⟩) <;> rcases s₂ with (⟨⟨⟩⟩|⟨⟨⟩⟩)
     <;> dsimp only at h₁ h₂
     <;> simp [div_def, toRat, Wad.div, Wad.toRat, Wad.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
-    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, sub_div]
+    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.natCast_val, ZMod.natCast_val, sub_div]
     <;> [rw [div_div_div_cancel_right _ Wad.WAD_SCALE_rat_ne_zero, div_div,
          mul_div_mul_right _ _ Wad.WAD_SCALE_rat_ne_zero,
          sub_right_comm, sub_self, zero_sub, abs_neg];
@@ -636,7 +635,7 @@ theorem toRat_div (h₁ : w₁.1.val * Wad.WAD_SCALE / w₂.1.val < U128_MOD)
          mul_div_mul_right _ _ Wad.WAD_SCALE_rat_ne_zero,
          sub_right_comm, sub_self, zero_sub, abs_neg]]
     <;> rw [abs_div,
-      Nat.abs_cast, div_lt_div_right Wad.WAD_SCALE_rat_pos, abs_div, ← ZMod.nat_cast_val, Nat.abs_cast,
+      Nat.abs_cast, div_lt_div_right Wad.WAD_SCALE_rat_pos, abs_div, ← ZMod.natCast_val, Nat.abs_cast,
       Nat.abs_cast, div_lt_one (by rw [← Nat.cast_zero, Nat.cast_lt]; apply Nat.pos_of_ne_zero h₂), Nat.cast_lt]
     <;> apply Nat.mod_lt _ (Nat.pos_of_ne_zero h₂)
 
@@ -705,7 +704,7 @@ theorem val_eq_of_toRat_eq : w₁.toRat = w₂.toRat → w₁.1 = w₂.1 := by
     rfl
   · simp only [toRat, SierraBool_toBool_inl, ite_false, SierraBool_toBool_inr, ite_true] at *
     have h' : Ray.toRat w₁ = 0 := by
-      apply Rat.le_antisymm _ _
+      apply le_antisymm _ _
       · rw [h, Left.neg_nonpos_iff]
         apply Ray.toRat_nonneg
       · apply Ray.toRat_nonneg
@@ -716,7 +715,7 @@ theorem val_eq_of_toRat_eq : w₁.toRat = w₂.toRat → w₁.1 = w₂.1 := by
     rfl
   · simp only [toRat, SierraBool_toBool_inr, ite_true, SierraBool_toBool_inl, ite_false] at *
     have h' : Ray.toRat w₂ = 0 := by
-      apply Rat.le_antisymm _ _
+      apply le_antisymm _ _
       · rw [← h, Left.neg_nonpos_iff]
         apply Ray.toRat_nonneg
       · apply Ray.toRat_nonneg
@@ -782,7 +781,7 @@ theorem toRat_mul (h₁ : w₁.1.val * w₂.1.val / Ray.RAY_SCALE < U128_MOD ):
   rcases s₁ with (⟨⟨⟩⟩|⟨⟨⟩⟩) <;> rcases s₂ with (⟨⟨⟩⟩|⟨⟨⟩⟩)
     <;> dsimp only at h₁
     <;> simp [mul_def, toRat, Ray.mul, Ray.toRat, Ray.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
-    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, mul_div_assoc,
+    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.natCast_val, ZMod.natCast_val, mul_div_assoc,
       sub_div, div_mul_eq_mul_div]
     <;> [rw [sub_right_comm, sub_self, zero_sub, abs_neg];
        rw [neg_sub, sub_add_cancel];
@@ -810,7 +809,7 @@ theorem toRat_div (h₁ : w₁.1.val * Ray.RAY_SCALE / w₂.1.val < U128_MOD)
   rcases s₁ with (⟨⟨⟩⟩|⟨⟨⟩⟩) <;> rcases s₂ with (⟨⟨⟩⟩|⟨⟨⟩⟩)
     <;> dsimp only at h₁ h₂
     <;> simp [div_def, toRat, Ray.div, Ray.toRat, Ray.toZMod, Nat.mod_eq_of_lt h₁, -one_div]
-    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.nat_cast_val, ZMod.nat_cast_val, sub_div]
+    <;> rw [Rat.nat_cast_div_eq, Nat.cast_mul, ZMod.natCast_val, ZMod.natCast_val, sub_div]
     <;> [rw [div_div_div_cancel_right _ Ray.RAY_SCALE_rat_ne_zero, div_div,
          mul_div_mul_right _ _ Ray.RAY_SCALE_rat_ne_zero,
          sub_right_comm, sub_self, zero_sub, abs_neg];
@@ -822,7 +821,7 @@ theorem toRat_div (h₁ : w₁.1.val * Ray.RAY_SCALE / w₂.1.val < U128_MOD)
          mul_div_mul_right _ _ Ray.RAY_SCALE_rat_ne_zero,
          sub_right_comm, sub_self, zero_sub, abs_neg]]
     <;> rw [abs_div,
-      Nat.abs_cast, div_lt_div_right Ray.RAY_SCALE_rat_pos, abs_div, ← ZMod.nat_cast_val, Nat.abs_cast,
+      Nat.abs_cast, div_lt_div_right Ray.RAY_SCALE_rat_pos, abs_div, ← ZMod.natCast_val, Nat.abs_cast,
       Nat.abs_cast, div_lt_one (by rw [← Nat.cast_zero, Nat.cast_lt]; apply Nat.pos_of_ne_zero h₂), Nat.cast_lt]
     <;> apply Nat.mod_lt _ (Nat.pos_of_ne_zero h₂)
 

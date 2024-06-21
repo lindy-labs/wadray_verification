@@ -112,20 +112,20 @@ aegis_prove "wadray::wadray::u128_wmul" :=
           rw [UInt256.val_lt_U128_MOD_iff, UInt256.U128_MOD_le_val_iff] at h₆
           rcases h₆ with (⟨rfl,rfl⟩|⟨h₆,rfl⟩)
           · rw [ZMod.val_zero, mul_zero, zero_add] at h₅
-            simp only [Sum.inl.injEq, exists_eq_left, Nat.cast_ofNat, Int.int_cast_ofNat,
-              List.nil_append, false_and, exists_false, or_false] at h₇; cases h₇
+            simp only [Sum.inl.injEq, exists_eq_left, Nat.cast_ofNat, Int.cast_ofNat,
+              List.nil_append, false_and, exists_const, or_false] at h₇; cases h₇
             erw [← h₅]
             simp only [wₗ.val_lt, Sum.inl.injEq, true_and, Sum.isRight_inl, and_false, or_false]
-            rw [@ZMod.nat_cast_zmod_val]
-          · simp only [false_and, exists_false, Nat.cast_ofNat, Int.int_cast_ofNat,
-              List.nil_append, true_and, exists_const, false_or] at h₇; cases h₇
+            rw [@ZMod.natCast_zmod_val]
+          · simp only [false_and, exists_const, Nat.cast_ofNat, Int.cast_ofNat, List.nil_append,
+              true_and, false_or] at h₇; cases h₇
             rw [← UInt256.U128_MOD_le_val_iff] at h₆
             erw [← h₅]
             refine .inr ⟨h₆, ?_⟩
             simp
         · simp only [false_and, exists_false] at h₄
       · injection h₃ with h₃
-        rw [ZMod.int_cast_zmod_eq_zero_iff_dvd] at h₃
+        rw [ZMod.intCast_zmod_eq_zero_iff_dvd] at h₃
         norm_num[U128_MOD] at h₃
     · simp at h₂
   · simp only [UInt256.val, ZMod.val_zero, mul_zero, zero_add] at h₁
@@ -134,17 +134,7 @@ aegis_prove "wadray::wadray::u128_wmul" :=
     · rw [Nat.le_div_iff_mul_le' Wad.WAD_SCALE_pos]
       apply le_trans _ h₁
       norm_num [U128_MOD, Wad.WAD_SCALE, U256_MOD]
-    · rename_i x x_1 x_2 w
-      simp_all only [Nat.cast_ofNat, Int.int_cast_ofNat, ne_eq, exists_and_left, List.nil_append, Prod.exists,
-        Prod.mk.injEq, Sum.exists, Sum.inl.injEq, exists_eq_left', Sum.isRight_inl, and_false, or_false, false_and,
-        exists_false, Sum.isRight_inr, and_true, false_or, Sum.inr.injEq, exists_eq_left]
-      unhygienic aesop_cases h₂
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst left
-        simp_all only [Sum.isRight_inl]
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst [right, left]
-        simp_all only [Sum.isRight_inr]
+    · aesop
 
 aegis_spec "wadray::wadray::wmul" :=
   fun _ _ (a b : Wad) _ (ρ : Wad ⊕ _) =>
@@ -216,20 +206,20 @@ aegis_prove "wadray::wadray::u128_rmul" :=
           rw [UInt256.val_lt_U128_MOD_iff, UInt256.U128_MOD_le_val_iff] at h₆
           rcases h₆ with (⟨rfl,rfl⟩|⟨h₆,rfl⟩)
           · rw [ZMod.val_zero, mul_zero, zero_add] at h₅
-            simp only [Sum.inl.injEq, exists_eq_left, Nat.cast_ofNat, Int.int_cast_ofNat,
-              List.nil_append, false_and, exists_false, or_false] at h₇; cases h₇
+            simp only [Sum.inl.injEq, exists_eq_left, Nat.cast_ofNat, Int.cast_ofNat,
+              List.nil_append, false_and, exists_const, or_false] at h₇; cases h₇
             erw [← h₅]
             simp only [wₗ.val_lt, Sum.inl.injEq, true_and, Sum.isRight_inl, and_false, or_false]
-            rw [@ZMod.nat_cast_zmod_val]
-          · simp only [false_and, exists_false, Nat.cast_ofNat, Int.int_cast_ofNat,
-              List.nil_append, true_and, exists_const, false_or] at h₇; cases h₇
+            rw [@ZMod.natCast_zmod_val]
+          · simp only [false_and, exists_const, Nat.cast_ofNat, Int.cast_ofNat, List.nil_append,
+              true_and, false_or] at h₇; cases h₇
             rw [← UInt256.U128_MOD_le_val_iff] at h₆
             erw [← h₅]
             refine .inr ⟨h₆, ?_⟩
             simp
         · simp only [false_and, exists_false] at h₄
       · injection h₃ with h₃
-        rw [ZMod.int_cast_zmod_eq_zero_iff_dvd] at h₃
+        rw [ZMod.intCast_zmod_eq_zero_iff_dvd] at h₃
         norm_num[U128_MOD] at h₃
     · simp at h₂
   · simp only [UInt256.val, ZMod.val_zero, mul_zero, zero_add] at h₁
@@ -238,17 +228,7 @@ aegis_prove "wadray::wadray::u128_rmul" :=
     · rw [Nat.le_div_iff_mul_le' Ray.RAY_SCALE_pos]
       apply le_trans _ h₁
       norm_num [U128_MOD, Ray.RAY_SCALE, U256_MOD]
-    · rename_i x x_1 x_2 w
-      simp_all only [Nat.cast_ofNat, Int.int_cast_ofNat, ne_eq, exists_and_left, List.nil_append, Prod.exists,
-        Prod.mk.injEq, Sum.exists, Sum.inl.injEq, exists_eq_left', Sum.isRight_inl, and_false, or_false, false_and,
-        exists_false, Sum.isRight_inr, and_true, false_or, Sum.inr.injEq, exists_eq_left]
-      unhygienic aesop_cases h₂
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst left
-        simp_all only [Sum.isRight_inl]
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst [right, left]
-        simp_all only [Sum.isRight_inr]
+    · aesop
 
 aegis_spec "wadray::wadray::rmul" :=
   fun _ _ (a b : Ray) _ (ρ : Ray ⊕ _) =>
@@ -432,10 +412,11 @@ aegis_prove "wadray::wadray::u128_wdiv" :=
   sierra_simp'
   unfold «spec_wadray::wadray::u128_wdiv»
   rintro ⟨(x|x),h₁,h₂⟩
-  · simp_all only [Nat.cast_ofNat, Int.int_cast_ofNat, Sum.inl.injEq, Sum.isRight_inl, and_false,
-      or_false, ne_eq, exists_and_left, List.nil_append, exists_and_right, Sum.exists,
-      exists_eq_left, exists_false, false_and, and_true, false_or, exists_const, true_and,
-      Prod.exists, exists_eq_left', Prod.mk.injEq, Sum.isRight_inr, Sum.inr.injEq, ZMod.val_eq_zero]
+  · simp_all only [Nat.cast_ofNat, Int.cast_ofNat, Sum.inl.injEq, Sum.isRight_inl,
+      Bool.false_eq_true, and_false, or_false, ne_eq, exists_and_left, List.nil_append,
+      exists_and_right, Sum.exists, exists_eq_left, exists_const, false_and, and_true, false_or,
+      true_and, Prod.exists, exists_eq_left', Prod.mk.injEq, Sum.isRight_inr, Sum.inr.injEq,
+      UInt256.val_mul_of_low, ZMod.val_eq_zero]
     rcases h₁ with ⟨h₁,rfl⟩
     simp only [UInt256.val, ZMod.val_zero, mul_zero, zero_add] at h₁
     rcases h₂ with (⟨_,_,⟨h₂,h₄⟩,_,_,⟨rfl,rfl⟩,h₃⟩|⟨h₂,_,_,rfl⟩)
@@ -446,36 +427,36 @@ aegis_prove "wadray::wadray::u128_wdiv" :=
       · simp only [Sum.inl.injEq, Sum.isRight_inl, and_false, or_false] at h₃ ⊢
         rcases h₃ with ⟨_,⟨h₃,rfl⟩,rfl⟩
         refine ⟨?_,?_,?_⟩
-        · rwa [h₄, ← ZMod.val_mul_val_eq_hmul] at h₃
+        · rwa [h₄] at h₃
         · simp only [UInt256.zero_def] at h₂
           simp only [Wad.toZMod]
           apply Aesop.BuiltinRules.not_intro
           intro h
-          aesop_subst h
+          subst h
           simp_all only [not_true]
         · simp only [Wad.div_def, Wad.WAD_SCALE]
-          rw [← ZMod.val_mul_val_eq_hmul] at h₄
           erw [← h₄]; clear h₄
           simp [Nat.eq_zero_of_mul_lt_right (Nat.lt_of_add_lt h₃)]
       · simp only [and_false, exists_false, Sum.inr.injEq, false_or] at h₃
         simp only [and_false, Sum.isRight_inr, and_true, false_or]
         left
         rcases h₃ with ⟨h₃,rfl⟩
-        rwa [h₄, ← ZMod.val_mul_val_eq_hmul] at h₃
+        rwa [h₄] at h₃
     · simp only [and_false, Sum.isRight_inr, and_true, false_or]
       right
       injection h₂
-  · simp_all only [UInt256.val, ZMod.val_zero, mul_zero, zero_add, Nat.cast_ofNat,
-      Int.int_cast_ofNat, and_false, Sum.isRight_inr, and_true, false_or, ne_eq, exists_and_left,
-      List.nil_append, exists_and_right, Sum.exists, Sum.inl.injEq, or_false, exists_eq_left,
-      exists_false, false_and, exists_const, true_and, Prod.exists, Sum.inr.injEq]
+  · simp_all only [Nat.cast_ofNat, Int.cast_ofNat, and_false, Sum.isRight_inr, and_true, false_or,
+      ne_eq, exists_and_left, List.nil_append, exists_and_right, Sum.exists, Sum.inl.injEq, or_false,
+      exists_eq_left, exists_const, false_and, true_and, Prod.exists, Sum.inr.injEq, ZMod.val_eq_zero]
     subst h₂
     simp only [and_false, Sum.isRight_inr, and_true, false_or]
     by_cases h₃ : b.toZMod.val = 0
-    · simp [h₃]
+    · right
+      rwa [ZMod.val_eq_zero] at h₃
     · left
       conv => lhs; rw [← U256_MOD_div]
       trans; apply Nat.div_le_div_left (le_of_lt b.toZMod.val_lt) (Nat.pos_of_ne_zero h₃)
+      simp only [UInt256.val, ZMod.val_zero, mul_zero, zero_add] at h₁
       apply Nat.div_le_div_right h₁
 
 aegis_spec "wadray::wadray::u128_rdiv" :=
@@ -488,10 +469,11 @@ aegis_prove "wadray::wadray::u128_rdiv" :=
   sierra_simp'
   unfold «spec_wadray::wadray::u128_rdiv»
   rintro ⟨(x|x),h₁,h₂⟩
-  · simp_all only [Nat.cast_ofNat, Int.int_cast_ofNat, Sum.inl.injEq, Sum.isRight_inl, and_false,
-      or_false, ne_eq, exists_and_left, List.nil_append, exists_and_right, Sum.exists,
-      exists_eq_left, exists_false, false_and, and_true, false_or, exists_const, true_and,
-      Prod.exists, exists_eq_left', Prod.mk.injEq, Sum.isRight_inr, Sum.inr.injEq, ZMod.val_eq_zero]
+  · simp_all only [Nat.cast_ofNat, Int.cast_ofNat, Sum.inl.injEq, Sum.isRight_inl,
+      Bool.false_eq_true, and_false, or_false, ne_eq, exists_and_left, List.nil_append,
+      exists_and_right, Sum.exists, exists_eq_left, exists_const, false_and, and_true, false_or,
+      true_and, Prod.exists, exists_eq_left', Prod.mk.injEq, Sum.isRight_inr, Sum.inr.injEq,
+      UInt256.val_mul_of_low, ZMod.val_eq_zero]
     rcases h₁ with ⟨h₁,rfl⟩
     simp only [UInt256.val, ZMod.val_zero, mul_zero, zero_add] at h₁
     rcases h₂ with (⟨_,_,⟨h₂,h₄⟩,_,_,⟨rfl,rfl⟩,h₃⟩|⟨h₂,_,_,rfl⟩)
@@ -502,36 +484,36 @@ aegis_prove "wadray::wadray::u128_rdiv" :=
       · simp only [Sum.inl.injEq, Sum.isRight_inl, and_false, or_false] at h₃ ⊢
         rcases h₃ with ⟨_,⟨h₃,rfl⟩,rfl⟩
         refine ⟨?_,?_,?_⟩
-        · rwa [h₄, ← ZMod.val_mul_val_eq_hmul] at h₃
+        · rwa [h₄] at h₃
         · simp only [UInt256.zero_def] at h₂
           simp only [Ray.toZMod]
           apply Aesop.BuiltinRules.not_intro
           intro h
-          aesop_subst h
+          subst h
           simp_all only [not_true]
         · simp only [Ray.div_def, Ray.RAY_SCALE]
-          rw [← ZMod.val_mul_val_eq_hmul] at h₄
           erw [← h₄]; clear h₄
           simp [Nat.eq_zero_of_mul_lt_right (Nat.lt_of_add_lt h₃)]
       · simp only [and_false, exists_false, Sum.inr.injEq, false_or] at h₃
         simp only [and_false, Sum.isRight_inr, and_true, false_or]
         left
         rcases h₃ with ⟨h₃,rfl⟩
-        rwa [h₄, ← ZMod.val_mul_val_eq_hmul] at h₃
+        rwa [h₄] at h₃
     · simp only [and_false, Sum.isRight_inr, and_true, false_or]
       right
       injection h₂
-  · simp_all only [UInt256.val, ZMod.val_zero, mul_zero, zero_add, Nat.cast_ofNat,
-      Int.int_cast_ofNat, and_false, Sum.isRight_inr, and_true, false_or, ne_eq, exists_and_left,
-      List.nil_append, exists_and_right, Sum.exists, Sum.inl.injEq, or_false, exists_eq_left,
-      exists_false, false_and, exists_const, true_and, Prod.exists, Sum.inr.injEq]
+  · simp_all only [Nat.cast_ofNat, Int.cast_ofNat, and_false, Sum.isRight_inr, and_true, false_or,
+      ne_eq, exists_and_left, List.nil_append, exists_and_right, Sum.exists, Sum.inl.injEq, or_false,
+      exists_eq_left, exists_const, false_and, true_and, Prod.exists, Sum.inr.injEq, ZMod.val_eq_zero]
     subst h₂
     simp only [and_false, Sum.isRight_inr, and_true, false_or]
     by_cases h₃ : b.toZMod.val = 0
-    · simp [h₃]
+    · right
+      rwa [ZMod.val_eq_zero] at h₃
     · left
       conv => lhs; rw [← U256_MOD_div]
       trans; apply Nat.div_le_div_left (le_of_lt b.toZMod.val_lt) (Nat.pos_of_ne_zero h₃)
+      simp only [UInt256.val, ZMod.val_zero, mul_zero, zero_add] at h₁
       apply Nat.div_le_div_right h₁
 
 aegis_spec "wadray::wadray::wdiv" :=
@@ -581,7 +563,7 @@ aegis_prove "wadray::wadray::RayIntoWad::into" :=
       exact h₂
     · simp at h
   · rcases h with ⟨h,-⟩
-    rw [ZMod.int_cast_zmod_eq_zero_iff_dvd] at h
+    rw [ZMod.intCast_zmod_eq_zero_iff_dvd] at h
     norm_num [U128_MOD] at h
 
 aegis_spec "wadray::wadray::WadIntoU256::into" :=
@@ -691,8 +673,7 @@ aegis_prove "wadray::wadray::WadTryIntoRay::try_into" :=
     · aesop
     · rcases h₅ with (h₅|⟨rfl,rfl⟩)
       · aesop
-      · simp only [Int.ofNat_eq_coe, Nat.cast_ofNat, Int.int_cast_ofNat, Sum.isRight_inr,
-          and_true] at h₃ h₄
+      · simp only [Int.ofNat_eq_coe, Nat.cast_ofNat, Int.cast_ofNat, Sum.isRight_inr, and_true] at h₃ h₄
         rw [h₂] at h₄
         rw [h₁] at h₃
         replace h₄ := h₄.trans (Nat.mul_le_mul_right 1000000000 h₃)

@@ -48,253 +48,8 @@ aegis_prove "wadray::wadray_signed::SignedWadPartialEq::eq" :=
   unfold «spec_wadray::wadray_signed::SignedWadPartialEq::eq»
   rename_i x
   intro h_auto
-  simp_all only [ne_eq, true_and, Bool.toSierraBool_not, Bool.toSierraBool_coe, false_and, or_false, Int.ofNat_eq_coe,
-    CharP.cast_eq_zero, Int.cast_zero, false_or, exists_and_left, Sum.exists, Sum.swap_inl, Sum.swap_inr, exists_const,
-    exists_and_right]
-  unhygienic with_reducible aesop_destruct_products
-  unhygienic aesop_cases left <;>
-    [(unhygienic aesop_cases left_1 <;> [(unhygienic aesop_cases h); (unhygienic aesop_cases h)]);
-    (unhygienic aesop_cases left_1 <;> [(unhygienic aesop_cases h); (unhygienic aesop_cases h)])]
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_true, and_false, false_and, false_or, exists_const, and_self, or_self]
-    unhygienic aesop_cases h <;> [skip; (unhygienic aesop_cases h)]
-    · unhygienic with_reducible aesop_destruct_products
-      unhygienic aesop_cases h_1 <;> [skip; (unhygienic aesop_cases h)]
-      · unhygienic with_reducible aesop_destruct_products
-        unhygienic aesop_cases h_1
-        · unhygienic with_reducible aesop_destruct_products
-          aesop_subst right
-          simp_all only [Bool.toSierraBool_decide_inl']
-          apply Aesop.BuiltinRules.not_intro
-          intro a
-          (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inl w_4).1 :=
-              SignedWad.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inl w_4) a)
-          simp_all only
-        · simp_all only [decide_True, Bool.toSierraBool_true]
-          unhygienic with_reducible aesop_destruct_products
-          aesop_subst [left_1, left]
-          unhygienic aesop_cases right_1
-          · unhygienic with_reducible aesop_destruct_products
-            aesop_subst [right, left_1, left_2]
-            simp_all only
-          · simp_all only
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst right
-        simp_all only [Bool.toSierraBool_decide_inl']
-        apply Aesop.BuiltinRules.not_intro
-        intro a
-        (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inl w_4).1 :=
-            SignedWad.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inl w_4) a)
-        simp_all only
-      · simp_all only [decide_True, Bool.toSierraBool_true]
-    · unhygienic with_reducible aesop_destruct_products
-      aesop_subst right
-      simp_all only [Bool.toSierraBool_decide_inl']
-      apply Aesop.BuiltinRules.not_intro
-      intro a
-      (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inl w_4).1 :=
-          SignedWad.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inl w_4) a)
-      simp_all only
-    · simp_all only [decide_True, Bool.toSierraBool_true]
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_3, h_1]
-    simp_all only [Prod.mk.injEq, and_false, and_true, false_and, or_false, exists_const, false_or, or_self, and_self]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst right
-    simp_all only [Bool.toSierraBool_decide_inl']
-    apply Aesop.BuiltinRules.not_intro
-    intro a
-    (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inl w_4).1 :=
-        SignedWad.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inl w_4) a)
-    simp_all only
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_true, and_false, false_and, false_or, exists_const, and_self, or_self]
-    unhygienic aesop_cases h <;> [skip; (unhygienic aesop_cases h)]
-    · unhygienic with_reducible aesop_destruct_products
-      unhygienic aesop_cases h_1 <;> [(unhygienic aesop_cases h); skip]
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst right
-        simp_all only [Bool.toSierraBool_decide_inl']
-        apply Aesop.BuiltinRules.not_intro
-        intro a
-        (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-            SignedWad.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-        simp_all only
-      · simp_all only
-        unhygienic with_reducible aesop_destruct_products
-        aesop_subst [left, right, left_2, left_1]
-        simp_all only [SignedWad.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-      · unhygienic with_reducible aesop_destruct_products
-        unhygienic aesop_cases h_1
-        · unhygienic with_reducible aesop_destruct_products
-          aesop_subst right
-          simp_all only [Bool.toSierraBool_decide_inl']
-          apply Aesop.BuiltinRules.not_intro
-          intro a
-          (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-              SignedWad.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-          simp_all only
-        · simp_all only
-          unhygienic with_reducible aesop_destruct_products
-          aesop_subst [left_1, left]
-          unhygienic aesop_cases right_1
-          · unhygienic with_reducible aesop_destruct_products
-            aesop_subst [left_2, right, left_1]
-            simp_all only [Bool.toSierraBool_decide_inl']
-            apply Aesop.BuiltinRules.not_intro
-            intro a
-            (have : (w_1, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-                SignedWad.val_eq_of_toRat_eq (w_1, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-            simp_all only
-            (have fwd : w_1 = 0 := SignedWad.val_eq_zero_of_toRat_neg w_1 w_3 w_4 a)
-            aesop_subst fwd
-            simp_all only [not_true_eq_false]
-          · simp_all only [SignedWad.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-    · unhygienic with_reducible aesop_destruct_products
-      aesop_subst right
-      simp_all only [Bool.toSierraBool_decide_inl']
-      apply Aesop.BuiltinRules.not_intro
-      intro a
-      (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-          SignedWad.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-      simp_all only
-    · simp_all only
-      unhygienic with_reducible aesop_destruct_products
-      aesop_subst [left, left_1, right, left_2]
-      simp_all only [SignedWad.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_false, and_true, false_and, false_or, or_false, exists_const, or_self, and_self]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst right
-    simp_all only [Bool.toSierraBool_decide_inl']
-    apply Aesop.BuiltinRules.not_intro
-    intro a
-    (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-        SignedWad.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-    simp_all only
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_false, and_true, false_and, false_or, or_false, exists_const, and_self, or_self]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst right
-    simp_all only [Bool.toSierraBool_decide_inl']
-    apply Aesop.BuiltinRules.not_intro
-    intro a
-    (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-        SignedWad.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-    simp_all only
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_true, and_false, false_and, false_or, exists_const, and_self, or_self]
-    unhygienic aesop_cases h <;> [(unhygienic aesop_cases h); skip]
-    · unhygienic with_reducible aesop_destruct_products
-      aesop_subst right
-      simp_all only [Bool.toSierraBool_decide_inl']
-      apply Aesop.BuiltinRules.not_intro
-      intro a
-      (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-          SignedWad.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-      simp_all only
-    · simp_all only
-      unhygienic with_reducible aesop_destruct_products
-      aesop_subst [left_1, left, right, left_2]
-      simp_all only [SignedWad.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-    · unhygienic with_reducible aesop_destruct_products
-      unhygienic aesop_cases h_1 <;> [skip; (unhygienic aesop_cases h)]
-      · unhygienic with_reducible aesop_destruct_products
-        unhygienic aesop_cases h_1
-        · unhygienic with_reducible aesop_destruct_products
-          aesop_subst right
-          simp_all only [Bool.toSierraBool_decide_inl']
-          apply Aesop.BuiltinRules.not_intro
-          intro a
-          (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-              SignedWad.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-          simp_all only
-        · simp_all only
-          unhygienic with_reducible aesop_destruct_products
-          aesop_subst [left, left_1]
-          unhygienic aesop_cases right_1
-          · unhygienic with_reducible aesop_destruct_products
-            aesop_subst [left_2, left_1, right]
-            simp_all only [Bool.toSierraBool_decide_inl']
-            apply Aesop.BuiltinRules.not_intro
-            intro a
-            (have : (w_1, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-                SignedWad.val_eq_of_toRat_eq (w_1, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-            simp_all only
-            (have fwd : w_1 = 0 := SignedWad.val_eq_zero_of_toRat_neg' w_1 w_3 w_4 a)
-            aesop_subst fwd
-            simp_all only [not_true_eq_false]
-          · simp_all only [SignedWad.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst right
-        simp_all only [Bool.toSierraBool_decide_inl']
-        apply Aesop.BuiltinRules.not_intro
-        intro a
-        (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-            SignedWad.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-        simp_all only
-      · simp_all only
-        unhygienic with_reducible aesop_destruct_products
-        aesop_subst [left_1, left, right, left_2]
-        simp_all only [SignedWad.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_3, h_1]
-    simp_all only [Prod.mk.injEq, and_false, false_and, and_self, false_or, or_false, exists_const, and_true, or_self]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst right
-    simp_all only [Bool.toSierraBool_decide_inl']
-    apply Aesop.BuiltinRules.not_intro
-    intro a
-    (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inr w_4).1 :=
-        SignedWad.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inr w_4) a)
-    simp_all only
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_3, h_1]
-    simp_all only [Prod.mk.injEq, and_true, and_false, false_and, and_self, false_or, exists_const, or_self]
-    unhygienic aesop_cases h <;> [(unhygienic aesop_cases h); skip]
-    · unhygienic with_reducible aesop_destruct_products
-      aesop_subst right
-      simp_all only [Bool.toSierraBool_decide_inl']
-      apply Aesop.BuiltinRules.not_intro
-      intro a
-      (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inr w_4).1 :=
-          SignedWad.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inr w_4) a)
-      simp_all only
-    · simp_all only [decide_True, Bool.toSierraBool_true]
-    · unhygienic with_reducible aesop_destruct_products
-      unhygienic aesop_cases h_1 <;> [(unhygienic aesop_cases h); skip]
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst right
-        simp_all only [Bool.toSierraBool_decide_inl']
-        apply Aesop.BuiltinRules.not_intro
-        intro a
-        (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inr w_4).1 :=
-            SignedWad.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inr w_4) a)
-        simp_all only
-      · simp_all only [decide_True, Bool.toSierraBool_true]
-      · unhygienic with_reducible aesop_destruct_products
-        unhygienic aesop_cases h_1
-        · unhygienic with_reducible aesop_destruct_products
-          aesop_subst right
-          simp_all only [Bool.toSierraBool_decide_inl']
-          apply Aesop.BuiltinRules.not_intro
-          intro a
-          (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inr w_4).1 :=
-              SignedWad.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inr w_4) a)
-          simp_all only
-        · simp_all only [decide_True, Bool.toSierraBool_true]
-          unhygienic with_reducible aesop_destruct_products
-          aesop_subst [left, left_1]
-          unhygienic aesop_cases right_1
-          · unhygienic with_reducible aesop_destruct_products
-            aesop_subst [left_1, left_2, right]
-            simp_all only
-          · simp_all only
+  aesop (add safe forward [SignedWad.val_eq_of_toRat_eq, SignedWad.val_eq_zero_of_toRat_neg,
+    SignedWad.val_eq_zero_of_toRat_neg'])
 
 aegis_spec "wadray::wadray_signed::SignedRayPartialEq::eq" :=
   fun _ (a b : SignedRay) ρ =>
@@ -305,253 +60,8 @@ aegis_prove "wadray::wadray_signed::SignedRayPartialEq::eq" :=
   unfold «spec_wadray::wadray_signed::SignedRayPartialEq::eq»
   rename_i x
   intro h_auto
-  simp_all only [ne_eq, true_and, Bool.toSierraBool_not, Bool.toSierraBool_coe, false_and, or_false, Int.ofNat_eq_coe,
-    CharP.cast_eq_zero, Int.cast_zero, false_or, exists_and_left, Sum.exists, Sum.swap_inl, Sum.swap_inr, exists_const,
-    exists_and_right]
-  unhygienic with_reducible aesop_destruct_products
-  unhygienic aesop_cases left <;>
-    [(unhygienic aesop_cases left_1 <;> [(unhygienic aesop_cases h); (unhygienic aesop_cases h)]);
-    (unhygienic aesop_cases left_1 <;> [(unhygienic aesop_cases h); (unhygienic aesop_cases h)])]
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_true, and_false, false_and, false_or, exists_const, and_self, or_self]
-    unhygienic aesop_cases h <;> [skip; (unhygienic aesop_cases h)]
-    · unhygienic with_reducible aesop_destruct_products
-      unhygienic aesop_cases h_1 <;> [skip; (unhygienic aesop_cases h)]
-      · unhygienic with_reducible aesop_destruct_products
-        unhygienic aesop_cases h_1
-        · unhygienic with_reducible aesop_destruct_products
-          aesop_subst right
-          simp_all only [Bool.toSierraBool_decide_inl']
-          apply Aesop.BuiltinRules.not_intro
-          intro a
-          (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inl w_4).1 :=
-              SignedRay.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inl w_4) a)
-          simp_all only
-        · simp_all only [decide_True, Bool.toSierraBool_true]
-          unhygienic with_reducible aesop_destruct_products
-          aesop_subst [left, left_1]
-          unhygienic aesop_cases right_1
-          · unhygienic with_reducible aesop_destruct_products
-            aesop_subst [right, left_1, left_2]
-            simp_all only
-          · simp_all only
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst right
-        simp_all only [Bool.toSierraBool_decide_inl']
-        apply Aesop.BuiltinRules.not_intro
-        intro a
-        (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inl w_4).1 :=
-            SignedRay.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inl w_4) a)
-        simp_all only
-      · simp_all only [decide_True, Bool.toSierraBool_true]
-    · unhygienic with_reducible aesop_destruct_products
-      aesop_subst right
-      simp_all only [Bool.toSierraBool_decide_inl']
-      apply Aesop.BuiltinRules.not_intro
-      intro a
-      (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inl w_4).1 :=
-          SignedRay.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inl w_4) a)
-      simp_all only
-    · simp_all only [decide_True, Bool.toSierraBool_true]
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_3, h_1]
-    simp_all only [Prod.mk.injEq, and_false, and_true, false_and, or_false, exists_const, false_or, or_self, and_self]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst right
-    simp_all only [Bool.toSierraBool_decide_inl']
-    apply Aesop.BuiltinRules.not_intro
-    intro a
-    (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inl w_4).1 :=
-        SignedRay.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inl w_4) a)
-    simp_all only
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_true, and_false, false_and, false_or, exists_const, and_self, or_self]
-    unhygienic aesop_cases h <;> [skip; (unhygienic aesop_cases h)]
-    · unhygienic with_reducible aesop_destruct_products
-      unhygienic aesop_cases h_1 <;> [(unhygienic aesop_cases h); skip]
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst right
-        simp_all only [Bool.toSierraBool_decide_inl']
-        apply Aesop.BuiltinRules.not_intro
-        intro a
-        (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-            SignedRay.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-        simp_all only
-      · simp_all only
-        unhygienic with_reducible aesop_destruct_products
-        aesop_subst [right, left_1, left_2, left]
-        simp_all only [SignedRay.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-      · unhygienic with_reducible aesop_destruct_products
-        unhygienic aesop_cases h_1
-        · unhygienic with_reducible aesop_destruct_products
-          aesop_subst right
-          simp_all only [Bool.toSierraBool_decide_inl']
-          apply Aesop.BuiltinRules.not_intro
-          intro a
-          (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-              SignedRay.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-          simp_all only
-        · simp_all only
-          unhygienic with_reducible aesop_destruct_products
-          aesop_subst [left, left_1]
-          unhygienic aesop_cases right_1
-          · unhygienic with_reducible aesop_destruct_products
-            aesop_subst [left_1, right, left_2]
-            simp_all only [Bool.toSierraBool_decide_inl']
-            apply Aesop.BuiltinRules.not_intro
-            intro a
-            (have : (w_1, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-                SignedRay.val_eq_of_toRat_eq (w_1, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-            simp_all only
-            (have fwd : w_1 = 0 := SignedRay.val_eq_zero_of_toRat_neg w_1 w_3 w_4 a)
-            aesop_subst fwd
-            simp_all only [not_true_eq_false]
-          · simp_all only [SignedRay.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-    · unhygienic with_reducible aesop_destruct_products
-      aesop_subst right
-      simp_all only [Bool.toSierraBool_decide_inl']
-      apply Aesop.BuiltinRules.not_intro
-      intro a
-      (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-          SignedRay.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-      simp_all only
-    · simp_all only
-      unhygienic with_reducible aesop_destruct_products
-      aesop_subst [left, right, left_1, left_2]
-      simp_all only [SignedRay.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_false, and_true, false_and, false_or, or_false, exists_const, or_self, and_self]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst right
-    simp_all only [Bool.toSierraBool_decide_inl']
-    apply Aesop.BuiltinRules.not_intro
-    intro a
-    (have fwd : (w, Sum.inl w_3).1 = (w_1, Sum.inr w_4).1 :=
-        SignedRay.val_eq_of_toRat_eq (w, Sum.inl w_3) (w_1, Sum.inr w_4) a)
-    simp_all only
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_false, and_true, false_and, false_or, or_false, exists_const, and_self, or_self]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst right
-    simp_all only [Bool.toSierraBool_decide_inl']
-    apply Aesop.BuiltinRules.not_intro
-    intro a
-    (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-        SignedRay.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-    simp_all only
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_true, and_false, false_and, false_or, exists_const, and_self, or_self]
-    unhygienic aesop_cases h <;> [(unhygienic aesop_cases h); skip]
-    · unhygienic with_reducible aesop_destruct_products
-      aesop_subst right
-      simp_all only [Bool.toSierraBool_decide_inl']
-      apply Aesop.BuiltinRules.not_intro
-      intro a
-      (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-          SignedRay.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-      simp_all only
-    · simp_all only
-      unhygienic with_reducible aesop_destruct_products
-      aesop_subst [left_1, right, left, left_2]
-      simp_all only [SignedRay.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-    · unhygienic with_reducible aesop_destruct_products
-      unhygienic aesop_cases h_1 <;> [skip; (unhygienic aesop_cases h)]
-      · unhygienic with_reducible aesop_destruct_products
-        unhygienic aesop_cases h_1
-        · unhygienic with_reducible aesop_destruct_products
-          aesop_subst right
-          simp_all only [Bool.toSierraBool_decide_inl']
-          apply Aesop.BuiltinRules.not_intro
-          intro a
-          (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-              SignedRay.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-          simp_all only
-        · simp_all only
-          unhygienic with_reducible aesop_destruct_products
-          aesop_subst [left, left_1]
-          unhygienic aesop_cases right_1
-          · unhygienic with_reducible aesop_destruct_products
-            aesop_subst [left_1, right, left_2]
-            simp_all only [Bool.toSierraBool_decide_inl']
-            apply Aesop.BuiltinRules.not_intro
-            intro a
-            (have : (w_1, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-                SignedRay.val_eq_of_toRat_eq (w_1, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-            simp_all only
-            (have fwd : w_1 = 0 := SignedRay.val_eq_zero_of_toRat_neg' w_1 w_3 w_4 a)
-            aesop_subst fwd
-            simp_all only [not_true_eq_false]
-          · simp_all only [SignedRay.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst right
-        simp_all only [Bool.toSierraBool_decide_inl']
-        apply Aesop.BuiltinRules.not_intro
-        intro a
-        (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inl w_4).1 :=
-            SignedRay.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inl w_4) a)
-        simp_all only
-      · simp_all only
-        unhygienic with_reducible aesop_destruct_products
-        aesop_subst [left_2, left_1, right, left]
-        simp_all only [SignedRay.toRat_zero_val, decide_True, Bool.toSierraBool_true]
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_3, h_1]
-    simp_all only [Prod.mk.injEq, and_false, false_and, and_self, false_or, or_false, exists_const, and_true, or_self]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst right
-    simp_all only [Bool.toSierraBool_decide_inl']
-    apply Aesop.BuiltinRules.not_intro
-    intro a
-    (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inr w_4).1 :=
-        SignedRay.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inr w_4) a)
-    simp_all only
-  · unhygienic with_reducible aesop_destruct_products
-    aesop_subst [h_1, h_3]
-    simp_all only [Prod.mk.injEq, and_true, and_false, false_and, and_self, false_or, exists_const, or_self]
-    unhygienic aesop_cases h <;> [(unhygienic aesop_cases h); skip]
-    · unhygienic with_reducible aesop_destruct_products
-      aesop_subst right
-      simp_all only [Bool.toSierraBool_decide_inl']
-      apply Aesop.BuiltinRules.not_intro
-      intro a
-      (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inr w_4).1 :=
-          SignedRay.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inr w_4) a)
-      simp_all only
-    · simp_all only [decide_True, Bool.toSierraBool_true]
-    · unhygienic with_reducible aesop_destruct_products
-      unhygienic aesop_cases h_1 <;> [(unhygienic aesop_cases h); skip]
-      · unhygienic with_reducible aesop_destruct_products
-        aesop_subst right
-        simp_all only [Bool.toSierraBool_decide_inl']
-        apply Aesop.BuiltinRules.not_intro
-        intro a
-        (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inr w_4).1 :=
-            SignedRay.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inr w_4) a)
-        simp_all only
-      · simp_all only [decide_True, Bool.toSierraBool_true]
-      · unhygienic with_reducible aesop_destruct_products
-        unhygienic aesop_cases h_1
-        · unhygienic with_reducible aesop_destruct_products
-          aesop_subst right
-          simp_all only [Bool.toSierraBool_decide_inl']
-          apply Aesop.BuiltinRules.not_intro
-          intro a
-          (have fwd : (w, Sum.inr w_3).1 = (w_1, Sum.inr w_4).1 :=
-              SignedRay.val_eq_of_toRat_eq (w, Sum.inr w_3) (w_1, Sum.inr w_4) a)
-          simp_all only
-        · simp_all only [decide_True, Bool.toSierraBool_true]
-          unhygienic with_reducible aesop_destruct_products
-          aesop_subst [left_1, left]
-          unhygienic aesop_cases right_1
-          · unhygienic with_reducible aesop_destruct_products
-            aesop_subst [left_2, right, left_1]
-            simp_all only
-          · simp_all only
+  aesop (add safe forward [SignedRay.val_eq_of_toRat_eq, SignedRay.val_eq_zero_of_toRat_neg,
+    SignedRay.val_eq_zero_of_toRat_neg'])
 
 aegis_spec "wadray::wadray_signed::SignedWadPartialEq::ne" :=
   fun _ (a b : SignedWad) ρ =>
@@ -585,7 +95,7 @@ aegis_prove "wadray::wadray_signed::SignedWadSigned::is_positive" :=
   · rcases s with (s|s)
     · simp_all only [Int.ofNat_eq_coe, CharP.cast_eq_zero, Int.cast_zero, ZMod.val_zero,
         SierraBool_toBool_inl, Bool.not_false, Bool.toSierraBool_true, SignedWad.toRat, Wad.toRat,
-        Wad.toZMod, ZMod.nat_cast_val, ite_false, gt_iff_lt, Bool.toSierraBool_decide_inr']
+        Wad.toZMod, ZMod.natCast_val, ite_false, gt_iff_lt, Bool.toSierraBool_decide_inr']
       rw [lt_div_iff (by norm_num [Wad.WAD_SCALE]), zero_mul]
       apply Ne.lt_of_le _ (ZMod.cast_rat_nonneg _)
       intro he
@@ -607,7 +117,7 @@ aegis_prove "wadray::wadray_signed::SignedRaySigned::is_positive" :=
   · rcases s with (s|s)
     · simp_all only [Int.ofNat_eq_coe, CharP.cast_eq_zero, Int.cast_zero, ZMod.val_zero,
         SierraBool_toBool_inl, Bool.not_false, Bool.toSierraBool_true, SignedRay.toRat, Ray.toRat,
-        Ray.toZMod, ZMod.nat_cast_val, ite_false, gt_iff_lt, Bool.toSierraBool_decide_inr']
+        Ray.toZMod, ZMod.natCast_val, ite_false, gt_iff_lt, Bool.toSierraBool_decide_inr']
       rw [lt_div_iff (by norm_num [Ray.RAY_SCALE]), zero_mul]
       apply Ne.lt_of_le _ (ZMod.cast_rat_nonneg _)
       intro he
@@ -1114,10 +624,10 @@ aegis_prove "wadray::wadray_signed::_felt_sign" :=
   rintro ⟨x : UInt256, y : UInt256, h₁, h₂, rfl⟩
   have : (1809251394333065606848661391547535052811553607665798349986546028067936010240 : F).val
           = PRIME / 2 := rfl
-  simp only [Int.ofNat_eq_coe, Nat.cast_ofNat, Int.int_cast_ofNat] at h₂
+  simp only [Int.ofNat_eq_coe, Nat.cast_ofNat, Int.cast_ofNat] at h₂
   simp only [UInt256.val, h₂, h₁, ← not_le (b := a.valMinAbs) (a := 0), ZMod.valMinAbs_nonneg_iff]
   congr; apply propext
-  rw [not_le, this]
+  rw [not_le, ← this, ← h₂, UInt256.val, ← h₁, UInt256.val]
 
 aegis_spec "wadray::wadray_signed::_felt_abs" :=
   fun _ _ a _ ρ =>
@@ -1127,7 +637,7 @@ aegis_prove "wadray::wadray_signed::_felt_abs" :=
   fun _ _ a _ ρ => by
   unfold «spec_wadray::wadray_signed::_felt_abs»
   sierra_simp'
-  rw [← not_le, ZMod.valMinAbs_nonneg_iff, not_le, not_lt, ZMod.nat_cast_natAbs_valMinAbs a]
+  rw [← not_le, ZMod.valMinAbs_nonneg_iff, not_le, not_lt, ZMod.natCast_natAbs_valMinAbs a]
   aesop
 
 aegis_spec "wadray::wadray_signed::sign_from_mul" :=
@@ -1153,18 +663,18 @@ aegis_prove "wadray::wadray_signed::signed_wad_from_felt" :=
   unfold «spec_wadray::wadray_signed::signed_wad_from_felt»
   rintro ⟨_,_,_,(⟨h₁,rfl⟩|⟨h₁,rfl⟩),(⟨h₂,rfl⟩|⟨h₂,rfl⟩)⟩
   · cases h₂
-    rw [ZMod.val_nat_cast_of_lt hlt] at h₁
+    rw [ZMod.val_natCast_of_lt hlt] at h₁
     simp only [SignedWad.toRat]
     split_ifs with h₃
     · simp_all only [Option.get!, ZMod.cast_nat_cast_of_lt hlt, Sum.getLeft?_inl,
         Bool.coe_toSierraBool, decide_eq_true_eq, decide_True, Bool.toSierraBool_true, Sum.isLeft_inl,
-        Wad.toRat, Wad.toZMod, ZMod.val_nat_cast, Nat.mod_eq_of_lt h₁, neg_div', true_and]
+        Wad.toRat, Wad.toZMod, ZMod.val_natCast, Nat.mod_eq_of_lt h₁, neg_div', true_and]
       congr
       rw [Nat.cast_natAbs, Int.cast_abs, neg_eq_iff_eq_neg]
       simp only [abs_eq_neg_self, Int.cast_nonpos]
       exact le_of_lt h₃
     · simp_all only [Option.get!, Sum.getLeft?_inl, Bool.coe_toSierraBool, decide_eq_true_eq,
-        not_lt, Sum.isLeft_inl, Wad.toRat, Wad.toZMod, ZMod.nat_cast_val, true_and,
+        not_lt, Sum.isLeft_inl, Wad.toRat, Wad.toZMod, ZMod.natCast_val, true_and,
         ZMod.cast_nat_cast_of_lt hlt, ZMod.cast_nat_cast_of_lt h₁]
       congr
       rw [Nat.cast_natAbs]
@@ -1172,7 +682,7 @@ aegis_prove "wadray::wadray_signed::signed_wad_from_felt" :=
   · simp at h₂
   · simp at h₂
   · cases h₂
-    rw [ZMod.val_nat_cast_of_lt hlt, ← not_lt] at h₁
+    rw [ZMod.val_natCast_of_lt hlt, ← not_lt] at h₁
     simp [h₁]
 
 aegis_spec "wadray::wadray_signed::signed_ray_from_felt" :=
@@ -1189,18 +699,18 @@ aegis_prove "wadray::wadray_signed::signed_ray_from_felt" :=
   unfold «spec_wadray::wadray_signed::signed_ray_from_felt»
   rintro ⟨_,_,_,(⟨h₁,rfl⟩|⟨h₁,rfl⟩),(⟨h₂,rfl⟩|⟨h₂,rfl⟩)⟩
   · cases h₂
-    rw [ZMod.val_nat_cast_of_lt hlt] at h₁
+    rw [ZMod.val_natCast_of_lt hlt] at h₁
     simp only [SignedRay.toRat]
     split_ifs with h₃
     · simp_all only [Option.get!, ZMod.cast_nat_cast_of_lt hlt, Sum.getLeft?_inl,
         Bool.coe_toSierraBool, decide_eq_true_eq, decide_True, Bool.toSierraBool_true, Sum.isLeft_inl,
-        Ray.toRat, Ray.toZMod, ZMod.val_nat_cast, Nat.mod_eq_of_lt h₁, neg_div', true_and]
+        Ray.toRat, Ray.toZMod, ZMod.val_natCast, Nat.mod_eq_of_lt h₁, neg_div', true_and]
       congr
       rw [Nat.cast_natAbs, Int.cast_abs, neg_eq_iff_eq_neg]
       simp only [abs_eq_neg_self, Int.cast_nonpos]
       exact le_of_lt h₃
     · simp_all only [Option.get!, Sum.getLeft?_inl, Bool.coe_toSierraBool, decide_eq_true_eq,
-        not_lt, Sum.isLeft_inl, Ray.toRat, Ray.toZMod, ZMod.nat_cast_val, true_and,
+        not_lt, Sum.isLeft_inl, Ray.toRat, Ray.toZMod, ZMod.natCast_val, true_and,
         ZMod.cast_nat_cast_of_lt hlt, ZMod.cast_nat_cast_of_lt h₁]
       congr
       rw [Nat.cast_natAbs]
@@ -1208,7 +718,7 @@ aegis_prove "wadray::wadray_signed::signed_ray_from_felt" :=
   · simp at h₂
   · simp at h₂
   · cases h₂
-    rw [ZMod.val_nat_cast_of_lt hlt, ← not_lt] at h₁
+    rw [ZMod.val_natCast_of_lt hlt, ← not_lt] at h₁
     simp [h₁]
 
 aegis_spec "wadray::wadray_signed::SignedWadIntoFelt252::into" :=
@@ -1277,7 +787,7 @@ aegis_prove "wadray::wadray_signed::SignedWadAdd::add" :=
       simp only [SignedWad.toRat, SierraBool_toBool_inl, Wad.toRat, Wad.toZMod,
         ite_false, and_true, add_div]
       rw [← add_div, ← Nat.cast_add, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       rwa [Nat.cast_lt]
     · simp only [ZMod.valMinAbs_add_of_four_lt ha hb', ZMod.valMinAbs_neg_of_ne_half hbne,
         ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME] at h₁ h₂
@@ -1285,9 +795,9 @@ aegis_prove "wadray::wadray_signed::SignedWadAdd::add" :=
       simp only [SignedWad.toRat, SierraBool_toBool_inl, Wad.toRat, Wad.toZMod,
         ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
       rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁ ⊢
       assumption
     · simp only [ZMod.valMinAbs_add_of_four_lt ha' hb, ZMod.valMinAbs_neg_of_ne_half hane,
         ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME] at h₁ h₂
@@ -1295,9 +805,9 @@ aegis_prove "wadray::wadray_signed::SignedWadAdd::add" :=
       simp only [SignedWad.toRat, SierraBool_toBool_inl, Wad.toRat, Wad.toZMod,
         ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
       rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁ ⊢
       assumption
     · simp only [ZMod.valMinAbs_add_of_four_lt ha' hb',
          ZMod.valMinAbs_neg_of_ne_half hbne,  ZMod.valMinAbs_neg_of_ne_half hane,
@@ -1306,7 +816,7 @@ aegis_prove "wadray::wadray_signed::SignedWadAdd::add" :=
       simp only [SignedWad.toRat, SierraBool_toBool_inr, Wad.toRat, Wad.toZMod,
         ite_true, add_div, neg_div, and_true]
       rw [← neg_div, ← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       rw [← neg_add, abs_neg, ← Nat.cast_add, Nat.abs_cast, Nat.cast_lt]
       rwa [← neg_add, ← Nat.cast_add, Int.natAbs_neg, Int.natAbs_ofNat] at h₁
   · simp only [Sum.isLeft_inr, Sum.getLeft?_inr, Option.get!_none, false_and, Sum.isRight_inr,
@@ -1318,7 +828,7 @@ aegis_prove "wadray::wadray_signed::SignedWadAdd::add" :=
         ZMod.valMinAbs_neg_of_ne_half hane, ZMod.valMinAbs_neg_of_ne_half hbne,
         ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME,
         ← Nat.cast_le (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁
       <;> simpa [SignedWad.toRat, Wad.toRat, Wad.toZMod, ← neg_div, ← add_div, abs_div,
         div_le_div_right hS]
 
@@ -1370,7 +880,7 @@ aegis_prove "wadray::wadray_signed::SignedRayAdd::add" :=
       simp only [SignedRay.toRat, SierraBool_toBool_inl, Ray.toRat, Ray.toZMod,
         ite_false, and_true, add_div]
       rw [← add_div, ← Nat.cast_add, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       rwa [Nat.cast_lt]
     · simp only [ZMod.valMinAbs_add_of_four_lt ha hb', ZMod.valMinAbs_neg_of_ne_half hbne,
         ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME] at h₁ h₂
@@ -1378,9 +888,9 @@ aegis_prove "wadray::wadray_signed::SignedRayAdd::add" :=
       simp only [SignedRay.toRat, SierraBool_toBool_inl, Ray.toRat, Ray.toZMod,
         ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
       rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁ ⊢
       assumption
     · simp only [ZMod.valMinAbs_add_of_four_lt ha' hb, ZMod.valMinAbs_neg_of_ne_half hane,
         ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME] at h₁ h₂
@@ -1388,9 +898,9 @@ aegis_prove "wadray::wadray_signed::SignedRayAdd::add" :=
       simp only [SignedRay.toRat, SierraBool_toBool_inl, Ray.toRat, Ray.toZMod,
         ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
       rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁ ⊢
       assumption
     · simp only [ZMod.valMinAbs_add_of_four_lt ha' hb',
          ZMod.valMinAbs_neg_of_ne_half hbne,  ZMod.valMinAbs_neg_of_ne_half hane,
@@ -1399,7 +909,7 @@ aegis_prove "wadray::wadray_signed::SignedRayAdd::add" :=
       simp only [SignedRay.toRat, SierraBool_toBool_inr, Ray.toRat, Ray.toZMod,
         ite_true, add_div, neg_div, and_true]
       rw [← neg_div, ← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       rw [← neg_add, abs_neg, ← Nat.cast_add, Nat.abs_cast, Nat.cast_lt]
       rwa [← neg_add, ← Nat.cast_add, Int.natAbs_neg, Int.natAbs_ofNat] at h₁
   · simp only [Sum.isLeft_inr, Sum.getLeft?_inr, Option.get!_none, false_and, Sum.isRight_inr,
@@ -1411,7 +921,7 @@ aegis_prove "wadray::wadray_signed::SignedRayAdd::add" :=
         ZMod.valMinAbs_neg_of_ne_half hane, ZMod.valMinAbs_neg_of_ne_half hbne,
         ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME,
         ← Nat.cast_le (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁
       <;> simpa [SignedRay.toRat, Ray.toRat, Ray.toZMod, ← neg_div, ← add_div, abs_div,
         div_le_div_right hS]
 
@@ -1453,9 +963,9 @@ aegis_prove "wadray::wadray_signed::SignedWadSub::sub" :=
       simp only [SignedWad.toRat, SierraBool_toBool_inl, Wad.toRat, Wad.toZMod,
         ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
       rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁ ⊢
       assumption
     · rw [sub_neg_eq_add] at h₁ h₂; rw [sub_eq_add_neg]
       simp only [ZMod.valMinAbs_add_of_four_lt ha hb, Int.natAbs_ofNat,
@@ -1464,7 +974,7 @@ aegis_prove "wadray::wadray_signed::SignedWadSub::sub" :=
       simp only [SignedWad.toRat, SierraBool_toBool_inl, Wad.toRat, Wad.toZMod,
         ite_false, SierraBool_toBool_inr, ite_true, neg_neg, add_div, and_true]
       rw [← add_div, ← Nat.cast_add, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       rwa [Nat.cast_lt]
     · rw [sub_eq_add_neg] at h₁ h₂ ⊢
       simp only [ZMod.valMinAbs_add_of_four_lt ha' hb',
@@ -1474,7 +984,7 @@ aegis_prove "wadray::wadray_signed::SignedWadSub::sub" :=
       simp only [SignedWad.toRat, SierraBool_toBool_inr, Wad.toRat, Wad.toZMod,
         ite_true, SierraBool_toBool_inl, ite_false, add_div, neg_div, and_true]
       rw [← neg_div, ← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       rw [← neg_add, abs_neg, ← Nat.cast_add, Nat.abs_cast, Nat.cast_lt]
       rwa [← neg_add, ← Nat.cast_add, Int.natAbs_neg, Int.natAbs_ofNat] at h₁
     · rw [sub_neg_eq_add] at h₁ h₂; rw [sub_eq_add_neg]
@@ -1484,9 +994,9 @@ aegis_prove "wadray::wadray_signed::SignedWadSub::sub" :=
       simp only [SignedWad.toRat, SierraBool_toBool_inr, Wad.toRat, Wad.toZMod,
         ite_true, neg_neg, add_div, neg_div, and_true]
       rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁ ⊢
       assumption
   · simp only [Sum.isLeft_inr, Sum.getLeft?_inr, Option.get!_none, false_and, Sum.isRight_inr,
       ite_prop_iff_or, and_false, not_lt, and_true, false_or] at h₁ ⊢
@@ -1498,7 +1008,7 @@ aegis_prove "wadray::wadray_signed::SignedWadSub::sub" :=
         ZMod.valMinAbs_neg_of_ne_half hane, ZMod.valMinAbs_neg_of_ne_half hbne,
         ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME,
         ← Nat.cast_le (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg, neg_neg] at h₁
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg, neg_neg] at h₁
       <;> simpa [SignedWad.toRat, Wad.toRat, Wad.toZMod, ← neg_div, ← add_div, abs_div,
         div_le_div_right hS]
 
@@ -1551,9 +1061,9 @@ aegis_prove "wadray::wadray_signed::SignedRaySub::sub" :=
       simp only [SignedRay.toRat, SierraBool_toBool_inl, Ray.toRat, Ray.toZMod,
         ite_false, SierraBool_toBool_inr, ite_true, add_div, neg_div, and_true]
       rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁ ⊢
       assumption
     · rw [sub_neg_eq_add] at h₁ h₂; rw [sub_eq_add_neg]
       simp only [ZMod.valMinAbs_add_of_four_lt ha hb, Int.natAbs_ofNat,
@@ -1562,7 +1072,7 @@ aegis_prove "wadray::wadray_signed::SignedRaySub::sub" :=
       simp only [SignedRay.toRat, SierraBool_toBool_inl, Ray.toRat, Ray.toZMod,
         ite_false, SierraBool_toBool_inr, ite_true, neg_neg, add_div, and_true]
       rw [← add_div, ← Nat.cast_add, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       rwa [Nat.cast_lt]
     · rw [sub_eq_add_neg] at h₁ h₂ ⊢
       simp only [ZMod.valMinAbs_add_of_four_lt ha' hb',
@@ -1572,7 +1082,7 @@ aegis_prove "wadray::wadray_signed::SignedRaySub::sub" :=
       simp only [SignedRay.toRat, SierraBool_toBool_inr, Ray.toRat, Ray.toZMod,
         ite_true, SierraBool_toBool_inl, ite_false, add_div, neg_div, and_true]
       rw [← neg_div, ← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       rw [← neg_add, abs_neg, ← Nat.cast_add, Nat.abs_cast, Nat.cast_lt]
       rwa [← neg_add, ← Nat.cast_add, Int.natAbs_neg, Int.natAbs_ofNat] at h₁
     · rw [sub_neg_eq_add] at h₁ h₂; rw [sub_eq_add_neg]
@@ -1582,9 +1092,9 @@ aegis_prove "wadray::wadray_signed::SignedRaySub::sub" :=
       simp only [SignedRay.toRat, SierraBool_toBool_inr, Ray.toRat, Ray.toZMod,
         ite_true, neg_neg, add_div, neg_div, and_true]
       rw [← neg_div, ← add_div, abs_div, Nat.abs_cast]
-      apply div_lt_div_of_lt hS
+      apply div_lt_div_of_pos_right _ hS
       simp only [← Nat.cast_lt (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg] at h₁ ⊢
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg] at h₁ ⊢
       assumption
   · simp only [Sum.isLeft_inr, Sum.getLeft?_inr, Option.get!_none, false_and, Sum.isRight_inr,
       ite_prop_iff_or, and_false, not_lt, and_true, false_or] at h₁ ⊢
@@ -1596,7 +1106,7 @@ aegis_prove "wadray::wadray_signed::SignedRaySub::sub" :=
         ZMod.valMinAbs_neg_of_ne_half hane, ZMod.valMinAbs_neg_of_ne_half hbne,
         ZMod.valMinAbs_cast_of_lt_half two_U128_MOD_lt_PRIME,
         ← Nat.cast_le (α := ℚ), Int.cast_natAbs, Int.cast_abs, Int.cast_add,
-        ZMod.nat_cast_val, ZMod.int_cast_cast, Int.cast_neg, neg_neg] at h₁
+        ZMod.natCast_val, ZMod.intCast_cast, Int.cast_neg, neg_neg] at h₁
       <;> simpa [SignedRay.toRat, Ray.toRat, Ray.toZMod, ← neg_div, ← add_div, abs_div,
         div_le_div_right hS]
 
@@ -1644,26 +1154,7 @@ aegis_prove "wadray::wadray_signed::SignedWadMulEq::mul_eq" :=
   unfold «spec_wadray::wadray_signed::SignedWadMulEq::mul_eq»
   rename_i x x_1 x_2
   intro h_auto
-  simp_all only [exists_and_left, Prod.exists, Sum.exists, Sum.inl.injEq, Sum.isRight_inl, and_false, or_false,
-    false_and, exists_const, Prod.mk.injEq, and_true, exists_eq_left, exists_and_right, false_or, Sum.isRight_inr,
-    Sum.inr.injEq, or_self, true_and]
-  unhygienic aesop_cases h_auto
-  · unhygienic with_reducible aesop_destruct_products
-    unhygienic aesop_cases h_1
-    · simp_all only [true_and]
-      unhygienic with_reducible aesop_destruct_products
-      aesop_subst h
-      simp_all only [Sum.inl.injEq, Prod.mk.injEq, and_true, Sum.isRight_inl, and_false, or_false]
-      exact h_1
-    · simp_all only [true_and]
-      unhygienic with_reducible aesop_destruct_products
-      aesop_subst h
-      simp_all only [Sum.inl.injEq, Prod.mk.injEq, and_true, Sum.isRight_inl, and_false, or_false]
-      exact h_1
-  · simp_all only [true_and]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst h_1
-    simp_all only [and_false, Sum.isRight_inr, or_true]
+  aesop
 
 aegis_spec "wadray::wadray_signed::SignedWadDiv::div" :=
   fun _ _ (a b : SignedWad) _ (ρ : SignedWad ⊕ _) =>
@@ -1715,26 +1206,7 @@ aegis_prove "wadray::wadray_signed::SignedWadDivEq::div_eq" :=
   unfold «spec_wadray::wadray_signed::SignedWadDivEq::div_eq»
   rename_i x x_1 x_2
   intro h_auto
-  simp_all only [ne_eq, ZMod.val_eq_zero, exists_and_left, Prod.exists, Sum.exists, Sum.inl.injEq, Sum.isRight_inl,
-    and_false, or_false, false_and, exists_const, Prod.mk.injEq, and_true, exists_eq_left, exists_and_right, false_or,
-    Sum.isRight_inr, Sum.inr.injEq, or_self, true_and]
-  unhygienic aesop_cases h_auto
-  · unhygienic with_reducible aesop_destruct_products
-    unhygienic aesop_cases h_1
-    · simp_all only [not_false_eq_true, true_and, or_false]
-      unhygienic with_reducible aesop_destruct_products
-      aesop_subst h
-      simp_all only [Sum.inl.injEq, Prod.mk.injEq, and_true, Sum.isRight_inl, and_false, or_false]
-      exact h_1
-    · simp_all only [not_false_eq_true, true_and, or_false]
-      unhygienic with_reducible aesop_destruct_products
-      aesop_subst h
-      simp_all only [Sum.inl.injEq, Prod.mk.injEq, and_true, Sum.isRight_inl, and_false, or_false]
-      exact h_1
-  · simp_all only [true_and]
-    unhygienic with_reducible aesop_destruct_products
-    aesop_subst h_1
-    simp_all only [and_false, Sum.isRight_inr, or_true]
+  aesop
 
 aegis_spec "wadray::wadray_signed::U128IntoSignedWad::into" :=
   fun _ a (ρ : SignedWad) =>
